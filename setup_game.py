@@ -19,7 +19,7 @@ import input_handlers
 from tcod import libtcodpy
 
 # Load the background image.  Pillow returns an object convertable into a NumPy array.
-background_image = Image.open("data/stars.png")
+background_image = Image.open("data/menu_background.png")
 
 
 def new_game() -> Engine:

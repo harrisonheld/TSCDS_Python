@@ -8,6 +8,7 @@ from tcod.console import Console
 from tcod.map import compute_fov
 
 from ui.message_log import MessageLog
+from ui.info_block import InfoBlock
 import exceptions
 import render_functions
 
@@ -22,6 +23,7 @@ class Engine:
 
     def __init__(self, player: Actor):
         self.message_log = MessageLog()
+        self.info_block = InfoBlock(player)
         self.mouse_location = (0, 0)
         self.player = player
 
@@ -45,8 +47,9 @@ class Engine:
 
     def render(self, console: Console) -> None:
         self.game_map.render(console)
+        self.info_block.render(console, self.game_map.width, 0, width=20, height=10)
         self.message_log.render(console=console, x=self.game_map.width, y=11, width=20, height=self.game_map.height-11)
-        render_functions.render_names_at_mouse_location(console=console, x=self.game_map.width, y=0, engine=self)
+        render_functions.render_names_at_mouse_location(console=console, x=0, y=self.game_map.height-1, engine=self)
 
     def save_as(self, filename: str) -> None:
         """Save this Engine instance as a compressed file."""

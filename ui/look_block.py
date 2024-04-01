@@ -1,7 +1,9 @@
-import textwrap
+from typing import Tuple
+
 import tcod
 import color
 from entity import Entity
+from entity import Actor
 
 
 class LookBlock:
@@ -13,6 +15,34 @@ class LookBlock:
         acc_y = 1
         acc_y += console.print_box(x + 1, y+acc_y, width-2, height-acc_y-1, string=self.entity.name)
         acc_y += console.print_box(x + 1, y+acc_y, width-2, height-acc_y-1, string=self.entity.description)
+
+        if isinstance(self.entity, Actor):
+            actor: Actor = self.entity
+            hp_percent = actor.fighter.hp / actor.fighter.max_hp
+
+            status_str: str
+            status_color : Tuple[int, int, int]
+
+            if hp_percent >= 1.0:
+                status_str = "Perfect"
+                status_color = color.white
+            elif hp_percent >= 0.75:
+                status_str = "Fine"
+                status_color = (0, 127, 0)
+            elif hp_percent >= 0.3:
+                status_str = "Hurt"
+                status_color = (127, 127, 0)
+            elif hp_percent >= 0.1:
+                status_str = "Wounded"
+                status_color = (127, 0, 0)
+            elif hp_percent > 0:
+                status_str = "Critically Wounded"
+                status_color = color.red
+            else:
+                status_str = "Dead"
+                status_color = (127, 127, 127)
+
+            console.print(x + 1, y+height-2, status_str, status_color)
 
         if acc_y > height-2:
             console.print(x+width-4, y+height-1, "...")

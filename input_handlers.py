@@ -401,11 +401,6 @@ class SelectIndexHandler(AskUserEventHandler):
         console.rgb["bg"][x, y] = color.white
         console.rgb["fg"][x, y] = color.black
 
-        entity: Entity = self.engine.game_map.get_entity_at_location(x, y)
-        if entity is not None:
-            look_block: LookBlock = LookBlock(entity)
-            look_block.render(console, x+1, y, 20, 15)
-
     def ev_keydown(self, event: tcod.event.KeyDown) -> Optional[ActionOrHandler]:
         """Check for key movement or confirmation keys."""
         key = event.sym
@@ -449,6 +444,16 @@ class LookHandler(SelectIndexHandler):
     def on_index_selected(self, x: int, y: int) -> MainGameEventHandler:
         """Return to main handler."""
         return MainGameEventHandler(self.engine)
+
+    def on_render(self, console: tcod.Console) -> None:
+        """Draw a Look Block for the entity the cursor is on."""
+        super().on_render(console)
+
+        x, y = self.engine.mouse_location
+        entity = self.engine.game_map.get_entity_at_location(x, y)
+        if entity is not None:
+            look_block = LookBlock(entity)
+            look_block.render(console, x+1, y, 20, 15)
 
 
 class SingleRangedAttackHandler(SelectIndexHandler):
