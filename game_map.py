@@ -38,6 +38,13 @@ class GameMap:
     def items(self) -> Iterator[Item]:
         yield from (entity for entity in self.entities if isinstance(entity, Item))
 
+    def get_entity_at_location(self, x: int, y: int) -> Optional[Entity]:
+        for entity in self.entities:
+            if entity.x == x and entity.y == y:
+                return entity
+
+        return None
+
     def get_blocking_entity_at_location(
         self,
         location_x: int,

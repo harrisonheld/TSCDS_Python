@@ -34,6 +34,7 @@ class Entity:
         char: str = "?",
         color: Tuple[int, int, int] = (255, 255, 255),
         name: str = "<Unnamed>",
+        description: str = "<No Description>",
         blocks_movement: bool = False,
         render_order: RenderOrder = RenderOrder.CORPSE,
     ):
@@ -42,6 +43,7 @@ class Entity:
         self.char = char
         self.color = color
         self.name = name
+        self.description = description
         self.blocks_movement = blocks_movement
         self.render_order = render_order
         if parent:
@@ -94,6 +96,7 @@ class Actor(Entity):
         char: str = "?",
         color: Tuple[int, int, int] = (255, 255, 255),
         name: str = "<Unnamed>",
+        description: str = "<No Description>",
         ai_cls: Type[BaseAI],
         equipment: Equipment,
         fighter: Fighter,
@@ -106,6 +109,7 @@ class Actor(Entity):
             char=char,
             color=color,
             name=name,
+            description=description,
             blocks_movement=True,
             render_order=RenderOrder.ACTOR,
         )
@@ -139,6 +143,7 @@ class Item(Entity):
         char: str = "?",
         color: Tuple[int, int, int] = (255, 255, 255),
         name: str = "<Unnamed>",
+        description: str = "<No Description>",
         consumable: Optional[Consumable] = None,
         equippable: Optional[Equippable] = None,
     ):
@@ -148,6 +153,7 @@ class Item(Entity):
             char=char,
             color=color,
             name=name,
+            description=description,
             blocks_movement=False,
             render_order=RenderOrder.ITEM,
         )

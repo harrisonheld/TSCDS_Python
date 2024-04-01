@@ -6,6 +6,9 @@ import os
 import tcod
 from tcod import libtcodpy
 
+from entity import Entity
+from ui.look_block import LookBlock
+
 from actions import Action, BumpAction, PickupAction, WaitAction
 import actions
 import color
@@ -83,8 +86,8 @@ class PopupMessage(BaseEventHandler):
     def on_render(self, console: tcod.Console) -> None:
         """Render the parent and dim the result, then print the message on top."""
         self.parent.on_render(console)
-        console.tiles_rgb["fg"] //= 8
-        console.tiles_rgb["bg"] //= 8
+        console.rgb["fg"] //= 8
+        console.rgb["bg"] //= 8
 
         console.print(
             console.width // 2,
@@ -92,7 +95,7 @@ class PopupMessage(BaseEventHandler):
             self.text,
             fg=color.white,
             bg=color.black,
-            alignment=tcod.CENTER,
+            alignment=libtcodpy.CENTER,
         )
 
     def ev_keydown(self, event: tcod.event.KeyDown) -> Optional[BaseEventHandler]:
@@ -397,6 +400,11 @@ class SelectIndexHandler(AskUserEventHandler):
         x, y = self.engine.mouse_location
         console.rgb["bg"][x, y] = color.white
         console.rgb["fg"][x, y] = color.black
+
+        entity: Entity = self.engine.game_map.get_entity_at_location(x, y)
+        if entity is not None:
+            look_block: LookBlock = LookBlock(entity)
+            look_block.render(console, x+1, y, 20, 15)
 
     def ev_keydown(self, event: tcod.event.KeyDown) -> Optional[ActionOrHandler]:
         """Check for key movement or confirmation keys."""

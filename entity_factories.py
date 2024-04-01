@@ -21,6 +21,7 @@ orc = Actor(
     char="o",
     color=(63, 127, 63),
     name="Orc",
+    description="he looks like the average british person",
     ai_cls=HostileEnemy,
     equipment=Equipment(),
     fighter=Fighter(hp=10, base_defense=0, base_power=3),

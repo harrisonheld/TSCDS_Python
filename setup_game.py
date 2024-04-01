@@ -47,7 +47,7 @@ def new_game() -> Engine:
     engine.game_world.generate_floor()
     engine.update_fov()
 
-    engine.message_log.add_message("Hello and welcome, adventurer, to yet another dungeon!", color.welcome_text)
+    engine.message_log.add_message("Artow a Saad of olde Salum, and nou stonden thu at the heigh gate to Brightsheol. Fight or die.", color.welcome_text)
 
     dagger = copy.deepcopy(entity_factories.dagger)
     leather_armor = copy.deepcopy(entity_factories.leather_armor)

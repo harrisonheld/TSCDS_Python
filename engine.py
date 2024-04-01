@@ -7,7 +7,7 @@ import pickle
 from tcod.console import Console
 from tcod.map import compute_fov
 
-from message_log import MessageLog
+from ui.message_log import MessageLog
 import exceptions
 import render_functions
 
