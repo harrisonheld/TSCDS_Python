@@ -1,5 +1,6 @@
+import color
 from components import consumable, equippable
-from components.ai import HostileEnemy
+from components.ai import *
 from components.equipment import Equipment
 from components.fighter import Fighter
 from components.inventory import Inventory
@@ -19,20 +20,21 @@ player = Actor(
 
 orc = Actor(
     char="o",
-    color=(63, 127, 63),
+    color=color.dark_green,
     name="Orc",
-    description="he looks like the average british person",
+    description="He looks like the average british person.",
     ai_cls=HostileEnemy,
     equipment=Equipment(),
     fighter=Fighter(hp=10, base_defense=0, base_power=3),
     inventory=Inventory(capacity=0),
     level=Level(xp_given=35),
 )
-troll = Actor(
-    char="T",
-    color=(0, 127, 0),
-    name="Troll",
-    ai_cls=HostileEnemy,
+
+ranger = Actor(
+    char="r",
+    color=color.dark_red,
+    name="Ranger",
+    ai_cls=RangedEnemy,
     equipment=Equipment(),
     fighter=Fighter(hp=16, base_defense=1, base_power=4),
     inventory=Inventory(capacity=0),
