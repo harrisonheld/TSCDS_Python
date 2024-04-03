@@ -1,4 +1,12 @@
-controls = r"""Movement and Attack - use the numpad.
+musings = [
+    "Know no want.",
+    "To wait for tomorrow is for fools in their sorrow.",
+    "The memory fades and I weaken.",
+    "Wit is the salt of conversation, not the food.",
+    "By any means necessary."
+]
+
+controls = r"""Movement and Attack - use the numpad ☼.
 ┌  ^  ┐
  7 8 9
 <4   6>
@@ -6,7 +14,7 @@ controls = r"""Movement and Attack - use the numpad.
 └  v  ┘
 
 Controls
-l - look
+l - look mode. Navigate with the numpad ☼ or mouse ⌂.
 g - get item
 d - drop item
 i - view inventory

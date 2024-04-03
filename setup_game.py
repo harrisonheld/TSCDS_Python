@@ -19,6 +19,8 @@ import input_handlers
 
 from tcod import libtcodpy
 
+import random
+
 # Load the background image.  Pillow returns an object convertable into a NumPy array.
 background_image = Image.open("data/menu_background.png")
 
@@ -76,6 +78,7 @@ def load_game(filename: str) -> Engine:
 
 class MainMenu(input_handlers.BaseEventHandler):
     """Handle the main menu rendering and input."""
+    musing = random.choice(strings.musings)
 
     def on_render(self, console: tcod.Console) -> None:
         """Render the main menu."""
@@ -85,9 +88,17 @@ class MainMenu(input_handlers.BaseEventHandler):
 
         console.print(
             console.width // 2,
-            console.height // 2 - 4,
+            console.height // 2 - 5,
             "The Stars Came Down Screaming",
-            fg=color.menu_title,
+            fg=color.main_menu_title,
+            bg=color.black,
+            alignment=libtcodpy.CENTER,
+        )
+        console.print(
+            console.width // 2,
+            console.height // 2 - 4,
+            self.musing,
+            fg=color.main_menu_subtitle,
             bg=color.black,
             alignment=libtcodpy.CENTER,
         )
@@ -95,13 +106,13 @@ class MainMenu(input_handlers.BaseEventHandler):
             console.width // 2,
             console.height - 2,
             "By Harrison Held",
-            fg=color.menu_title,
+            fg=color.main_menu_title,
             bg=color.black,
             alignment=libtcodpy.CENTER,
         )
 
         menu_width = 24
-        for i, text in enumerate(["[N] Play a new game", "[C] Continue last game", "[Q] Quit"]):
+        for i, text in enumerate(["[n] New game", "[c] Continue last game", "[q] Quit"]):
             console.print(
                 console.width // 2,
                 console.height // 2 - 2 + i,
