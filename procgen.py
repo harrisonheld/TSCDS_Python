@@ -33,7 +33,7 @@ item_chances: Dict[int, List[Tuple[Entity, int]]] = {
 }
 
 enemy_chances: Dict[int, List[Tuple[Entity, int]]] = {
-    0: [(entity_factories.ranger, 50)],
+    0: [(entity_factories.orc, 50)],
     3: [(entity_factories.ranger, 15)],
     5: [(entity_factories.ranger, 30)],
     7: [(entity_factories.ranger, 60)],
@@ -77,12 +77,13 @@ def get_entities_at_random(
     return chosen_entities
 
 
-class RectangularRoom:
-    def __init__(self, x: int, y: int, width: int, height: int):
+class RoomBase:
+    def __init__(self, x: int, y: int, width: int, height: int, floor_number: int):
         self.x1 = x
         self.y1 = y
         self.x2 = x + width
         self.y2 = y + height
+        self.floor_number = floor_number
 
     @property
     def center(self) -> Tuple[int, int]:
@@ -95,26 +96,43 @@ class RectangularRoom:
     def inner(self) -> Tuple[slice, slice]:
         """Return the inner area of this room as a 2D array index."""
         return slice(self.x1 + 1, self.x2), slice(self.y1 + 1, self.y2)
+    @property
+    def inner_with_rind(self) -> Tuple[slice, slice]:
+        """Return the area of this room, including the walls, as a 2D array index."""
+        return slice(self.x1, self.x2+1), slice(self.y1, self.y2+1)
 
-    def intersects(self, other: RectangularRoom) -> bool:
+    def intersects(self, other: RoomBase) -> bool:
         """Return True if this room overlaps with another RectangularRoom."""
         return self.x1 <= other.x2 and self.x2 >= other.x1 and self.y1 <= other.y2 and self.y2 >= other.y1
 
 
-def place_entities(room: RectangularRoom, dungeon: GameMap, floor_number: int) -> None:
-    number_of_monsters = random.randint(0, get_max_value_for_floor(max_monsters_by_floor, floor_number))
-    number_of_items = random.randint(0, get_max_value_for_floor(max_items_by_floor, floor_number))
 
-    monsters: List[Entity] = get_entities_at_random(enemy_chances, number_of_monsters, floor_number)
-    items: List[Entity] = get_entities_at_random(item_chances, number_of_items, floor_number)
+class RegularRoom(RoomBase):
+    def populate(self, dungeon: GameMap) -> None:
+        number_of_monsters = random.randint(0, get_max_value_for_floor(max_monsters_by_floor, self.floor_number))
+        number_of_items = random.randint(0, get_max_value_for_floor(max_items_by_floor, self.floor_number))
 
-    for entity in monsters + items:
-        x = random.randint(room.x1 + 1, room.x2 - 1)
-        y = random.randint(room.y1 + 1, room.y2 - 1)
+        monsters: List[Entity] = get_entities_at_random(enemy_chances, number_of_monsters, self.floor_number)
+        items: List[Entity] = get_entities_at_random(item_chances, number_of_items, self.floor_number)
 
-        if not any(entity.x == x and entity.y == y for entity in dungeon.entities):
-            entity.spawn(dungeon, x, y)
+        for entity in monsters + items:
+            x = random.randint(self.x1 + 1, self.x2 - 1)
+            y = random.randint(self.y1 + 1, self.y2 - 1)
 
+            if not any(entity.x == x and entity.y == y for entity in dungeon.entities):
+                entity.spawn(dungeon, x, y)
+
+
+class TreasureRoom(RoomBase):
+    def populate(self, dungeon: GameMap) -> None:
+
+        print('spawning an actual fuckton of orcs rn btw')
+        for x in range(self.x1 + 1, self.x2):
+            for y in range(self.y1 + 1, self.y2):
+                entity_factories.orc.spawn(dungeon, x, y)
+                print('just placed one, haha')
+
+        dungeon.explored[self.inner_with_rind] = True
 
 def tunnel_between(start: Tuple[int, int], end: Tuple[int, int]) -> Iterator[Tuple[int, int]]:
     """Return an L-shaped tunnel between these two points."""
@@ -146,42 +164,55 @@ def generate_dungeon(
     player = engine.player
     dungeon = GameMap(engine, map_width, map_height, entities=[player])
 
-    rooms: List[RectangularRoom] = []
+    treasure_room_generated = False
+    rooms: List[RoomBase] = []
 
     center_of_last_room = (0, 0)
 
-    for _ in range(max_rooms):
+    treasure_room_generated = False
+    player_placed = False
+
+    for i in range(max_rooms):
         room_width = random.randint(room_min_size, room_max_size)
         room_height = random.randint(room_min_size, room_max_size)
 
         x = random.randint(0, dungeon.width - room_width - 1)
         y = random.randint(0, dungeon.height - room_height - 1)
 
-        # "RectangularRoom" class makes rectangles easier to work with
-        new_room = RectangularRoom(x, y, room_width, room_height)
+        # Choose room type based on whether a treasure room has been generated yet
+        if not treasure_room_generated:
+            new_room = TreasureRoom(x, y, room_width, room_height, engine.game_world.current_floor)
+        else:
+            new_room = RegularRoom(x, y, room_width, room_height, engine.game_world.current_floor)
 
         # Run through the other rooms and see if they intersect with this one.
         if any(new_room.intersects(other_room) for other_room in rooms):
             continue  # This room intersects, so go to the next attempt.
         # If there are no intersections then the room is valid.
 
-        # Dig out this rooms inner area.
+        # Dig out this room's inner area.
         dungeon.tiles[new_room.inner] = tile_types.floor
 
-        if len(rooms) == 0:
+        if not player_placed and isinstance(new_room, RegularRoom):
             # The first room, where the player starts.
-            player.place(*new_room.center, dungeon)
-        else:  # All rooms after the first.
+            player.place(*new_room.center, gamemap=dungeon)
+            player_placed = True
+
+        if i > 0:  # All rooms after the first.
             # Dig out a tunnel between this room and the previous one.
             for x, y in tunnel_between(rooms[-1].center, new_room.center):
                 dungeon.tiles[x, y] = tile_types.floor
 
             center_of_last_room = new_room.center
 
-        place_entities(new_room, dungeon, engine.game_world.current_floor)
+        new_room.populate(dungeon)
 
         dungeon.tiles[center_of_last_room] = tile_types.down_stairs
         dungeon.downstairs_location = center_of_last_room
+
+        # Set the flag to True after generating the first treasure room
+        if isinstance(new_room, TreasureRoom):
+            treasure_room_generated = True
 
         # Finally, append the new room to the list.
         rooms.append(new_room)
