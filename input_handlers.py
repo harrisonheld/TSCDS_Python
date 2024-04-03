@@ -451,6 +451,10 @@ class LookHandler(SelectIndexHandler):
         super().on_render(console)
 
         x, y = self.engine.mouse_location
+
+        if not self.engine.game_map.visible[x, y]:
+            return
+
         entity = self.engine.game_map.get_entity_at_location(x, y)
         if entity is not None:
             look_block = LookBlock(entity)
