@@ -53,7 +53,7 @@ class Fighter(BaseComponent):
 
     def die(self) -> None:
         if self.engine.player is self.parent:
-            death_message = "No more to cry, little one. You are dead."
+            death_message = "Saad, thyn heres been shaken of olde lif. You are dead."
             death_message_color = color.player_die
         else:
             death_message = f"The {self.parent.name} dies."

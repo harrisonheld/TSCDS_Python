@@ -9,6 +9,7 @@ import traceback
 
 from PIL import Image  # type: ignore
 import tcod
+import strings
 
 from engine import Engine
 from game_map import GameWorld
@@ -47,7 +48,8 @@ def new_game() -> Engine:
     engine.game_world.generate_floor()
     engine.update_fov()
 
-    engine.message_log.add_message("Artow a Saad of olde Salum, and nou stonden thu at the heigh gate to Brightsheol. Fight or die.", color.welcome_text)
+    engine.message_log.add_message("Artow a Saad of olde Salum, and nou stonden thu at the heigh gate to Brightsheol. Fight or die.")
+    engine.message_log.add_message("Press '?' for help.", color.welcome_text)
 
     dagger = copy.deepcopy(entity_factories.dagger)
     leather_armor = copy.deepcopy(entity_factories.leather_armor)
@@ -76,8 +78,10 @@ class MainMenu(input_handlers.BaseEventHandler):
     """Handle the main menu rendering and input."""
 
     def on_render(self, console: tcod.Console) -> None:
-        """Render the main menu on a background image."""
-        console.draw_semigraphics(background_image, 0, 0)
+        """Render the main menu."""
+
+        # console.draw_semigraphics(background_image, 0, 0)
+        console.print(0, 0, strings.eye_art, color.main_menu_background)
 
         console.print(
             console.width // 2,

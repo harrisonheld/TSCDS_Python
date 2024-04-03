@@ -13,6 +13,7 @@ from actions import Action, BumpAction, PickupAction, WaitAction
 import actions
 import color
 import exceptions
+import strings
 
 if TYPE_CHECKING:
     from engine import Engine
@@ -524,6 +525,8 @@ class MainGameEventHandler(EventHandler):
             raise SystemExit()
         elif key == tcod.event.KeySym.m:
             return HistoryViewer(self.engine)
+        elif key == tcod.event.KeySym.SLASH:
+            return HelpViewer(self.engine)
 
         elif key == tcod.event.KeySym.g:
             action = PickupAction(player)
@@ -612,3 +615,24 @@ class HistoryViewer(EventHandler):
         else:  # Any other key moves back to the main game state.
             return MainGameEventHandler(self.engine)
         return None
+
+class HelpViewer(EventHandler):
+    """Print the help menu."""
+    def __init__(self, engine: Engine):
+        super().__init__(engine)
+
+
+    def on_render(self, console: tcod.Console) -> None:
+        super().on_render(console)  # Draw the main state as the background.
+
+        help_console = tcod.console.Console(console.width - 6, console.height - 6)
+
+        # Draw a frame with a custom banner title.
+        help_console.draw_frame(0, 0, help_console.width, help_console.height)
+        help_console.print_box(0, 0, help_console.width, 1, "┤Help├", alignment=libtcodpy.CENTER)
+        # contents
+        help_console.print(1, 1, strings.controls)
+        help_console.blit(console, 3, 3)
+
+    def ev_keydown(self, event: tcod.event.KeyDown) -> Optional[MainGameEventHandler]:
+        return MainGameEventHandler(self.engine)

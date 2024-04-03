@@ -8,6 +8,7 @@ green = (0x0, 0xFF, 0x0)
 
 dark_red = (0x80, 0x0, 0x0)
 dark_green = (0x0, 0x80, 0x0)
+dark_blue = (0x0, 0x0, 0x80)
 
 
 status_perfect = white
@@ -16,6 +17,9 @@ status_hurt = yellow
 status_wounded = dark_red
 status_critically_wounded = red
 status_dead = grey
+
+main_menu_background = dark_blue
+main_menu_title = dark_red
 
 player_atk = (0xE0, 0xE0, 0xE0)
 enemy_atk = (0xFF, 0xC0, 0xC0)

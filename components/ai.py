@@ -16,7 +16,7 @@ class BaseAI(Action):
     def perform(self) -> None:
         raise NotImplementedError()
 
-    def get_path_to(self, dest_x: int, dest_y: int) -> List[Tuple[int, int]]:
+    def get_path(self, dest_x: int, dest_y: int) -> List[Tuple[int, int]]:
         """Compute and return a path to the target position.
 
         If there is no valid path then returns an empty list.
@@ -25,7 +25,7 @@ class BaseAI(Action):
         cost = np.array(self.entity.gamemap.tiles["walkable"], dtype=np.int8)
 
         for entity in self.entity.gamemap.entities:
-            # Check that an enitiy blocks movement and the cost isn't zero (blocking.)
+            # Check that an entity blocks movement and the cost isn't zero (blocking.)
             if entity.blocks_movement and cost[entity.x, entity.y]:
                 # Add to the cost of a blocked position.
                 # A lower number means more enemies will crowd behind each other in
@@ -61,7 +61,7 @@ class HostileEnemy(BaseAI):
             if distance <= 1:
                 return MeleeAction(self.entity, dx, dy).perform()
 
-            self.path = self.get_path_to(target.x, target.y)
+            self.path = self.get_path(target.x, target.y)
 
         if self.path:
             dest_x, dest_y = self.path.pop(0)
@@ -93,11 +93,11 @@ class RangedEnemy(BaseAI):
             if distance <= 1:
                 return MeleeAction(self.entity, dx, dy).perform()
             elif distance <= self.flee_range:
-                self.path = self.get_path_to(self.entity.x - dx, self.entity.y - dy)
+                self.path = self.get_path(target.x, target.y)
             elif distance <= self.fire_range:
                 return RangedAction(self.entity, dx, dy).perform()
             else:
-                self.path = self.get_path_to(target.x, target.y)
+                self.path = self.get_path(target.x, target.y)
 
         if self.path:
             dest_x, dest_y = self.path.pop(0)
@@ -108,6 +108,7 @@ class RangedEnemy(BaseAI):
             ).perform()
 
         return WaitAction(self.entity).perform()
+
 
 class ConfusedEnemy(BaseAI):
     """
