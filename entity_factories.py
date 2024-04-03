@@ -66,15 +66,22 @@ lightning_scroll = Item(
     consumable=consumable.LightningDamageConsumable(damage=20, maximum_range=5),
 )
 
-dagger = Item(char="/", color=(0, 191, 255), name="Dagger", equippable=equippable.Dagger())
-
-sword = Item(char="/", color=(0, 191, 255), name="Sword", equippable=equippable.Sword())
-
-leather_armor = Item(
-    char="[",
-    color=(139, 69, 19),
-    name="Leather Armor",
-    equippable=equippable.LeatherArmor(),
+eye_of_belial = Item(
+    char="☼",
+    color=color.dark_red,
+    name="Eye of Belial",
+    description="A perfectly smooth sphere carved of red chalcedony. Allows you to see the full stats and health of enemies."
+)
+horn_of_gelb = Item(
+    char="φ",
+    color=color.yellow,
+    name="Horn of Geddon",
+    description="[flavor text here]. Confuses all enemies within a radius."
 )
 
+
+dagger = Item(char="/", color=(0, 191, 255), name="Dagger", equippable=equippable.Dagger())
+sword = Item(char="/", color=(0, 191, 255), name="Sword", equippable=equippable.Sword())
+
+leather_armor = Item(char="[", color=(139, 69, 19), name="Leather Armor", equippable=equippable.LeatherArmor())
 chain_mail = Item(char="[", color=(139, 69, 19), name="Chain Mail", equippable=equippable.ChainMail())

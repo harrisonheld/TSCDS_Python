@@ -39,6 +39,11 @@ enemy_chances: Dict[int, List[Tuple[Entity, int]]] = {
     7: [(entity_factories.ranger, 60)],
 }
 
+treasure_pool: List[Entity] = [
+    entity_factories.eye_of_belial,
+    entity_factories.horn_of_gelb
+]
+
 
 def get_max_value_for_floor(max_value_by_floor: List[Tuple[int, int]], floor: int) -> int:
     current_value = 0
@@ -126,11 +131,9 @@ class RegularRoom(RoomBase):
 class TreasureRoom(RoomBase):
     def populate(self, dungeon: GameMap) -> None:
 
-        print('spawning an actual fuckton of orcs rn btw')
-        for x in range(self.x1 + 1, self.x2):
-            for y in range(self.y1 + 1, self.y2):
-                entity_factories.orc.spawn(dungeon, x, y)
-                print('just placed one, haha')
+        loot: Entity = random.choice(treasure_pool)
+        treasure_pool.remove(loot)
+        loot.spawn(dungeon, *self.center)
 
         dungeon.explored[self.inner_with_rind] = True
 
