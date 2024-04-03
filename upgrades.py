@@ -1,5 +1,6 @@
 from typing import Tuple
 
+from engine import Engine
 from entity import Item
 from ui.look_block import LookBlock
 
@@ -14,10 +15,10 @@ class Upgrade(Item):
 
 class UpgradeEyeOfBelial(Upgrade):
     def on_pickup(self) -> None:
-        LookBlock.set_show_full_detail_mode(True)
+        self.gamemap.engine.look_block.set_show_full_detail_mode(True)
 
     def on_drop(self) -> None:
-        LookBlock.set_show_full_detail_mode(False)
+        self.gamemap.engine.look_block.set_show_full_detail_mode(False)
 
 
 class UpgradeHornOfGeddon(Upgrade):

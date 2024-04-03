@@ -9,6 +9,7 @@ from tcod.console import Console
 from tcod.map import compute_fov
 
 import color
+from ui.look_block import LookBlock
 from ui.message_log import MessageLog
 from ui.info_block import InfoBlock
 import exceptions
@@ -26,6 +27,7 @@ class Engine:
     def __init__(self, player: Actor):
         self.message_log = MessageLog()
         self.info_block = InfoBlock(player)
+        self.look_block = LookBlock()
         self.mouse_location = (0, 0)
         self.player = player
 

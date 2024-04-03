@@ -7,23 +7,28 @@ from entity import Actor
 
 
 class LookBlock:
-    show_full_detail = False
+    def __init__(self):
+        self.show_full_detail = False
 
-    def __init__(self, entity: Entity):
-        self.entity = entity
+    def set_show_full_detail_mode(self, b: bool):
+        self.show_full_detail = b
 
-    @classmethod
-    def set_show_full_detail_mode(cls, b: bool):
-        cls.show_full_detail = b
+    def render(self, console: tcod.console.Console, entity: Entity) -> None:
 
-    def render(self, console: tcod.console.Console, x: int, y: int, width: int, height: int) -> None:
-        console.draw_frame(x, y, width, height, bg=color.black, fg=color.white)
+        x = entity.x+1
+        y = entity.y
+        width = 15
 
-        console.print(x + 1, y, f"{self.entity.name}", self.entity.color)
-        console.print_box(x + 1, y + 1, width-2, height-2, string=self.entity.description)
+        # draw description
+        height = console.print_box(x + 1, y + 1, width-2, 1000, string=entity.description, bg=color.black)
+        height += 2
 
-        if isinstance(self.entity, Actor):
-            actor: Actor = self.entity
+        # draw frame and title
+        console.draw_frame(x, y, width, height, bg=color.black, fg=color.white, clear=False)
+        console.print(x + 1, y, f"{entity.name}", entity.color)
+
+        if isinstance(entity, Actor):
+            actor: Actor = entity
             hp_percent = actor.fighter.hp / actor.fighter.max_hp
 
             status_str: str
@@ -42,13 +47,16 @@ class LookBlock:
                 status_str = "Wounded"
                 status_color = color.status_wounded
             elif hp_percent > 0:
-                status_str = "Critically Wounded"
+                status_str = "!!!"
                 status_color = color.status_critically_wounded
             else:
                 status_str = "Dead"
                 status_color = color.status_dead
+
             if self.show_full_detail and status_str != "Dead":
                 status_str = f"{actor.fighter.hp}/{actor.fighter.max_hp}"
+            if status_str != "Dead":
+                status_str = "♥" + status_str
 
             bottom = y+height-1
             console.print(x + 1, bottom, status_str, status_color)

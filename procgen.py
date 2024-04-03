@@ -40,8 +40,7 @@ enemy_chances: Dict[int, List[Tuple[Entity, int]]] = {
 }
 
 treasure_pool: List[Entity] = [
-    entity_factories.eye_of_belial,
-    entity_factories.horn_of_geddon
+    entity_factories.eye_of_belial
 ]
 
 

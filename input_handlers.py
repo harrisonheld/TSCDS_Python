@@ -18,6 +18,7 @@ import strings
 if TYPE_CHECKING:
     from engine import Engine
     from entity import Item
+    from ui.look_block import LookBlock
 
 
 MOVE_KEYS = {
@@ -457,8 +458,7 @@ class LookHandler(SelectIndexHandler):
 
         entity = self.engine.game_map.get_entity_at_location(x, y)
         if entity is not None:
-            look_block = LookBlock(entity)
-            look_block.render(console, x+1, y, 20, 15)
+            self.engine.look_block.render(console, entity)
 
 
 class SingleRangedAttackHandler(SelectIndexHandler):
