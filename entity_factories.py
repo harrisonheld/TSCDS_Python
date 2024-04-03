@@ -11,6 +11,7 @@ player = Actor(
     char="@",
     color=(255, 255, 255),
     name="Player",
+    description="It's you.",
     ai_cls=HostileEnemy,
     equipment=Equipment(),
     fighter=Fighter(hp=30, base_defense=1, base_power=2),

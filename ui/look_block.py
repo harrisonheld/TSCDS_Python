@@ -12,9 +12,9 @@ class LookBlock:
 
     def render(self, console: tcod.console.Console, x: int, y: int, width: int, height: int) -> None:
         console.draw_frame(x, y, width, height, bg=color.black, fg=color.white)
-        acc_y = 1
-        acc_y += console.print_box(x + 1, y+acc_y, width-2, height-acc_y-1, string=self.entity.name)
-        acc_y += console.print_box(x + 1, y+acc_y, width-2, height-acc_y-1, string=self.entity.description)
+
+        console.print(x + 1, y, f"{self.entity.name}", self.entity.color)
+        console.print_box(x + 1, y + 1, width-2, height-2, string=self.entity.description)
 
         if isinstance(self.entity, Actor):
             actor: Actor = self.entity
@@ -43,6 +43,3 @@ class LookBlock:
                 status_color = color.status_dead
 
             console.print(x + 1, y+height-1, status_str, status_color)
-
-        if acc_y > height-2:
-            console.print(x+width-4, y+height-1, "...")
