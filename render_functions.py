@@ -17,7 +17,7 @@ def get_names_at_location(x: int, y: int, game_map: GameMap) -> str:
 
     names = ", ".join(entity.name for entity in game_map.entities if entity.x == x and entity.y == y)
 
-    return names.capitalize()
+    return names
 
 
 def render_bar(console: Console, current_value: int, maximum_value: int, total_width: int) -> None:

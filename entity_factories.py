@@ -21,7 +21,7 @@ player = Actor(
 orc = Actor(
     char="o",
     color=color.dark_green,
-    name="Orc",
+    name="orc",
     description="He looks like the average british person.",
     ai_cls=HostileEnemy,
     equipment=Equipment(),
@@ -33,7 +33,7 @@ orc = Actor(
 ranger = Actor(
     char="r",
     color=color.dark_red,
-    name="Ranger",
+    name="ranger",
     ai_cls=RangedEnemy,
     equipment=Equipment(),
     fighter=Fighter(hp=16, base_defense=1, base_power=4),
@@ -44,25 +44,25 @@ ranger = Actor(
 confusion_scroll = Item(
     char="~",
     color=(207, 63, 255),
-    name="Confusion Scroll",
+    name="confusion scroll",
     consumable=consumable.ConfusionConsumable(number_of_turns=10),
 )
 fireball_scroll = Item(
     char="~",
     color=(255, 0, 0),
-    name="Fireball Scroll",
+    name="fireball scroll",
     consumable=consumable.FireballDamageConsumable(damage=12, radius=3),
 )
 health_potion = Item(
     char="!",
     color=(127, 0, 255),
-    name="Health Potion",
+    name="health potion",
     consumable=consumable.HealingConsumable(amount=4),
 )
 lightning_scroll = Item(
     char="~",
     color=(255, 255, 0),
-    name="Lightning Scroll",
+    name="lightning scroll",
     consumable=consumable.LightningDamageConsumable(damage=20, maximum_range=5),
 )
 
