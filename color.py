@@ -19,6 +19,9 @@ status_wounded = dark_red
 status_critically_wounded = red
 status_dead = grey
 
+hp = dark_red
+defense = dark_blue
+
 main_menu_background = dark_blue
 main_menu_title = cyan
 main_menu_subtitle = grey

@@ -5,7 +5,8 @@ from components.equipment import Equipment
 from components.fighter import Fighter
 from components.inventory import Inventory
 from components.level import Level
-from entity import Actor, Item
+from entity import *
+from upgrades import *
 
 player = Actor(
     char="@",
@@ -67,13 +68,13 @@ lightning_scroll = Item(
     consumable=consumable.LightningDamageConsumable(damage=20, maximum_range=5),
 )
 
-eye_of_belial = Item(
+eye_of_belial = UpgradeEyeOfBelial(
     char="☼",
     color=color.dark_red,
     name="Eye of Belial",
     description="A perfectly smooth sphere carved of red chalcedony. Allows you to see the full stats and health of enemies."
 )
-horn_of_gelb = Item(
+horn_of_geddon = UpgradeHornOfGeddon(
     char="φ",
     color=color.yellow,
     name="Horn of Geddon",

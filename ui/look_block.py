@@ -7,8 +7,14 @@ from entity import Actor
 
 
 class LookBlock:
+    show_full_detail = False
+
     def __init__(self, entity: Entity):
         self.entity = entity
+
+    @classmethod
+    def set_show_full_detail_mode(cls, b: bool):
+        cls.show_full_detail = b
 
     def render(self, console: tcod.console.Console, x: int, y: int, width: int, height: int) -> None:
         console.draw_frame(x, y, width, height, bg=color.black, fg=color.white)
@@ -41,5 +47,26 @@ class LookBlock:
             else:
                 status_str = "Dead"
                 status_color = color.status_dead
+            if self.show_full_detail and status_str != "Dead":
+                status_str = f"{actor.fighter.hp}/{actor.fighter.max_hp}"
 
-            console.print(x + 1, y+height-1, status_str, status_color)
+            bottom = y+height-1
+            console.print(x + 1, bottom, status_str, status_color)
+
+            if self.show_full_detail:
+                right = x + width - 1
+
+                # print defense
+                defense = str(actor.fighter.defense)
+                acc_x = len(defense)
+                console.print(right - acc_x, bottom, defense)
+                # print defense glyph
+                acc_x += 1
+                console.print(right - acc_x, bottom, "♦", color.defense)
+                # print power
+                power = str(actor.fighter.power)
+                acc_x += len(power)
+                # print power glyph
+                console.print(right - acc_x, bottom, power)
+                acc_x += 1
+                console.print(right - acc_x, bottom, "♦", color.dark_red)

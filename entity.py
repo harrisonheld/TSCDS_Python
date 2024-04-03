@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Optional, Tuple, Type, TypeVar, Union
+from typing import TYPE_CHECKING, Optional, Tuple, Type, TypeVar, Union, List
 import copy
 import math
 
@@ -127,6 +127,8 @@ class Actor(Entity):
 
         self.level = level
         self.level.parent = self
+
+        self.upgrades: List[Upgrade] = []
 
     @property
     def is_alive(self) -> bool:

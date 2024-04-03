@@ -4,6 +4,7 @@ from typing import TYPE_CHECKING, Optional, Tuple
 
 import color
 import exceptions
+from upgrades import Upgrade
 
 if TYPE_CHECKING:
     from engine import Engine
@@ -53,6 +54,10 @@ class PickupAction(Action):
                 inventory.items.append(item)
 
                 self.engine.message_log.add_message(f"You picked up the {item.name}!")
+
+                if isinstance(item, Upgrade):
+                    item.on_pickup()
+
                 return
 
         raise exceptions.Impossible("There is nothing here to pick up.")
@@ -83,6 +88,9 @@ class DropItem(ItemAction):
             self.entity.equipment.toggle_equip(self.item)
 
         self.entity.inventory.drop(self.item)
+
+        if isinstance(self.item, Upgrade):
+            self.item.on_drop()
 
 
 class EquipAction(Action):
