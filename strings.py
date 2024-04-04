@@ -10,21 +10,26 @@ musings = [
     "Violence now, that there may be peace later."
 ]
 
-controls = r"""Movement and Attack - use the numpad.
-┌  ^  ┐
- 7 8 9
-<4   6>
- 1 2 3
-└  v  ┘
+controls = r"""numpad - movement and attack.
 
-Controls
- l  look mode. Navigate with the numpad or mouse.
- g  get item
- d  drop item
- i  view inventory
- c  view character sheet
- m  view detailed message log
- >  descend stairs
+ ┌  ^  ┐
+  7 8 9
+ <4   6>
+  1 2 3
+ └  v  ┘
+
+l look mode. navigate with the numpad or mouse.
+g get item
+i view inventory / use something
+> descend stairs
+
+. wait (i.e, pass your turn)
+d drop item
+c view character sheet
+m view detailed message log
+
+b   edit binds
+1-9 use binds
 """
 
 general_info = r"""

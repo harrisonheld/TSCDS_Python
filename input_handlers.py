@@ -52,6 +52,18 @@ CONFIRM_KEYS = {
     tcod.event.KeySym.KP_ENTER,
 }
 
+BINDABLE_KEYS = [
+    tcod.event.KeySym.N1,
+    tcod.event.KeySym.N2,
+    tcod.event.KeySym.N3,
+    tcod.event.KeySym.N4,
+    tcod.event.KeySym.N5,
+    tcod.event.KeySym.N6,
+    tcod.event.KeySym.N7,
+    tcod.event.KeySym.N8,
+    tcod.event.KeySym.N9
+]
+
 ActionOrHandler = Union[Action, "BaseEventHandler"]
 """An event handler return value which can trigger an action or switch active handlers.
 
@@ -273,7 +285,7 @@ class LevelUpEventHandler(AskUserEventHandler):
             else:
                 player.level.increase_defense()
         else:
-            self.engine.message_log.add_message("Invalid entry.", color.invalid)
+            self.engine.message_log.add_message("Invalid entry.", color.impossible)
 
             return None
 
@@ -314,7 +326,7 @@ class InventoryEventHandler(AskUserEventHandler):
 
         y = 0
 
-        width = len(self.TITLE) + 4
+        width = 40
 
         console.draw_frame(
             x=x,
@@ -335,13 +347,27 @@ class InventoryEventHandler(AskUserEventHandler):
 
                 item_string = f"[{item_key}] {item.name}"
 
+                # add equipped marker
                 if is_equipped:
                     item_string = f"{item_string} (E)"
+
+                # add keybind marker
+                bound_to_key: Optional[tcod.event.KeySym] = None
+                for key, bound_item in self.engine.player.inventory.binds.items():
+                    if bound_item == item:
+                        bound_to_key = key
+                        break
+
+                item_string = f"[{item_key}] {item.name}"
+                if is_equipped:
+                    item_string = f"{item_string} (E)"
+                if bound_to_key is not None:
+                    item_string = f"{item_string} (Bound to {bound_to_key.name})"
 
                 console.print(x + 1, y + i + 1, item_string)
                 console.print(x + 4, y + i + 1, item.char, item.color)
         else:
-            console.print(x + 1, y + 1, "(Empty)")
+            console.print(x + 1, y + 1, "You have nothing.")
 
     def ev_keydown(self, event: tcod.event.KeyDown) -> Optional[ActionOrHandler]:
         player = self.engine.player
@@ -352,7 +378,7 @@ class InventoryEventHandler(AskUserEventHandler):
             try:
                 selected_item = player.inventory.items[index]
             except IndexError:
-                self.engine.message_log.add_message("Invalid entry.", color.invalid)
+                self.engine.message_log.add_message("Invalid entry.", color.impossible)
                 return None
             return self.on_item_selected(selected_item)
         return super().ev_keydown(event)
@@ -375,6 +401,41 @@ class InventoryActivateHandler(InventoryEventHandler):
             return actions.EquipAction(self.engine.player, item)
         else:
             return None
+
+
+class InventoryBindsHandler(InventoryEventHandler):
+    """Handle binding an inventory item."""
+
+    TITLE = "Select an item to bind"
+
+    def on_item_selected(self, item: Item) -> Optional[ActionOrHandler]:
+        if item.consumable:
+            return PickBindHandler(self.engine, self, item)
+        else:
+            self.engine.message_log.add_message("That item is not bindable.", color.impossible)
+            return None
+
+
+class PickBindHandler(AskUserEventHandler):
+    def __init__(self, engine: Engine, parent_handler: InventoryBindsHandler, consumable_to_bind: Item):
+        super().__init__(engine)
+        self.parent_handler: InventoryBindsHandler = parent_handler
+        self.consumable_to_bind: Item = consumable_to_bind
+
+    def on_render(self, console: tcod.Console) -> None:
+        super().on_render(console)
+        # render the inventory too
+        # self.parent_handler.on_render(console)
+        console.print(0, 0, f"Pick a key to bind {self.consumable_to_bind.name} to (1-9):")
+
+    def ev_keydown(self, event: tcod.event.KeyDown) -> Optional[ActionOrHandler]:
+        key = event.sym
+        if key in BINDABLE_KEYS:
+            self.engine.player.inventory.bind(self.consumable_to_bind, key)
+            self.engine.message_log.add_message(f"Bound {self.consumable_to_bind.name} to [{key.name}].")
+            return MainGameEventHandler(self.engine)
+        else:
+            return self.parent_handler
 
 
 class InventoryDropHandler(InventoryEventHandler):
@@ -546,6 +607,14 @@ class MainGameEventHandler(EventHandler):
             action = BumpAction(player, dx, dy)
         elif key in WAIT_KEYS:
             action = WaitAction(player)
+        elif key in BINDABLE_KEYS:
+            if key not in player.inventory.binds:
+                self.engine.message_log.add_message(f"{key.name} is unbound.", color.impossible)
+                return action  # None
+
+            # Retrieve the item bound to the key
+            item = player.inventory.binds[key]
+            action = item.consumable.get_action(player)
 
         elif key == tcod.event.KeySym.ESCAPE:
             raise SystemExit()
@@ -556,9 +625,10 @@ class MainGameEventHandler(EventHandler):
 
         elif key == tcod.event.KeySym.g:
             action = PickupAction(player)
-
         elif key == tcod.event.KeySym.i:
             return InventoryActivateHandler(self.engine)
+        elif key == tcod.event.KeySym.b:
+            return InventoryBindsHandler(self.engine)
         elif key == tcod.event.KeySym.d:
             return InventoryDropHandler(self.engine)
         elif key == tcod.event.KeySym.c:

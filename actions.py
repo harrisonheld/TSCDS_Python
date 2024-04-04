@@ -2,6 +2,8 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Optional, Tuple
 
+from tcod import tcod
+
 import color
 import exceptions
 from upgrades import Upgrade
@@ -46,14 +48,7 @@ class PickupAction(Action):
 
         for item in self.engine.game_map.items:
             if actor_location_x == item.x and actor_location_y == item.y:
-                if len(inventory.items) >= inventory.capacity:
-                    raise exceptions.Impossible("Your inventory is full.")
-
-                self.engine.game_map.entities.remove(item)
-                item.parent = self.entity.inventory
-                inventory.items.append(item)
-
-                self.engine.message_log.add_message(f"You picked up the {item.name}!")
+                inventory.add(item)
 
                 if isinstance(item, Upgrade):
                     item.on_pickup()
