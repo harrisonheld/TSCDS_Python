@@ -17,7 +17,7 @@ player = Actor(
     ai_cls=HostileEnemy,
     equipment=Equipment(),
     fighter=Fighter(hp=30, base_defense=1, base_power=2),
-    inventory=Inventory(capacity=26),
+    inventory=Inventory(capacity=6),
     level=Level(level_up_base=200),
 )
 
@@ -57,8 +57,8 @@ fireball_scroll = Item(
     consumable=consumable.FireballDamageConsumable(damage=12, radius=3),
 )
 health_potion = Item(
-    char="!",
-    color=(127, 0, 255),
+    char="&",
+    color=color.dark_green,
     name="health potion",
     consumable=consumable.HealingConsumable(amount=4),
 )

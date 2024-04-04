@@ -246,7 +246,7 @@ class LevelUpEventHandler(AskUserEventHandler):
             x=x,
             y=0,
             width=35,
-            height=8,
+            height=9,
             title=self.TITLE,
             clear=True,
             fg=(255, 255, 255),
@@ -259,7 +259,7 @@ class LevelUpEventHandler(AskUserEventHandler):
         console.print(
             x=x + 1,
             y=4,
-            string=f"a) Constitution (+20 HP, from {self.engine.player.fighter.max_hp})",
+            string=f"a) Constitution (+10 HP, from {self.engine.player.fighter.max_hp})",
         )
         console.print(
             x=x + 1,
@@ -271,19 +271,26 @@ class LevelUpEventHandler(AskUserEventHandler):
             y=6,
             string=f"c) Agility (+1 defense, from {self.engine.player.fighter.defense})",
         )
+        console.print(
+            x=x + 1,
+            y=7,
+            string=f"d) Inventory Space (+2 items, from {self.engine.player.inventory.capacity})"
+        )
 
     def ev_keydown(self, event: tcod.event.KeyDown) -> Optional[ActionOrHandler]:
         player = self.engine.player
         key = event.sym
         index = key - tcod.event.KeySym.a
 
-        if 0 <= index <= 2:
+        if 0 <= index <= 3:
             if index == 0:
                 player.level.increase_max_hp()
             elif index == 1:
                 player.level.increase_power()
-            else:
+            elif index == 2:
                 player.level.increase_defense()
+            elif index == 3:
+                player.level.increase_inventory()
         else:
             self.engine.message_log.add_message("Invalid entry.", color.impossible)
 
