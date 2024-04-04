@@ -339,6 +339,7 @@ class InventoryEventHandler(AskUserEventHandler):
                     item_string = f"{item_string} (E)"
 
                 console.print(x + 1, y + i + 1, item_string)
+                console.print(x + 4, y + i + 1, item.char, item.color)
         else:
             console.print(x + 1, y + 1, "(Empty)")
 
@@ -529,7 +530,7 @@ class MainGameEventHandler(EventHandler):
         elif key == tcod.event.KeySym.m:
             return HistoryViewer(self.engine)
         elif key == tcod.event.KeySym.SLASH:
-            return HelpViewer(self.engine)
+            return ControlsViewer(self.engine)
 
         elif key == tcod.event.KeySym.g:
             action = PickupAction(player)
@@ -619,23 +620,66 @@ class HistoryViewer(EventHandler):
             return MainGameEventHandler(self.engine)
         return None
 
-class HelpViewer(EventHandler):
-    """Print the help menu."""
+
+class InfoViewerBase(EventHandler):
     def __init__(self, engine: Engine):
         super().__init__(engine)
-
+        self.title = "[InfoViewerBase title]"
+        self.text = "[InfoViewerBase text]"
+        self.before_cls = None
+        self.after_cls = None
 
     def on_render(self, console: tcod.Console) -> None:
         super().on_render(console)  # Draw the main state as the background.
 
-        help_console = tcod.console.Console(console.width - 6, console.height - 6)
+        width = console.width - 6
+        height = console.height - 6
+        this_here_console = tcod.console.Console(width, height)
 
         # Draw a frame with a custom banner title.
-        help_console.draw_frame(0, 0, help_console.width, help_console.height)
-        help_console.print_box(0, 0, help_console.width, 1, "┤Help├", alignment=libtcodpy.CENTER)
+        this_here_console.draw_frame(0, 0, this_here_console.width, this_here_console.height)
+        this_here_console.print_box(0, 0, this_here_console.width, 1, f"┤{self.title}├", alignment=libtcodpy.CENTER)
         # contents
-        help_console.print(1, 1, strings.controls)
-        help_console.blit(console, 3, 3)
+        this_here_console.print_box(1, 1, width-2, height-2, self.text)
+        # controls in bottom right
+        controls = "┤KP7 prev / KP9 next├"
+        this_here_console.print(width - len(controls) - 2, height-1, controls)
+        this_here_console.blit(console, 3, 3)
 
-    def ev_keydown(self, event: tcod.event.KeyDown) -> Optional[MainGameEventHandler]:
-        return MainGameEventHandler(self.engine)
+    def ev_keydown(self, event: tcod.event.KeyDown) -> Optional[EventHandler]:
+        if event.sym == tcod.event.KeySym.KP_7:
+            return self.before_cls(self.engine)
+        elif event.sym == tcod.event.KeySym.KP_9:
+            return self.after_cls(self.engine)
+        else:
+            return MainGameEventHandler(self.engine)
+
+
+class ControlsViewer(InfoViewerBase):
+    """Print the controls."""
+    def __init__(self, engine: Engine):
+        super().__init__(engine)
+        self.title = "Controls"
+        self.text = strings.controls
+        self.before_cls = AboutViewer
+        self.after_cls = GeneralInfoViewer
+
+
+class GeneralInfoViewer(InfoViewerBase):
+    """Print some general how-to-play info."""
+    def __init__(self, engine: Engine):
+        super().__init__(engine)
+        self.title = "General Info"
+        self.text = strings.general_info
+        self.before_cls = ControlsViewer
+        self.after_cls = AboutViewer
+
+
+class AboutViewer(InfoViewerBase):
+    """Print the help menu."""
+    def __init__(self, engine: Engine):
+        super().__init__(engine)
+        self.title = "About"
+        self.text = strings.about
+        self.after_cls = ControlsViewer
+        self.before_cls = GeneralInfoViewer

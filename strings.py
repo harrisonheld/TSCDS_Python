@@ -3,10 +3,11 @@ musings = [
     "To wait for tomorrow is for fools in their sorrow.",
     "The memory fades and I weaken.",
     "Wit is the salt of conversation, not the food.",
-    "By any means necessary."
+    "By any means necessary.",
+    "I struck a match against the door."
 ]
 
-controls = r"""Movement and Attack - use the numpad ☼.
+controls = r"""Movement and Attack - use the numpad.
 ┌  ^  ┐
  7 8 9
 <4   6>
@@ -14,13 +15,21 @@ controls = r"""Movement and Attack - use the numpad ☼.
 └  v  ┘
 
 Controls
-l - look mode. Navigate with the numpad ☼ or mouse ⌂.
+l - look mode. Navigate with the numpad or mouse.
 g - get item
 d - drop item
 i - view inventory
 c - view character sheet
 m - view detailed message log
 > - descend stairs
+"""
+
+general_info = r"""
+the goal of this game is to eat fucking shit and die
+"""
+
+about = r"""
+Thank you for playing The Stars Came Down Screaming! Or as my girlfriend lovingly calls it, TSCDS.
 """
 
 eye_art = r"""*{##<^<><[}<))))())))))))))(]]](}]]}{}[(]{[]{}}[[}{[#{[(([[]]][(]<]{#@@{[][[}}{]([{-~<<(*:-..........--.........(...........................................:~^###%%#
