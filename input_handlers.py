@@ -14,6 +14,7 @@ import actions
 import color
 import exceptions
 import strings
+import color
 
 if TYPE_CHECKING:
     from engine import Engine
@@ -640,23 +641,35 @@ class ControlsViewer(EventHandler):
         height = console.height - 6
         this_here_console = tcod.console.Console(width, height)
 
-        title = ControlsViewer.titles[self.curr_page]
+        # draw this page
         text = ControlsViewer.texts[self.curr_page]
 
-        # Draw a frame with a custom banner title.
+        # frame
         this_here_console.draw_frame(0, 0, this_here_console.width, this_here_console.height)
-        this_here_console.print_box(0, 0, this_here_console.width, 1, f"┤{title}├", alignment=libtcodpy.CENTER)
         # contents
         this_here_console.print_box(1, 1, width - 2, height - 2, text)
         # controls in bottom right
         controls = "┤«NumPad4/NumPad6»├"
         this_here_console.print(width - len(controls) - 4, height - 1, controls)
+        # tabs on top
+        acc_x = 3
+        for i, title in enumerate(ControlsViewer.titles):
+            col = color.white
+            if i == self.curr_page:
+                col = color.welcome_text
+
+            if i == self.curr_page:
+                this_here_console.print(acc_x-1, 0, "┤")
+            this_here_console.print(acc_x, 0, title, col)
+            if i == self.curr_page:
+                this_here_console.print(acc_x+len(title), 0, "├")
+            acc_x += len(title) + 3
 
         this_here_console.blit(console, 3, 3)
 
     def ev_keydown(self, event: tcod.event.KeyDown) -> Optional[EventHandler]:
         if event.sym in ControlsViewer.keys_right:
-            self.curr_page = (self.curr_page - 1) % len(ControlsViewer.titles)
+            self.curr_page = (self.curr_page + 1) % len(ControlsViewer.titles)
         elif event.sym in ControlsViewer.keys_left:
             self.curr_page = (self.curr_page - 1) % len(ControlsViewer.titles)
         else:
