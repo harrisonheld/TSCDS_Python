@@ -1,11 +1,12 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING, Optional, Tuple
 
 from components.base_component import BaseComponent
 from exceptions import Impossible
-from input_handlers import ActionOrHandler, AreaRangedAttackHandler, SingleRangedAttackHandler
+from input_handlers import ActionOrHandler, AreaRangedAttackHandler, SingleRangedAttackHandler, SelectAdjacentHandler
 import actions
+from actions import SwapAction
 import color
 import components.ai
 import components.inventory
@@ -147,3 +148,15 @@ class LightningDamageConsumable(Consumable):
             self.consume()
         else:
             raise Impossible("No enemy is close enough to strike.")
+
+
+class SwapConsumable(Consumable):
+    def get_action(self, consumer: Actor) -> SelectAdjacentHandler:
+        self.engine.message_log.add_message("Select a target to swap with.", color.needs_target)
+        return SelectAdjacentHandler(self.engine, callback=lambda xy: actions.ItemAction(consumer, self.parent, xy))
+
+    def activate(self, action: actions.ItemAction) -> None:
+        dx = action.target_xy[0] - action.entity.x
+        dy = action.target_xy[1] - action.entity.y
+        swap = SwapAction(action.entity, dx, dy)
+        swap.perform()

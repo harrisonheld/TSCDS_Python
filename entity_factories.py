@@ -1,6 +1,7 @@
 import color
 from components import consumable, equippable
 from components.ai import *
+from components.consumable import SwapConsumable
 from components.equipment import Equipment
 from components.fighter import Fighter
 from components.inventory import Inventory
@@ -74,11 +75,12 @@ eye_of_belial = UpgradeEyeOfBelial(
     name="Eye of Belial",
     description="A perfectly smooth sphere carved of red chalcedony. Allows you to see the full stats and health of enemies."
 )
-horn_of_geddon = UpgradeHornOfGeddon(
-    char="φ",
-    color=color.yellow,
-    name="Horn of Geddon",
-    description="[flavor text here]. Confuses all enemies within a radius."
+dagashas_spur = UpgradeDagashasSpur(
+    char="U",
+    color=color.red,
+    name="Dagasha's Spur",
+    description="This crown of thorns points outward, but its wearer's mind is pierced all the same, drawing in will. Allows you to swap places with an adjacent enemy.",
+    consumable=SwapConsumable()
 )
 
 

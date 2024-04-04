@@ -192,6 +192,23 @@ class BumpAction(ActionWithDirection):
         else:
             return MovementAction(self.entity, self.dx, self.dy).perform()
 
+
+class SwapAction(ActionWithDirection):
+    """Swap positions with an entity."""
+    def perform(self) -> None:
+        target = self.target_actor
+        if target:
+            temp_x = self.target_actor.x
+            temp_y = self.target_actor.y
+            target.x = self.entity.x
+            target.y = self.entity.y
+            self.entity.x = temp_x
+            self.entity.y = temp_y
+            self.engine.message_log.add_message(f"The {self.entity.name} swaps places with the {target.name}!", color.white)
+        else:
+            raise exceptions.Impossible("There is nothing there to swap with.")
+
+
 class RangedAction(ActionWithDirection):
     def perform(self) -> None:
         target = self.target_actor

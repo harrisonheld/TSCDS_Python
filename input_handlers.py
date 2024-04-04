@@ -387,6 +387,28 @@ class InventoryDropHandler(InventoryEventHandler):
         return actions.DropItem(self.engine.player, item)
 
 
+class SelectAdjacentHandler(AskUserEventHandler):
+    """Handles asking the user for one of 8 directions."""
+    def __init__(self, engine: Engine, callback: Callable[[Tuple[int, int]], Optional[Action]]):
+        super().__init__(engine)
+        self.callback = callback
+
+    def on_render(self, console: tcod.Console) -> None:
+        super().on_render(console)
+        console.print(0, 0, "Select a direction:")
+
+    def ev_keydown(self, event: tcod.event.KeyDown) -> Optional[ActionOrHandler]:
+        """Fire callback if directional key was pressed."""
+        key = event.sym
+        if key in MOVE_KEYS:
+            dx, dy = MOVE_KEYS[key]
+            return self.on_index_selected(self.engine.player.x + dx, self.engine.player.y + dy)
+        return super().ev_keydown(event)
+
+    def on_index_selected(self, x: int, y: int) -> Optional[Action]:
+        return self.callback((x, y))
+
+
 class SelectIndexHandler(AskUserEventHandler):
     """Handles asking the user for an index on the map."""
 
@@ -530,7 +552,7 @@ class MainGameEventHandler(EventHandler):
         elif key == tcod.event.KeySym.m:
             return HistoryViewer(self.engine)
         elif key == tcod.event.KeySym.SLASH:
-            return ControlsViewer(self.engine)
+            return HelpViewer(self.engine)
 
         elif key == tcod.event.KeySym.g:
             action = PickupAction(player)
@@ -621,7 +643,7 @@ class HistoryViewer(EventHandler):
         return None
 
 
-class ControlsViewer(EventHandler):
+class HelpViewer(EventHandler):
     """Print the controls."""
     keys_right = (tcod.event.KeySym.KP_9, tcod.event.KeySym.KP_6, tcod.event.KeySym.KP_3,
                   tcod.event.KeySym.RIGHT, tcod.event.KeySym.PERIOD)
@@ -642,7 +664,7 @@ class ControlsViewer(EventHandler):
         this_here_console = tcod.console.Console(width, height)
 
         # draw this page
-        text = ControlsViewer.texts[self.curr_page]
+        text = HelpViewer.texts[self.curr_page]
 
         # frame
         this_here_console.draw_frame(0, 0, this_here_console.width, this_here_console.height)
@@ -653,7 +675,7 @@ class ControlsViewer(EventHandler):
         this_here_console.print(width - len(controls) - 4, height - 1, controls)
         # tabs on top
         acc_x = 3
-        for i, title in enumerate(ControlsViewer.titles):
+        for i, title in enumerate(HelpViewer.titles):
             col = color.white
             if i == self.curr_page:
                 col = color.welcome_text
@@ -668,9 +690,9 @@ class ControlsViewer(EventHandler):
         this_here_console.blit(console, 3, 3)
 
     def ev_keydown(self, event: tcod.event.KeyDown) -> Optional[EventHandler]:
-        if event.sym in ControlsViewer.keys_right:
-            self.curr_page = (self.curr_page + 1) % len(ControlsViewer.titles)
-        elif event.sym in ControlsViewer.keys_left:
-            self.curr_page = (self.curr_page - 1) % len(ControlsViewer.titles)
+        if event.sym in HelpViewer.keys_right:
+            self.curr_page = (self.curr_page + 1) % len(HelpViewer.titles)
+        elif event.sym in HelpViewer.keys_left:
+            self.curr_page = (self.curr_page - 1) % len(HelpViewer.titles)
         else:
             return MainGameEventHandler(self.engine)

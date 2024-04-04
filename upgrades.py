@@ -23,3 +23,8 @@ class UpgradeEyeOfBelial(Upgrade):
 
 class UpgradeHornOfGeddon(Upgrade):
     pass
+
+
+
+class UpgradeDagashasSpur(Upgrade):
+    pass
