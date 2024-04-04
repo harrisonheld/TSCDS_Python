@@ -133,8 +133,12 @@ class RegularRoom(RoomBase):
 class TreasureRoom(RoomBase):
     def populate(self, dungeon: GameMap) -> None:
 
-        loot: Entity = random.choice(treasure_pool)
-        treasure_pool.remove(loot)
+        loot: Entity
+        if len(treasure_pool) > 0:
+            loot = random.choice(treasure_pool)
+            treasure_pool.remove(loot)
+        else:
+            loot = entity_factories.no_loot_note
         loot.spawn(dungeon, *self.center)
 
         dungeon.explored[self.inner_with_rind] = True

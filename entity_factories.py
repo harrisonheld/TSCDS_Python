@@ -71,7 +71,7 @@ lightning_scroll = Item(
 
 eye_of_belial = UpgradeEyeOfBelial(
     char="☼",
-    color=color.dark_red,
+    color=color.red,
     name="Eye of Belial",
     description="A perfectly smooth sphere carved of red chalcedony. Allows you to see the full stats and health of enemies."
 )
@@ -81,6 +81,13 @@ dagashas_spur = UpgradeDagashasSpur(
     name="Dagasha's Spur",
     description="This crown of thorns points outward, but its wearer's mind is pierced all the same, drawing in will. Allows you to swap places with an adjacent enemy.",
     consumable=SwapConsumable()
+)
+
+scrap_of_paper = Item(
+    color=color.white,
+    char='~',
+    name="Scrap of Paper",
+    description="A torn piece of paper with a message scrawled on it: 'Sorry adventurer, this dungeon ran out of treasure! Better luck next time!'"
 )
 
 

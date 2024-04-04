@@ -333,7 +333,7 @@ class InventoryEventHandler(AskUserEventHandler):
 
                 is_equipped = self.engine.player.equipment.item_is_equipped(item)
 
-                item_string = f"({item_key}) {item.name}"
+                item_string = f"[{item_key}] {item.name}"
 
                 if is_equipped:
                     item_string = f"{item_string} (E)"
@@ -671,7 +671,7 @@ class HelpViewer(EventHandler):
         # contents
         this_here_console.print_box(1, 1, width - 2, height - 2, text)
         # controls in bottom right
-        controls = "┤«NumPad4/NumPad6»├"
+        controls = "┤«[NumPad4]/[NumPad6]»├"
         this_here_console.print(width - len(controls) - 4, height - 1, controls)
         # tabs on top
         acc_x = 3
