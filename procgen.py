@@ -109,6 +109,8 @@ class RoomBase:
         """Return True if this room overlaps with another RectangularRoom."""
         return self.x1 <= other.x2 and self.x2 >= other.x1 and self.y1 <= other.y2 and self.y2 >= other.y1
 
+    def populate(self, dungeon: GameMap) -> None:
+        pass
 
 
 class RegularRoom(RoomBase):
@@ -181,7 +183,7 @@ def generate_dungeon(
         x = random.randint(0, dungeon.width - room_width - 1)
         y = random.randint(0, dungeon.height - room_height - 1)
 
-        # Choose room type based on whether a treasure room has been generated yet
+        new_room: RoomBase
         if not treasure_room_generated:
             new_room = TreasureRoom(x, y, room_width, room_height, engine.game_world.current_floor)
         else:

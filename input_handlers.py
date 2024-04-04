@@ -18,7 +18,6 @@ import strings
 if TYPE_CHECKING:
     from engine import Engine
     from entity import Item
-    from ui.look_block import LookBlock
 
 
 MOVE_KEYS = {

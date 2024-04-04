@@ -19,13 +19,16 @@ class LookBlock:
         y = entity.y
         width = 15
 
-        # draw description
+        # draw description to get height
         height = console.print_box(x + 1, y + 1, width-2, 1000, string=entity.description, bg=color.black)
-        height += 2
+        height += 2  # for border
+        height += 1  # for blank line
 
         # draw frame and title
-        console.draw_frame(x, y, width, height, bg=color.black, fg=color.white, clear=False)
+        console.draw_frame(x, y, width, height, bg=color.black, fg=color.white)
         console.print(x + 1, y, f"{entity.name}", entity.color)
+        # redraw description
+        console.print_box(x + 1, y + 1, width - 2, height, string=entity.description, bg=color.black)
 
         if isinstance(entity, Actor):
             actor: Actor = entity

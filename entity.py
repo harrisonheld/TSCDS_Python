@@ -14,6 +14,7 @@ if TYPE_CHECKING:
     from components.fighter import Fighter
     from components.inventory import Inventory
     from components.level import Level
+    from upgrades import Upgrade
     from game_map import GameMap
 
 T = TypeVar("T", bound="Entity")
