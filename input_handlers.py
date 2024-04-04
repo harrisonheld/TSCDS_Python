@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Callable, Optional, Tuple, Union
+from typing import TYPE_CHECKING, Callable, Optional, Tuple, Union, Type
 import os
 
 import tcod
@@ -18,7 +18,6 @@ import strings
 if TYPE_CHECKING:
     from engine import Engine
     from entity import Item
-
 
 MOVE_KEYS = {
     # Arrow keys.
@@ -621,13 +620,18 @@ class HistoryViewer(EventHandler):
         return None
 
 
-class InfoViewerBase(EventHandler):
+class ControlsViewer(EventHandler):
+    """Print the controls."""
+    keys_right = (tcod.event.KeySym.KP_9, tcod.event.KeySym.KP_6, tcod.event.KeySym.KP_3,
+                  tcod.event.KeySym.RIGHT, tcod.event.KeySym.PERIOD)
+    keys_left = (tcod.event.KeySym.KP_7, tcod.event.KeySym.KP_4, tcod.event.KeySym.KP_1,
+                 tcod.event.KeySym.LEFT, tcod.event.KeySym.COMMA)
+    titles = ["Controls", "General Info", "About"]
+    texts = [strings.controls, strings.general_info, strings.about]
+
     def __init__(self, engine: Engine):
         super().__init__(engine)
-        self.title = "[InfoViewerBase title]"
-        self.text = "[InfoViewerBase text]"
-        self.before_cls = None
-        self.after_cls = None
+        self.curr_page = 0
 
     def on_render(self, console: tcod.Console) -> None:
         super().on_render(console)  # Draw the main state as the background.
@@ -636,50 +640,24 @@ class InfoViewerBase(EventHandler):
         height = console.height - 6
         this_here_console = tcod.console.Console(width, height)
 
+        title = ControlsViewer.titles[self.curr_page]
+        text = ControlsViewer.texts[self.curr_page]
+
         # Draw a frame with a custom banner title.
         this_here_console.draw_frame(0, 0, this_here_console.width, this_here_console.height)
-        this_here_console.print_box(0, 0, this_here_console.width, 1, f"┤{self.title}├", alignment=libtcodpy.CENTER)
+        this_here_console.print_box(0, 0, this_here_console.width, 1, f"┤{title}├", alignment=libtcodpy.CENTER)
         # contents
-        this_here_console.print_box(1, 1, width-2, height-2, self.text)
+        this_here_console.print_box(1, 1, width - 2, height - 2, text)
         # controls in bottom right
-        controls = "┤KP7 prev / KP9 next├"
-        this_here_console.print(width - len(controls) - 2, height-1, controls)
+        controls = "┤«NumPad4/NumPad6»├"
+        this_here_console.print(width - len(controls) - 4, height - 1, controls)
+
         this_here_console.blit(console, 3, 3)
 
     def ev_keydown(self, event: tcod.event.KeyDown) -> Optional[EventHandler]:
-        if event.sym == tcod.event.KeySym.KP_7:
-            return self.before_cls(self.engine)
-        elif event.sym == tcod.event.KeySym.KP_9:
-            return self.after_cls(self.engine)
+        if event.sym in ControlsViewer.keys_right:
+            self.curr_page = (self.curr_page - 1) % len(ControlsViewer.titles)
+        elif event.sym in ControlsViewer.keys_left:
+            self.curr_page = (self.curr_page - 1) % len(ControlsViewer.titles)
         else:
             return MainGameEventHandler(self.engine)
-
-
-class ControlsViewer(InfoViewerBase):
-    """Print the controls."""
-    def __init__(self, engine: Engine):
-        super().__init__(engine)
-        self.title = "Controls"
-        self.text = strings.controls
-        self.before_cls = AboutViewer
-        self.after_cls = GeneralInfoViewer
-
-
-class GeneralInfoViewer(InfoViewerBase):
-    """Print some general how-to-play info."""
-    def __init__(self, engine: Engine):
-        super().__init__(engine)
-        self.title = "General Info"
-        self.text = strings.general_info
-        self.before_cls = ControlsViewer
-        self.after_cls = AboutViewer
-
-
-class AboutViewer(InfoViewerBase):
-    """Print the help menu."""
-    def __init__(self, engine: Engine):
-        super().__init__(engine)
-        self.title = "About"
-        self.text = strings.about
-        self.after_cls = ControlsViewer
-        self.before_cls = GeneralInfoViewer
