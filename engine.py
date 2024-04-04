@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, List
 import lzma
 import pickle
 
@@ -16,7 +16,7 @@ import exceptions
 import render_functions
 
 if TYPE_CHECKING:
-    from entity import Actor
+    from entity import Actor, Entity
     from game_map import GameMap, GameWorld
 
 

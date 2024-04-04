@@ -4,7 +4,10 @@ musings = [
     "The memory fades and I weaken.",
     "Wit is the salt of conversation, not the food.",
     "By any means necessary.",
-    "I struck a match against the door."
+    "I struck a match against the door.",
+    "What is today but ereyesterday's postmorrow?",
+    "What is better - to be born good, or to overcome your evil nature through great effort?",
+    "Violence now, that there may be peace later."
 ]
 
 controls = r"""Movement and Attack - use the numpad.
@@ -15,13 +18,13 @@ controls = r"""Movement and Attack - use the numpad.
 └  v  ┘
 
 Controls
-l - look mode. Navigate with the numpad or mouse.
-g - get item
-d - drop item
-i - view inventory
-c - view character sheet
-m - view detailed message log
-> - descend stairs
+ l  look mode. Navigate with the numpad or mouse.
+ g  get item
+ d  drop item
+ i  view inventory
+ c  view character sheet
+ m  view detailed message log
+ >  descend stairs
 """
 
 general_info = r"""

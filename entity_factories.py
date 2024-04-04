@@ -83,10 +83,10 @@ dagashas_spur = UpgradeDagashasSpur(
     consumable=SwapConsumable()
 )
 
-scrap_of_paper = Item(
+no_loot_note = Item(
     color=color.white,
     char='~',
-    name="Scrap of Paper",
+    name="scrap of paper",
     description="A torn piece of paper with a message scrawled on it: 'Sorry adventurer, this dungeon ran out of treasure! Better luck next time!'"
 )
 

@@ -39,12 +39,6 @@ enemy_chances: Dict[int, List[Tuple[Entity, int]]] = {
     7: [(entity_factories.ranger, 60)],
 }
 
-treasure_pool: List[Entity] = [
-    entity_factories.eye_of_belial,
-    entity_factories.dagashas_spur,
-]
-
-
 def get_max_value_for_floor(max_value_by_floor: List[Tuple[int, int]], floor: int) -> int:
     current_value = 0
 
@@ -134,14 +128,16 @@ class TreasureRoom(RoomBase):
     def populate(self, dungeon: GameMap) -> None:
 
         loot: Entity
-        if len(treasure_pool) > 0:
-            loot = random.choice(treasure_pool)
-            treasure_pool.remove(loot)
+        pool: List[Entity] = dungeon.engine.game_world.treasure_pool
+        if len(pool) > 0:
+            loot = random.choice(pool)
+            pool.remove(loot)
         else:
             loot = entity_factories.no_loot_note
         loot.spawn(dungeon, *self.center)
 
         dungeon.explored[self.inner_with_rind] = True
+
 
 def tunnel_between(start: Tuple[int, int], end: Tuple[int, int]) -> Iterator[Tuple[int, int]]:
     """Return an L-shaped tunnel between these two points."""

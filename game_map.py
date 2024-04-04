@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Iterable, Iterator, Optional
+from typing import TYPE_CHECKING, Iterable, Iterator, Optional, List
 
 from tcod.console import Console
 import numpy as np
@@ -115,6 +115,8 @@ class GameWorld:
         self.room_max_size = room_max_size
 
         self.current_floor = current_floor
+
+        self.treasure_pool: List[Entity] = []
 
     def generate_floor(self) -> None:
         from procgen import generate_dungeon

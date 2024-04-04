@@ -47,6 +47,10 @@ def new_game() -> Engine:
         map_height=map_height,
     )
 
+    engine.game_world.treasure_pool = [
+        entity_factories.eye_of_belial,
+        entity_factories.dagashas_spur,
+    ]
     engine.game_world.generate_floor()
     engine.update_fov()
 
