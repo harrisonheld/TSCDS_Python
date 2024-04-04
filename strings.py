@@ -18,9 +18,9 @@ controls = r"""numpad - movement and attack.
   1 2 3
  └  v  ┘
 
-l look mode. navigate with the numpad or mouse.
+l look mode - navigate with the numpad or mouse
+i view inventory / use something / equip something
 g get item
-i view inventory / use something
 > descend stairs
 
 . wait (i.e, pass your turn)

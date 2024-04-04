@@ -6,7 +6,7 @@ import random
 import numpy as np
 import tcod
 
-from actions import *
+from actions import Action, MeleeAction, MovementAction, WaitAction, RangedAction, BumpAction
 
 if TYPE_CHECKING:
     from entity import Actor

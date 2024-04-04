@@ -245,7 +245,7 @@ class LevelUpEventHandler(AskUserEventHandler):
         console.draw_frame(
             x=x,
             y=0,
-            width=35,
+            width=40,
             height=9,
             title=self.TITLE,
             clear=True,
@@ -599,8 +599,6 @@ class AreaRangedAttackHandler(SelectIndexHandler):
 
 class MainGameEventHandler(EventHandler):
     def ev_keydown(self, event: tcod.event.KeyDown) -> Optional[ActionOrHandler]:
-        action: Optional[Action] = None
-
         key = event.sym
         modifier = event.mod
 
@@ -611,17 +609,18 @@ class MainGameEventHandler(EventHandler):
 
         if key in MOVE_KEYS:
             dx, dy = MOVE_KEYS[key]
-            action = BumpAction(player, dx, dy)
+            return BumpAction(player, dx, dy)
         elif key in WAIT_KEYS:
-            action = WaitAction(player)
+            return WaitAction(player)
         elif key in BINDABLE_KEYS:
             if key not in player.inventory.binds:
                 self.engine.message_log.add_message(f"{key.name} is unbound.", color.impossible)
-                return action  # None
+                return None
 
             # Retrieve the item bound to the key
             item = player.inventory.binds[key]
-            action = item.consumable.get_action(player)
+            assert(item.consumable is not None)
+            return item.consumable.get_action(player)
 
         elif key == tcod.event.KeySym.ESCAPE:
             raise SystemExit()
@@ -631,7 +630,7 @@ class MainGameEventHandler(EventHandler):
             return HelpViewer(self.engine)
 
         elif key == tcod.event.KeySym.g:
-            action = PickupAction(player)
+            return PickupAction(player)
         elif key == tcod.event.KeySym.i:
             return InventoryActivateHandler(self.engine)
         elif key == tcod.event.KeySym.b:
@@ -644,7 +643,7 @@ class MainGameEventHandler(EventHandler):
             return LookHandler(self.engine)
 
         # No valid key was pressed
-        return action
+        return None
 
 
 class GameOverEventHandler(EventHandler):
@@ -773,3 +772,6 @@ class HelpViewer(EventHandler):
             self.curr_page = (self.curr_page - 1) % len(HelpViewer.titles)
         else:
             return MainGameEventHandler(self.engine)
+
+        return None
+
