@@ -439,7 +439,6 @@ class PickBindHandler(AskUserEventHandler):
         key = event.sym
         if key in BINDABLE_KEYS:
             self.engine.player.inventory.bind(self.consumable_to_bind, key)
-            self.engine.message_log.add_message(f"Bound {self.consumable_to_bind.name} to [{key.name}].")
             return MainGameEventHandler(self.engine)
         else:
             return self.parent_handler

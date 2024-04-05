@@ -6,6 +6,7 @@ import tcod.event
 
 import exceptions
 from components.base_component import BaseComponent
+from input_handlers import BINDABLE_KEYS
 
 if TYPE_CHECKING:
     from entity import Actor, Item
@@ -20,6 +21,9 @@ class Inventory(BaseComponent):
         self.binds: Dict[tcod.event.KeySym, Item] = {}
 
     def add(self, item: Item, add_message: bool = True) -> None:
+        """
+        Add or pickup (from the game map) an item to the inventory, and attempt to auto-bind it to a key.
+        """
         if len(self.items) >= self.capacity:
             raise exceptions.Impossible("Your inventory is full.")
 
@@ -35,17 +39,28 @@ class Inventory(BaseComponent):
         if add_message:
             self.engine.message_log.add_message(f"You picked up the {item.name}!")
 
-    def drop(self, item: Item) -> None:
-        """
-        Removes an item from the inventory and restores it to the game map, at the player's current location.
-        """
-        self.items.remove(item)
-        item.place(self.parent.x, self.parent.y, self.gamemap)
+        # try auto-binding
+        if item.consumable is not None:
+            for key in BINDABLE_KEYS:
+                if key not in self.binds:
+                    self.bind(item, key)
+                    break
 
+    def remove(self, item: Item):
+        """Remove an item from the inventory."""
         # Remove the item from key bindings if it's bound to any key
         for key, bound_item in list(self.binds.items()):
             if bound_item == item:
                 del self.binds[key]
+
+        # removal
+        self.items.remove(item)
+    def drop(self, item: Item) -> None:
+        """
+        Removes an item from the inventory and restores it to the game map, at the holder's current location.
+        """
+        self.remove(item)
+        item.place(self.parent.x, self.parent.y, self.gamemap)
 
         self.engine.message_log.add_message(f"You dropped the {item.name}.")
 
@@ -54,3 +69,4 @@ class Inventory(BaseComponent):
         Binds an item to a specific key.
         """
         self.binds[key] = item
+        self.engine.message_log.add_message(f"Bound {item.name} to [{key.name}].")
