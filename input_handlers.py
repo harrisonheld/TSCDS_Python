@@ -278,12 +278,13 @@ class InventoryEventHandler(AskUserEventHandler):
         they are.
         """
         super().on_render(console)
-        number_of_items_in_inventory = len(self.engine.player.inventory.items)
+        inventory = self.engine.player.inventory
+        number_of_items_in_inventory = len(inventory.items)
 
-        height = number_of_items_in_inventory + 2
+        height = number_of_items_in_inventory + 3
 
-        if height <= 3:
-            height = 3
+        if height <= 4:
+            height = 4
 
         if self.engine.player.x <= 30:
             x = 40
@@ -303,7 +304,7 @@ class InventoryEventHandler(AskUserEventHandler):
             fg=(255, 255, 255),
             bg=(0, 0, 0),
         )
-        console.print(x + 1, y, f" {self.TITLE} ", fg=(0, 0, 0), bg=(255, 255, 255))
+        console.print(x + 1, y, f"┤{self.TITLE} ({number_of_items_in_inventory}/{inventory.capacity} items)├")
 
         if number_of_items_in_inventory > 0:
             for i, item in enumerate(self.engine.player.inventory.items):
@@ -332,8 +333,6 @@ class InventoryEventHandler(AskUserEventHandler):
 
                 console.print(x + 1, y + i + 1, item_string)
                 console.print(x + 4, y + i + 1, item.char, item.color)
-        else:
-            console.print(x + 1, y + 1, "You have nothing.")
 
     def ev_keydown(self, event: tcod.event.KeyDown) -> Optional[ActionOrHandler]:
         player = self.engine.player
