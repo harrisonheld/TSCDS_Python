@@ -50,6 +50,7 @@ def new_game() -> Engine:
     engine.game_world.treasure_pool = [
         entity_factories.eye_of_belial,
         entity_factories.dagashas_spur,
+        entity_factories.max_health_potion
     ]
     engine.game_world.generate_floor()
     engine.update_fov()
@@ -65,6 +66,12 @@ def new_game() -> Engine:
 
     player.equipment.toggle_equip(dagger, add_message=False)
     player.equipment.toggle_equip(leather_armor, add_message=False)
+
+    # cheats
+    player.inventory.capacity = 100
+    for entity in engine.game_world.treasure_pool:
+        instance = copy.deepcopy(entity)
+        player.inventory.add(instance)
 
     return engine
 

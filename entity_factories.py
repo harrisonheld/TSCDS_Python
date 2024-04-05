@@ -1,3 +1,5 @@
+import sys
+
 import color
 from components import consumable, equippable
 from components.ai import *
@@ -81,6 +83,12 @@ dagashas_spur = UpgradeDagashasSpur(
     name="Dagasha's Spur",
     description="This crown of thorns points outward, but its wearer's mind is pierced all the same, drawing in will. Allows you to swap places with an adjacent enemy.",
     consumable=SwapConsumable()
+)
+max_health_potion = Item(
+    char="&",
+    color=color.red,
+    name="max health potion",
+    consumable=consumable.HealingConsumable(amount=sys.maxsize),
 )
 
 no_loot_note = Item(
