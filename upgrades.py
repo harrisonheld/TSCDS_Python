@@ -29,5 +29,13 @@ class UpgradeCrackedRedEyeOrb(Upgrade):
         actor.fighter.base_power -= 1
 
 
+class UpgradeCrackedBlueEyeOrb(Upgrade):
+    def on_pickup(self, actor: Actor) -> None:
+        actor.fighter.base_defense += 1
+
+    def on_drop(self, actor: Actor) -> None:
+        actor.fighter.base_defense -= 1
+
+
 class UpgradeDagashasSpur(Upgrade):
     pass

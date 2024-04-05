@@ -80,27 +80,43 @@ eye_of_belial = UpgradeEyeOfBelial(
     char="☼",
     color=color.red,
     name="Eye of Belial",
-    description="A perfectly smooth sphere carved of red chalcedony. Allows you to see the full stats and health of enemies by looking at them."
+    description="""A perfectly smooth sphere carved of red chalcedony.
+
+When in your inventory, allows you to see the detailed stats and health of enemies by looking at them."""
 )
 dagashas_spur = UpgradeDagashasSpur(
-    char="U",
+    char="Ü",
     color=color.red,
     name="Dagasha's Spur",
-    description="This crown of thorns points outward, but its wearer's mind is pierced all the same, drawing in will. Allows you to swap places with an adjacent enemy.",
+    description="""This crown of thorns points outward, but its wearer's mind is pierced all the same, drawing in will.
+
+Allows you to swap places with an adjacent enemy.""",
     consumable=SwapConsumable()
 )
 max_health_potion = Item(
     char="&",
     color=color.red,
     name="max health potion",
-    description="Wysterwort DCXLVIII (reigned 206 - 201): Where his predecessor was known to vanquish anyone who opposed him, King Wysterwort DCXLVIII made no such distinction. For those that survived his fickle bouts of execution, they found themselves subject to strange rules of law. In the year 203, it was mandaded that human babes should be nursed with wine rather than milk. Wysterwort's eccentricities were humored amidst a backdrop of famine and disease. The mad king himself fell victim to blight, and commisioned an alchemist to brew the max health potion. Days before its completion, and for reasons undocumented, the accomplished monarch fell into a deep depression and strangled himself. He was survived by his heir Wysterwort DCXLIX, who abdicated mere minutes later.",
+    description="""Wysterwort DCXLVIII (reigned 206 - 201): Where his predecessor was known to vanquish anyone who opposed him, King Wysterwort DCXLVIII made no such distinction. For those that survived his fickle bouts of execution, they found themselves subject to strange rules of law. In the year 203, it was mandaded that human babes should be nursed with wine rather than milk. Wysterwort's eccentricities were humored amidst a backdrop of famine and disease. The mad king himself fell victim to blight, and commisioned an alchemist to brew the max health potion. Days before its completion, and for reasons undocumented, the accomplished monarch fell into a deep depression and strangled himself. He was survived by his heir Wysterwort DCXLIX, who abdicated mere minutes later.
+
+Heals you to max health.""",
     consumable=consumable.HealingConsumable(amount=sys.maxsize),
 )
 cracked_red_eye_orb = UpgradeCrackedRedEyeOrb(
+    char="Φ",
+    color=color.red,
+    name="Cracked Red Eye Orb",
+    description="""This red gemstone lights a roaring fire in your heart, granting you a tranquil rage. It would only be remiss to leave an enemy unslain.
+
+When in your inventory, increases your attack power by 1.""",
+)
+cracked_blue_eye_orb = UpgradeCrackedBlueEyeOrb(
     char="Θ",
     color=color.red,
-    name="cracked red eye orb",
-    description="[TODO]. Increases your attack power by 1.",
+    name="Cracked Blue Eye Orb",
+    description="""This soothing azure gemstone whispers resilience. Cast aside your doubts; they are unworthy of you.
+
+When in your inventory, increases your defense by 1.""",
 )
 
 no_loot_note = Item(

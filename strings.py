@@ -1,13 +1,26 @@
 musings = [
+    # just random things that sound cool
     "Know no want.",
-    "To wait for tomorrow is for fools in their sorrow.",
-    "The memory fades and I weaken.",
-    "Wit is the salt of conversation, not the food.",
+    "It is morally correct to destroy your enemy to the point that he will never rise again."
+    "Violence now, for peace later.",
     "By any means necessary.",
-    "I struck a match against the door.",
     "What is today but ereyesterday's postmorrow?",
-    "What is better - to be born good, or to overcome your evil nature through great effort?",
-    "Violence now, that there may be peace later."
+    # song lyrics
+    "To wait for tomorrow is for fools in their sorrow.",  # Hour of the Dragon, Manilla Road
+    "In this world's darkest hour, up the hammers to strike.",  # Flaming Metal System, Manilla Road
+    "The memory fades and I weaken.",  # Invoker, Eternal Champion
+    "I struck a match against the door.",  # My Rival, Steely Dan
+    "And all the fools sailed away.",  # All the Fools Sailed Away, Dio
+    "Betrayer! Deciever!",  # Traitor's Gate, Visigoth
+    "I've never seen the dawn like this before.",  # Sister of Charity, The 69 Eyes
+    "For all who deny the struggle, the triumphant overcome.",  # Beware, Death Grips
+    "Magnu Horse, with golden mane, I want your help yet once again.",  # Magnu, Hawkwind
+    "Deign to lose or win.",  # Bedsitter Images, Al Stewart
+    "There's emptiness behind their eyes, and dust in all their hearts.",  # Love my Way, The Psychadelic Furs
+    "The torture never stops.",  # The Torture Never Stops, WASP
+    # quotes
+    "Wit is the salt of conversation, not the food.",  # John Held, my father
+    "To be born good, or to overcome your evil nature through great effort?",  # Paarthurnax, Skyrim
 ]
 
 controls = r"""numpad - movement and attack.
@@ -32,7 +45,8 @@ b   edit binds
 1-9 use binds
 """
 
-general_info = r"""
+general_info = r"""To complete a floor, you will want to find the staircase. It looks like this: >
+
 Being a work of fiction, the notions of 'AD' and 'BC' have no meaning in The Stars Came Down Screaming. Therefore, all dates are rendered according to their chronological distance from an event of paramount historical significance - the publication of this game. Consequently, a higher year number means the date occurred farther in the past.
 """
 

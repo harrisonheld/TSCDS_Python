@@ -50,7 +50,9 @@ def new_game() -> Engine:
     engine.game_world.treasure_pool = [
         entity_factories.eye_of_belial,
         entity_factories.dagashas_spur,
-        entity_factories.max_health_potion
+        entity_factories.max_health_potion,
+        entity_factories.cracked_red_eye_orb,
+        entity_factories.cracked_blue_eye_orb,
     ]
     engine.game_world.generate_floor()
     engine.update_fov()
