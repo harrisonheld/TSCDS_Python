@@ -31,10 +31,11 @@ def render_bar(console: Console, current_value: int, maximum_value: int, total_w
     console.print(x=1, y=45, string=f"HP: {current_value}/{maximum_value}", fg=color.bar_text)
 
 
-
 def render_names_at_mouse_location(console: Console, x: int, y: int, engine: Engine) -> None:
+
+    if engine.mouse_location is None:
+        return
+
     mouse_x, mouse_y = engine.mouse_location
-
     names_at_mouse_location = get_names_at_location(x=mouse_x, y=mouse_y, game_map=engine.game_map)
-
     console.print(x=x, y=y, string=names_at_mouse_location)

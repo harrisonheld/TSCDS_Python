@@ -75,7 +75,7 @@ eye_of_belial = UpgradeEyeOfBelial(
     char="☼",
     color=color.red,
     name="Eye of Belial",
-    description="A perfectly smooth sphere carved of red chalcedony. Allows you to see the full stats and health of enemies."
+    description="A perfectly smooth sphere carved of red chalcedony. Allows you to see the full stats and health of enemies by looking at them."
 )
 dagashas_spur = UpgradeDagashasSpur(
     char="U",

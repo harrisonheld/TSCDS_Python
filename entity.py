@@ -56,6 +56,11 @@ class Entity:
     def gamemap(self) -> GameMap:
         return self.parent.gamemap
 
+    @property
+    def xy(self) -> Tuple[int, int]:
+        """Return the (x, y) coordinates as a tuple."""
+        return self.x, self.y
+
     def spawn(self: T, gamemap: GameMap, x: int, y: int) -> T:
         """Spawn a copy of this instance at the given location."""
         clone = copy.deepcopy(self)

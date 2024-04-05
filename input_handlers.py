@@ -113,9 +113,12 @@ class EventHandler(BaseEventHandler):
         self.engine.update_fov()
         return True
 
+
     def ev_mousemotion(self, event: tcod.event.MouseMotion) -> None:
         if self.engine.game_map.in_bounds(event.tile.x, event.tile.y):
             self.engine.mouse_location = event.tile.x, event.tile.y
+        else:
+            self.engine.mouse_location = None  # off-screen
 
     def on_render(self, console: tcod.Console) -> None:
         self.engine.render(console)
@@ -206,10 +209,8 @@ class LevelUpEventHandler(AskUserEventHandler):
             y=0,
             width=40,
             height=9,
-            title=self.TITLE,
-            clear=True,
-            fg=(255, 255, 255),
-            bg=(0, 0, 0),
+            title=f"┤{self.TITLE}├",
+            clear=True
         )
 
         console.print(x=x + 1, y=1, string="Congratulations! You level up!")
@@ -360,11 +361,11 @@ class InventoryActivateHandler(InventoryEventHandler):
 
     def on_item_selected(self, item: Item) -> Optional[ActionOrHandler]:
         if item.consumable:
-            # Return the action for the selected item.
             return item.consumable.get_action(self.engine.player)
         elif item.equippable:
             return actions.EquipAction(self.engine.player, item)
         else:
+            self.engine.message_log.add_message("That item has no uses.", color.impossible)
             return None
 
 
@@ -446,6 +447,8 @@ class SelectIndexHandler(AskUserEventHandler):
     def on_render(self, console: tcod.Console) -> None:
         """Highlight the tile under the cursor."""
         super().on_render(console)
+        if self.engine.mouse_location is None:
+            return
         x, y = self.engine.mouse_location
         console.rgb["bg"][x, y] = color.white
         console.rgb["fg"][x, y] = color.black
@@ -493,6 +496,10 @@ class LookHandler(SelectIndexHandler):
     def on_index_selected(self, x: int, y: int) -> MainGameEventHandler:
         """Return to main handler."""
         return MainGameEventHandler(self.engine)
+
+    def on_exit(self) -> Optional[ActionOrHandler]:
+        self.engine.mouse_location = None
+        return super().on_exit()
 
     def on_render(self, console: tcod.Console) -> None:
         """Draw a Look Block for the entity the cursor is on."""

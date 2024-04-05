@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, List
+from typing import TYPE_CHECKING, List, Optional, Tuple
 import lzma
 import pickle
 
@@ -9,6 +9,7 @@ from tcod.console import Console
 from tcod.map import compute_fov
 
 import color
+import sizes
 from ui.look_block import LookBlock
 from ui.message_log import MessageLog
 from ui.info_block import InfoBlock
@@ -28,7 +29,7 @@ class Engine:
         self.message_log = MessageLog()
         self.info_block = InfoBlock(player)
         self.look_block = LookBlock()
-        self.mouse_location = (0, 0)
+        self.mouse_location: Optional[Tuple[int, int]] = (-1, -1)
         self.player = player
 
     def handle_enemy_turns(self) -> None:
@@ -51,11 +52,19 @@ class Engine:
 
     def render(self, console: Console) -> None:
         self.game_map.render(console)
-        self.info_block.render(console, self.game_map.width+1, 0, width=19, height=10)
-        self.message_log.render(console=console, x=self.game_map.width+1, y=11, width=19, height=self.game_map.height-11)
+        self.info_block.render(console,
+                               self.game_map.width+1,
+                               0,
+                               width=sizes.sidebar_width_including_border,
+                               height=sizes.info_block_height)
+        self.message_log.render(console=console,
+                                x=self.game_map.width+1,
+                                y=sizes.info_block_height,
+                                width=sizes.sidebar_width_including_border,
+                                height=sizes.screen_height - sizes.info_block_height)
         console.draw_frame(self.game_map.width, 0, 1, self.game_map.height, decoration="│││││││││")
-        console.draw_frame(self.game_map.width, 10, 20, 1, decoration="──────├──")
-        console.print_box(self.game_map.width+1, 10, 19, 1, "┤Message Log├", fg=color.white, alignment=tcod.constants.CENTER)
+        console.draw_frame(self.game_map.width, 10, sizes.sidebar_width_including_border, 1, decoration="──────├──")
+        console.print_box(self.game_map.width+1, 10, sizes.sidebar_width_including_border-1, 1, "┤Message Log├", fg=color.white, alignment=tcod.constants.CENTER)
         render_functions.render_names_at_mouse_location(console=console, x=0, y=self.game_map.height-1, engine=self)
 
     def save_as(self, filename: str) -> None:

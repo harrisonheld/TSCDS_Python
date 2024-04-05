@@ -69,9 +69,8 @@ def new_game() -> Engine:
 
     # cheats
     player.inventory.capacity = 100
-    for entity in engine.game_world.treasure_pool:
-        instance = copy.deepcopy(entity)
-        player.inventory.add(instance)
+    for treasure_ent in engine.game_world.treasure_pool:
+        treasure_ent.spawn(engine.game_map, *player.xy)
 
     return engine
 

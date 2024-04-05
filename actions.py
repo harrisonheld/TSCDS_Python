@@ -100,6 +100,8 @@ class EquipAction(Action):
 
 class WaitAction(Action):
     def perform(self) -> None:
+        if self.entity is self.engine.player:
+            self.engine.message_log.add_message("You wait.", color.white)
         pass
 
 

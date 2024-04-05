@@ -2,6 +2,7 @@ from typing import Tuple
 
 import tcod
 import color
+import sizes
 from entity import Entity
 from entity import Actor
 
@@ -15,19 +16,26 @@ class LookBlock:
 
     def render(self, console: tcod.console.Console, entity: Entity) -> None:
 
-        x = entity.x+1
-        y = entity.y
-        width = 15
+        # width based on entity name
+        width = max(13, len(entity.name))
+        width += 2  # for border
 
-        # draw description to get height
-        height = console.print_box(x + 1, y + 1, width-2, 1000, string=entity.description, bg=color.black)
+        # height based on entity description
+        height = console.get_height_rect(0, 0, width-2, 1000, entity.description)
         height += 2  # for border
         height += 1  # for blank line
 
-        # draw frame and title
+        x = entity.x+1
+        y = entity.y
+        if y + height > sizes.screen_height:
+            y -= height
+            y += 1
+
+        # draw frame
         console.draw_frame(x, y, width, height, bg=color.black, fg=color.white)
+        # draw title
         console.print(x + 1, y, f"{entity.name}", entity.color)
-        # redraw description
+        # draw description
         console.print_box(x + 1, y + 1, width - 2, height, string=entity.description, bg=color.black)
 
         if isinstance(entity, Actor):

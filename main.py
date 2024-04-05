@@ -7,6 +7,7 @@ import color
 import exceptions
 import input_handlers
 import setup_game
+import sizes
 
 
 def save_game(handler: input_handlers.BaseEventHandler, filename: str) -> None:
@@ -17,21 +18,18 @@ def save_game(handler: input_handlers.BaseEventHandler, filename: str) -> None:
 
 
 def main() -> None:
-    screen_width = 100
-    screen_height = 43
-
     tileset = tcod.tileset.load_tilesheet("data/cheepicus12x12.png", 16, 16, tcod.tileset.CHARMAP_CP437)
 
     handler: input_handlers.BaseEventHandler = setup_game.MainMenu()
 
     with tcod.context.new(
-        columns=screen_width,
-        rows=screen_height,
+        columns=sizes.screen_width,
+        rows=sizes.screen_height,
         tileset=tileset,
         title="The Stars Came Down Screaming",
         vsync=True,
     ) as context:
-        root_console = tcod.console.Console(screen_width, screen_height, order="F")
+        root_console = tcod.console.Console(sizes.screen_width, sizes.screen_height, order="F")
         try:
             while True:
                 root_console.clear()
