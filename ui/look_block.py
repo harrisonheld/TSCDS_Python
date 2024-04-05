@@ -14,22 +14,36 @@ class LookBlock:
     def set_show_full_detail_mode(self, b: bool):
         self.show_full_detail = b
 
-    def render(self, console: tcod.console.Console, entity: Entity) -> None:
+    def calculate_bounds(self, console: tcod.console.Console, entity: Entity):
+        name = entity.name
+        description = entity.description
+
+        x = entity.x + 1
+        y = entity.y
 
         # width based on entity name
-        width = max(13, len(entity.name))
+        width = len(name)
+        width = max(13, width)
+        width += len(description) // 20  # gives super long descriptions a more squarish frame
         width += 2  # for border
 
+        if x + width >= console.width:
+            width = console.width - x
+
         # height based on entity description
-        height = console.get_height_rect(0, 0, width-2, 1000, entity.description)
+        height = console.get_height_rect(0, 0, width - 2, 1000, description)
         height += 2  # for border
         height += 1  # for blank line
 
-        x = entity.x+1
-        y = entity.y
-        if y + height > sizes.screen_height:
+        if y + height > console.height:
             y -= height
             y += 1
+        y = max(0, y)
+
+        return x, y, width, height
+
+    def render(self, console: tcod.console.Console, entity: Entity) -> None:
+        x, y, width, height = self.calculate_bounds(console, entity)
 
         # draw frame
         console.draw_frame(x, y, width, height, bg=color.black, fg=color.white)

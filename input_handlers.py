@@ -113,12 +113,9 @@ class EventHandler(BaseEventHandler):
         self.engine.update_fov()
         return True
 
-
     def ev_mousemotion(self, event: tcod.event.MouseMotion) -> None:
         if self.engine.game_map.in_bounds(event.tile.x, event.tile.y):
             self.engine.mouse_location = event.tile.x, event.tile.y
-        else:
-            self.engine.mouse_location = None  # off-screen
 
     def on_render(self, console: tcod.Console) -> None:
         self.engine.render(console)
@@ -447,8 +444,7 @@ class SelectIndexHandler(AskUserEventHandler):
     def on_render(self, console: tcod.Console) -> None:
         """Highlight the tile under the cursor."""
         super().on_render(console)
-        if self.engine.mouse_location is None:
-            return
+
         x, y = self.engine.mouse_location
         console.rgb["bg"][x, y] = color.white
         console.rgb["fg"][x, y] = color.black
@@ -498,7 +494,7 @@ class LookHandler(SelectIndexHandler):
         return MainGameEventHandler(self.engine)
 
     def on_exit(self) -> Optional[ActionOrHandler]:
-        self.engine.mouse_location = None
+        self.engine.mouse_location = (-1, -1)
         return super().on_exit()
 
     def on_render(self, console: tcod.Console) -> None:

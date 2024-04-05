@@ -39,6 +39,7 @@ ranger = Actor(
     char="r",
     color=color.dark_red,
     name="ranger",
+    description="[TODO]",
     ai_cls=RangedEnemy,
     equipment=Equipment(),
     fighter=Fighter(hp=16, base_defense=1, base_power=4),
@@ -50,24 +51,28 @@ confusion_scroll = Item(
     char="~",
     color=(207, 63, 255),
     name="confusion scroll",
+    description="[TODO]",
     consumable=consumable.ConfusionConsumable(number_of_turns=10),
 )
 fireball_scroll = Item(
     char="~",
     color=(255, 0, 0),
     name="fireball scroll",
+    description="[TODO]",
     consumable=consumable.FireballDamageConsumable(damage=12, radius=3),
 )
 health_potion = Item(
     char="&",
     color=color.dark_green,
     name="health potion",
+    description="[TODO]",
     consumable=consumable.HealingConsumable(amount=4),
 )
 lightning_scroll = Item(
     char="~",
     color=(255, 255, 0),
     name="lightning scroll",
+    description="[TODO]",
     consumable=consumable.LightningDamageConsumable(damage=20, maximum_range=5),
 )
 
@@ -88,7 +93,14 @@ max_health_potion = Item(
     char="&",
     color=color.red,
     name="max health potion",
+    description="Wysterwort DCXLVIII (reigned 206 - 201): Where his predecessor was known to vanquish anyone who opposed him, King Wysterwort DCXLVIII made no such distinction. For those that survived his fickle bouts of execution, they found themselves subject to strange rules of law. In the year 203, it was mandaded that human babes should be nursed with wine rather than milk. Wysterwort's eccentricities were humored amidst a backdrop of famine and disease. The mad king himself fell victim to blight, and commisioned an alchemist to brew the max health potion. Days before its completion, and for reasons undocumented, the accomplished monarch fell into a deep depression and strangled himself. He was survived by his heir Wysterwort DCXLIX, who abdicated mere minutes later.",
     consumable=consumable.HealingConsumable(amount=sys.maxsize),
+)
+cracked_red_eye_orb = UpgradeCrackedRedEyeOrb(
+    char="Θ",
+    color=color.red,
+    name="cracked red eye orb",
+    description="[TODO]. Increases your attack power by 1.",
 )
 
 no_loot_note = Item(

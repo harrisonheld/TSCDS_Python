@@ -124,6 +124,8 @@ class RegularRoom(RoomBase):
                 entity.spawn(dungeon, x, y)
 
 
+
+
 class TreasureRoom(RoomBase):
     def populate(self, dungeon: GameMap) -> None:
 

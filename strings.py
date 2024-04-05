@@ -33,7 +33,7 @@ b   edit binds
 """
 
 general_info = r"""
-the goal of this game is to eat fucking shit and die
+Being a work of fiction, the notions of 'AD' and 'BC' have no meaning in The Stars Came Down Screaming. Therefore, all dates are rendered according to their chronological distance from an event of paramount historical significance - the publication of this game. Consequently, a higher year number means the date occurred farther in the past.
 """
 
 about = r"""

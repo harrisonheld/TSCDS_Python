@@ -29,7 +29,7 @@ class Engine:
         self.message_log = MessageLog()
         self.info_block = InfoBlock(player)
         self.look_block = LookBlock()
-        self.mouse_location: Optional[Tuple[int, int]] = (-1, -1)
+        self.mouse_location = (-1, -1)  # off-screen
         self.player = player
 
     def handle_enemy_turns(self) -> None:

@@ -51,7 +51,7 @@ class PickupAction(Action):
                 inventory.add(item)
 
                 if isinstance(item, Upgrade):
-                    item.on_pickup()
+                    item.on_pickup(self.entity)
 
                 return
 
@@ -85,7 +85,7 @@ class DropItem(ItemAction):
         self.entity.inventory.drop(self.item)
 
         if isinstance(self.item, Upgrade):
-            self.item.on_drop()
+            self.item.on_drop(self.entity)
 
 
 class EquipAction(Action):
