@@ -15,54 +15,13 @@ import color
 import exceptions
 import strings
 import color
+import keys
 
 if TYPE_CHECKING:
     from engine import Engine
     from entity import Item
 
-MOVE_KEYS = {
-    # Arrow keys.
-    tcod.event.KeySym.UP: (0, -1),
-    tcod.event.KeySym.DOWN: (0, 1),
-    tcod.event.KeySym.LEFT: (-1, 0),
-    tcod.event.KeySym.RIGHT: (1, 0),
-    tcod.event.KeySym.HOME: (-1, -1),
-    tcod.event.KeySym.END: (-1, 1),
-    tcod.event.KeySym.PAGEUP: (1, -1),
-    tcod.event.KeySym.PAGEDOWN: (1, 1),
-    # Numpad keys
-    tcod.event.KeySym.KP_1: (-1, 1),
-    tcod.event.KeySym.KP_2: (0, 1),
-    tcod.event.KeySym.KP_3: (1, 1),
-    tcod.event.KeySym.KP_4: (-1, 0),
-    tcod.event.KeySym.KP_6: (1, 0),
-    tcod.event.KeySym.KP_7: (-1, -1),
-    tcod.event.KeySym.KP_8: (0, -1),
-    tcod.event.KeySym.KP_9: (1, -1)
-}
 
-WAIT_KEYS = {
-    tcod.event.KeySym.PERIOD,
-    tcod.event.KeySym.KP_5,
-    tcod.event.KeySym.CLEAR,
-}
-
-CONFIRM_KEYS = {
-    tcod.event.KeySym.RETURN,
-    tcod.event.KeySym.KP_ENTER,
-}
-
-BINDABLE_KEYS = [
-    tcod.event.KeySym.N1,
-    tcod.event.KeySym.N2,
-    tcod.event.KeySym.N3,
-    tcod.event.KeySym.N4,
-    tcod.event.KeySym.N5,
-    tcod.event.KeySym.N6,
-    tcod.event.KeySym.N7,
-    tcod.event.KeySym.N8,
-    tcod.event.KeySym.N9
-]
 
 ActionOrHandler = Union[Action, "BaseEventHandler"]
 """An event handler return value which can trigger an action or switch active handlers.
@@ -437,7 +396,7 @@ class PickBindHandler(AskUserEventHandler):
 
     def ev_keydown(self, event: tcod.event.KeyDown) -> Optional[ActionOrHandler]:
         key = event.sym
-        if key in BINDABLE_KEYS:
+        if key in keys.BINDABLE_KEYS:
             self.engine.player.inventory.bind(self.consumable_to_bind, key)
             return MainGameEventHandler(self.engine)
         else:
@@ -467,8 +426,8 @@ class SelectAdjacentHandler(AskUserEventHandler):
     def ev_keydown(self, event: tcod.event.KeyDown) -> Optional[ActionOrHandler]:
         """Fire callback if directional key was pressed."""
         key = event.sym
-        if key in MOVE_KEYS:
-            dx, dy = MOVE_KEYS[key]
+        if key in keys.MOVE_KEYS:
+            dx, dy = keys.MOVE_KEYS[key]
             return self.on_index_selected(self.engine.player.x + dx, self.engine.player.y + dy)
         return super().ev_keydown(event)
 
@@ -495,7 +454,7 @@ class SelectIndexHandler(AskUserEventHandler):
     def ev_keydown(self, event: tcod.event.KeyDown) -> Optional[ActionOrHandler]:
         """Check for key movement or confirmation keys."""
         key = event.sym
-        if key in MOVE_KEYS:
+        if key in keys.MOVE_KEYS:
             modifier = 1  # Holding modifier keys will speed up key movement.
             if event.mod & (tcod.event.KMOD_LSHIFT | tcod.event.KMOD_RSHIFT):
                 modifier *= 5
@@ -505,7 +464,7 @@ class SelectIndexHandler(AskUserEventHandler):
                 modifier *= 20
 
             x, y = self.engine.mouse_location
-            dx, dy = MOVE_KEYS[key]
+            dx, dy = keys.MOVE_KEYS[key]
             x += dx * modifier
             y += dy * modifier
             # Clamp the cursor index to the map size.
@@ -513,7 +472,7 @@ class SelectIndexHandler(AskUserEventHandler):
             y = max(0, min(y, self.engine.game_map.height - 1))
             self.engine.mouse_location = x, y
             return None
-        elif key in CONFIRM_KEYS:
+        elif key in keys.CONFIRM_KEYS:
             return self.on_index_selected(*self.engine.mouse_location)
         return super().ev_keydown(event)
 
@@ -606,12 +565,12 @@ class MainGameEventHandler(EventHandler):
         if key == tcod.event.KeySym.PERIOD and modifier & (tcod.event.KeySym.LSHIFT | tcod.event.KeySym.RSHIFT):
             return actions.TakeStairsAction(player)
 
-        if key in MOVE_KEYS:
-            dx, dy = MOVE_KEYS[key]
+        if key in keys.MOVE_KEYS:
+            dx, dy = keys.MOVE_KEYS[key]
             return BumpAction(player, dx, dy)
-        elif key in WAIT_KEYS:
+        elif key in keys.WAIT_KEYS:
             return WaitAction(player)
-        elif key in BINDABLE_KEYS:
+        elif key in keys.BINDABLE_KEYS:
             if key not in player.inventory.binds:
                 self.engine.message_log.add_message(f"{key.name} is unbound.", color.impossible)
                 return None

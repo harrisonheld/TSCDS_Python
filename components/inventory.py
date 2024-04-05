@@ -6,7 +6,7 @@ import tcod.event
 
 import exceptions
 from components.base_component import BaseComponent
-from input_handlers import BINDABLE_KEYS
+from keys import BINDABLE_KEYS
 
 if TYPE_CHECKING:
     from entity import Actor, Item
