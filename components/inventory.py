@@ -1,9 +1,10 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, List, Dict
+from typing import TYPE_CHECKING, List, Dict, Optional
 
 import tcod.event
 
+import color
 import exceptions
 from components.base_component import BaseComponent
 from keys import BINDABLE_KEYS
@@ -43,7 +44,7 @@ class Inventory(BaseComponent):
         if item.consumable is not None:
             for key in BINDABLE_KEYS:
                 if key not in self.binds:
-                    self.bind(item, key)
+                    self.bind(item, key, add_message=False)
                     break
 
     def remove(self, item: Item):
@@ -64,9 +65,27 @@ class Inventory(BaseComponent):
 
         self.engine.message_log.add_message(f"You dropped the {item.name}.")
 
-    def bind(self, item: Item, key: tcod.event.KeySym) -> None:
+    def bind(self, item: Item, key: tcod.event.KeySym, add_message: bool = True) -> None:
         """
         Binds an item to a specific key.
         """
+        self.unbind(item, add_message=False)
         self.binds[key] = item
-        self.engine.message_log.add_message(f"Bound {item.name} to [{key.name}].")
+        if add_message:
+            self.engine.message_log.add_message(f"Bound {item.name} to [{key.name}].")
+
+    def unbind(self, item: Item, add_message: bool = True) -> Optional[tcod.event.KeySym]:
+            """
+            Unbinds an item from its current key, if any, and returns the key it was bound to.
+            Returns None if the item was not bound to any key.
+            """
+            for key, bound_item in list(self.binds.items()):
+                if bound_item == item:
+                    del self.binds[key]
+                    if add_message:
+                        self.engine.message_log.add_message(f"Unbound {item.name} from [{key.name}].")
+                    return key
+
+            if add_message:
+                self.engine.message_log.add_message(f"Cannot unbind {item.name}, it isn't bound.", color.impossible)
+            return None
