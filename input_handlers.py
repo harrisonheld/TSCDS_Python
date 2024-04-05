@@ -6,9 +6,6 @@ import os
 import tcod
 from tcod import libtcodpy
 
-from entity import Entity
-from ui.look_block import LookBlock
-
 from actions import Action, BumpAction, PickupAction, WaitAction
 import actions
 import color
@@ -126,17 +123,7 @@ class AskUserEventHandler(EventHandler):
 
     def ev_keydown(self, event: tcod.event.KeyDown) -> Optional[ActionOrHandler]:
         """By default any key exits this input handler."""
-        if event.sym in {  # Ignore modifier keys.
-            tcod.event.KeySym.LSHIFT,
-            tcod.event.KeySym.RSHIFT,
-            tcod.event.KeySym.LCTRL,
-            tcod.event.KeySym.RCTRL,
-            tcod.event.KeySym.LALT,
-            tcod.event.KeySym.RALT,
-            tcod.event.KeySym.LGUI,
-            tcod.event.KeySym.RGUI,
-            tcod.event.KeySym.MODE,
-        }:
+        if event.sym in keys.MODIFIER_KEYS:
             return None
         return self.on_exit()
 
@@ -207,7 +194,7 @@ class LevelUpEventHandler(AskUserEventHandler):
             width=40,
             height=9,
             title=f"┤{self.TITLE}├",
-            clear=True
+            clear=False
         )
 
         console.print(x=x + 1, y=1, string="Congratulations! You level up!")
@@ -583,7 +570,7 @@ class MainGameEventHandler(EventHandler):
             return item.consumable.get_action(player)
 
         elif key == tcod.event.KeySym.ESCAPE:
-            raise SystemExit()
+            return PauseViewer(self.engine)
         elif key == tcod.event.KeySym.m:
             return HistoryViewer(self.engine)
         elif key == tcod.event.KeySym.SLASH:
@@ -620,15 +607,6 @@ class GameOverEventHandler(EventHandler):
         if event.sym == tcod.event.KeySym.ESCAPE:
             self.on_quit()
 
-
-CURSOR_Y_KEYS = {
-    tcod.event.KeySym.UP: -1,
-    tcod.event.KeySym.DOWN: 1,
-    tcod.event.KeySym.PAGEUP: -10,
-    tcod.event.KeySym.PAGEDOWN: 10,
-}
-
-
 class HistoryViewer(EventHandler):
     """Print the history on a larger window which can be navigated."""
 
@@ -658,9 +636,12 @@ class HistoryViewer(EventHandler):
         log_console.blit(console, 3, 3)
 
     def ev_keydown(self, event: tcod.event.KeyDown) -> Optional[MainGameEventHandler]:
-        # Fancy conditional movement to make it feel right.
-        if event.sym in CURSOR_Y_KEYS:
-            adjust = CURSOR_Y_KEYS[event.sym]
+        adjust = 0
+        if event.sym in keys.MENU_NAV_UP:
+            adjust = -1
+        if event.sym in keys.MENU_NAV_DOWN:
+            adjust = 1
+        if adjust != 0:
             if adjust < 0 and self.cursor == 0:
                 # Only move from the top to the bottom when you're on the edge.
                 self.cursor = self.log_length - 1
@@ -681,10 +662,6 @@ class HistoryViewer(EventHandler):
 
 class HelpViewer(EventHandler):
     """Print the controls."""
-    keys_right = (tcod.event.KeySym.KP_9, tcod.event.KeySym.KP_6, tcod.event.KeySym.KP_3,
-                  tcod.event.KeySym.RIGHT, tcod.event.KeySym.PERIOD)
-    keys_left = (tcod.event.KeySym.KP_7, tcod.event.KeySym.KP_4, tcod.event.KeySym.KP_1,
-                 tcod.event.KeySym.LEFT, tcod.event.KeySym.COMMA)
     titles = ["Controls", "General Info", "About"]
     texts = [strings.controls, strings.general_info, strings.about]
 
@@ -726,12 +703,43 @@ class HelpViewer(EventHandler):
         this_here_console.blit(console, 3, 3)
 
     def ev_keydown(self, event: tcod.event.KeyDown) -> Optional[EventHandler]:
-        if event.sym in HelpViewer.keys_right:
+        if event.sym in keys.MENU_NAV_RIGHT:
             self.curr_page = (self.curr_page + 1) % len(HelpViewer.titles)
-        elif event.sym in HelpViewer.keys_left:
+        elif event.sym in keys.MENU_NAV_LEFT:
             self.curr_page = (self.curr_page - 1) % len(HelpViewer.titles)
+        else:
+            return MainGameEventHandler(self.engine)
+        return None
+
+
+class PauseViewer(EventHandler):
+    def on_render(self, console: tcod.console.Console) -> None:
+        super().on_render(console)  # Draw the main state as the background.
+
+        width = 19
+        height = 19
+        sub_console = tcod.console.Console(width, height)
+        sub_console.draw_frame(0, 0, width, height)
+        sub_console.print(width // 2, 0, "┤Paused├", alignment=tcod.constants.CENTER)
+        sub_console.print(width // 2, 1, "save and quit", alignment=tcod.constants.CENTER)
+        sub_console.print(1, 2, "[q] to main menu")
+        sub_console.print(1, 3, "[Q] to desktop")
+
+        x = console.width // 2 - sub_console.width // 2
+        y = console.height // 2 - sub_console.height // 2
+        sub_console.blit(console, x, y)
+
+    def ev_keydown(self, event: tcod.event.KeyDown) -> Optional[EventHandler]:
+        key = event.sym
+
+        if key == tcod.event.KeySym.q:
+            if event.mod & (tcod.event.KMOD_LSHIFT | tcod.event.KMOD_RSHIFT):
+                raise SystemExit()
+            raise NotImplementedError("Quitting to main menu not implemented.")
+
+        elif key in keys.MODIFIER_KEYS:
+            return None
         else:
             return MainGameEventHandler(self.engine)
 
         return None
-

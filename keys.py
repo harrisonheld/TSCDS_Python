@@ -21,6 +21,40 @@ MOVE_KEYS = {
     KeySym.KP_9: (1, -1)
 }
 
+MENU_NAV_UP = {
+    KeySym.KP_7,
+    KeySym.KP_8,
+    KeySym.KP_9,
+    KeySym.UP,
+    KeySym.KP_PLUS,
+    KeySym.COMMA
+}
+
+MENU_NAV_DOWN = {
+    KeySym.KP_1,
+    KeySym.KP_2,
+    KeySym.KP_3,
+    KeySym.DOWN,
+    KeySym.KP_MINUS,
+    KeySym.PERIOD
+}
+
+MENU_NAV_RIGHT = {
+    KeySym.KP_9,
+    KeySym.KP_6,
+    KeySym.KP_3,
+    KeySym.RIGHT,
+    KeySym.PERIOD
+}
+
+MENU_NAV_LEFT = {
+    KeySym.KP_7,
+    KeySym.KP_4,
+    KeySym.KP_1,
+    KeySym.LEFT,
+    KeySym.COMMA
+}
+
 WAIT_KEYS = {
     KeySym.PERIOD,
     KeySym.KP_5,
@@ -43,3 +77,15 @@ BINDABLE_KEYS = [
     KeySym.N8,
     KeySym.N9
 ]
+
+MODIFIER_KEYS = {
+    KeySym.LSHIFT,
+    KeySym.RSHIFT,
+    KeySym.LCTRL,
+    KeySym.RCTRL,
+    KeySym.LALT,
+    KeySym.RALT,
+    KeySym.LGUI,
+    KeySym.RGUI,
+    KeySym.MODE,
+}

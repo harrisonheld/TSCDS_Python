@@ -1,7 +1,7 @@
 musings = [
     # just random things that sound cool
     "Know no want.",
-    "It is morally correct to destroy your enemy to the point that he will never rise again."
+    "It is morally correct to destroy your enemy to the point that he will never rise again.",
     "Violence now, for peace later.",
     "By any means necessary.",
     "What is today but ereyesterday's postmorrow?",
@@ -21,6 +21,7 @@ musings = [
     # quotes
     "Wit is the salt of conversation, not the food.",  # John Held, my father
     "To be born good, or to overcome your evil nature through great effort?",  # Paarthurnax, Skyrim
+    "There is no hunting like the hunting of man.",  # Ernest Hemingway
 ]
 
 controls = r"""numpad - movement and attack.

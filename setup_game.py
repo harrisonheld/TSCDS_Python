@@ -133,7 +133,7 @@ class MainMenu(input_handlers.BaseEventHandler):
             )
 
     def ev_keydown(self, event: tcod.event.KeyDown) -> Optional[input_handlers.BaseEventHandler]:
-        if event.sym in (tcod.event.KeySym.q, tcod.event.KeySym.ESCAPE):
+        if event.sym == tcod.event.KeySym.q:
             raise SystemExit()
         elif event.sym == tcod.event.KeySym.c:
             try:
