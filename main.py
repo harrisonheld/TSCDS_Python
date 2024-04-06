@@ -43,6 +43,8 @@ def main() -> None:
                 except exceptions.SaveAndQuitToMainMenu:
                     save_game(handler, "savegame.sav")
                     handler = setup_game.MainMenu()
+                except exceptions.StartNewGame:
+                    handler = input_handlers.MainGameEventHandler(setup_game.new_game())
                 except Exception:  # Handle exceptions in game.
                     traceback.print_exc()  # Print error to stderr.
                     # Then print the error to the message log.

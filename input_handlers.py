@@ -595,6 +595,12 @@ class MainGameEventHandler(EventHandler):
 
 class GameOverEventHandler(EventHandler):
 
+    def __init__(self, engine: Engine):
+        super().__init__(engine)
+        """Handle exiting out of a finished game."""
+        if os.path.exists("savegame.sav"):
+            os.remove("savegame.sav")  # Deletes the active save file.
+
     def on_render(self, console: tcod.Console) -> None:
         super().on_render(console)  # Draw the main state as the background.
 
@@ -611,18 +617,18 @@ class GameOverEventHandler(EventHandler):
         x = console.width // 2 - sub_console.width // 2
         y = console.height // 2 - sub_console.height // 2
         sub_console.blit(console, x, y)
-    def on_quit(self) -> None:
-        """Handle exiting out of a finished game."""
-        if os.path.exists("savegame.sav"):
-            os.remove("savegame.sav")  # Deletes the active save file.
-        raise exceptions.QuitWithoutSaving()  # Avoid saving a finished game.
 
-    def ev_quit(self, event: tcod.event.Quit) -> None:
-        self.on_quit()
+    def ev_keydown(self, event: tcod.event.KeyDown) -> Optional[EventHandler]:
+        key = event.sym
 
-    def ev_keydown(self, event: tcod.event.KeyDown) -> None:
-        if event.sym == tcod.event.KeySym.ESCAPE:
-            self.on_quit()
+        if key == tcod.event.KeySym.n:
+            raise exceptions.StartNewGame()
+        if key == tcod.event.KeySym.q:
+            if event.mod & (tcod.event.KMOD_LSHIFT | tcod.event.KMOD_RSHIFT):
+                raise SystemExit()
+            raise exceptions.SaveAndQuitToMainMenu()
+
+        return None
 
 class HistoryViewer(EventHandler):
     """Print the history on a larger window which can be navigated."""
