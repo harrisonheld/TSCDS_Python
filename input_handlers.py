@@ -566,7 +566,7 @@ class MainGameEventHandler(EventHandler):
 
             # Retrieve the item bound to the key
             item = player.inventory.binds[key]
-            assert(item.consumable is not None)
+            assert item.consumable is not None
             return item.consumable.get_action(player)
 
         elif key == tcod.event.KeySym.ESCAPE:
@@ -594,6 +594,23 @@ class MainGameEventHandler(EventHandler):
 
 
 class GameOverEventHandler(EventHandler):
+
+    def on_render(self, console: tcod.Console) -> None:
+        super().on_render(console)  # Draw the main state as the background.
+
+        width = 19
+        height = 19
+        sub_console = tcod.console.Console(width, height)
+        sub_console.draw_frame(0, 0, width, height)
+        sub_console.print(width // 2, 0, "┤You Died├", alignment=tcod.constants.CENTER)
+        sub_console.print(1,       1, "[n] new game")
+        sub_console.print(width // 2, 2, "save and quit", alignment=tcod.constants.CENTER)
+        sub_console.print(1,       3, "[q] to main menu")
+        sub_console.print(1,       4, "[Q] to desktop")
+
+        x = console.width // 2 - sub_console.width // 2
+        y = console.height // 2 - sub_console.height // 2
+        sub_console.blit(console, x, y)
     def on_quit(self) -> None:
         """Handle exiting out of a finished game."""
         if os.path.exists("savegame.sav"):
@@ -735,7 +752,7 @@ class PauseViewer(EventHandler):
         if key == tcod.event.KeySym.q:
             if event.mod & (tcod.event.KMOD_LSHIFT | tcod.event.KMOD_RSHIFT):
                 raise SystemExit()
-            raise NotImplementedError("Quitting to main menu not implemented.")
+            raise exceptions.SaveAndQuitToMainMenu()
 
         elif key in keys.MODIFIER_KEYS:
             return None

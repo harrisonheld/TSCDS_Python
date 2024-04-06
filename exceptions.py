@@ -7,3 +7,7 @@ class Impossible(Exception):
 
 class QuitWithoutSaving(SystemExit):
     """Can be raised to exit the game without automatically saving."""
+
+
+class SaveAndQuitToMainMenu(Exception):
+    """Save and quit to main menu."""
