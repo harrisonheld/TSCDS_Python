@@ -594,10 +594,10 @@ class MainGameEventHandler(EventHandler):
 
 
 class GameOverEventHandler(EventHandler):
+    """Handle exiting out of a finished game."""
 
     def __init__(self, engine: Engine):
         super().__init__(engine)
-        """Handle exiting out of a finished game."""
         if os.path.exists("savegame.sav"):
             os.remove("savegame.sav")  # Deletes the active save file.
 
@@ -625,8 +625,8 @@ class GameOverEventHandler(EventHandler):
             raise exceptions.StartNewGame()
         if key == tcod.event.KeySym.q:
             if event.mod & (tcod.event.KMOD_LSHIFT | tcod.event.KMOD_RSHIFT):
-                raise SystemExit()
-            raise exceptions.SaveAndQuitToMainMenu()
+                raise exceptions.QuitWithoutSaving()
+            raise exceptions.QuitToMainMenu()
 
         return None
 

@@ -15,3 +15,7 @@ class StartNewGame(Exception):
 
 class SaveAndQuitToMainMenu(Exception):
     """Save and quit to main menu."""
+
+
+class QuitToMainMenu(Exception):
+    """Quit to main menu without saving"""
