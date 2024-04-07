@@ -45,6 +45,11 @@ class GameMap:
 
         return None
 
+    def get_entities_at_location(self, x: int, y: int) -> Iterable['Entity']:
+        for entity in self.entities:
+            if entity.x == x and entity.y == y:
+                yield entity
+
     def get_blocking_entity_at_location(
         self,
         location_x: int,

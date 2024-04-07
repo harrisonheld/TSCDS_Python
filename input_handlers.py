@@ -436,6 +436,9 @@ class SelectIndexHandler(AskUserEventHandler):
         console.rgb["bg"][x, y] = color.white
         console.rgb["fg"][x, y] = color.black
 
+    def on_index_selection_changed(self) -> None:
+        pass
+
     def ev_keydown(self, event: tcod.event.KeyDown) -> Optional[ActionOrHandler]:
         """Check for key movement or confirmation keys."""
         key = event.sym
@@ -456,6 +459,7 @@ class SelectIndexHandler(AskUserEventHandler):
             x = max(0, min(x, self.engine.game_map.width - 1))
             y = max(0, min(y, self.engine.game_map.height - 1))
             self.engine.mouse_location = x, y
+            self.on_index_selection_changed()
             return None
         elif key in keys.CONFIRM_KEYS:
             return self.on_index_selected(*self.engine.mouse_location)
@@ -475,6 +479,10 @@ class SelectIndexHandler(AskUserEventHandler):
 
 class LookHandler(SelectIndexHandler):
     """Lets the player look around using the keyboard."""
+    def __init__(self, engine: Engine):
+        super().__init__(engine)
+        self.look_index = 0
+        self.entities_here = 0
 
     def on_index_selected(self, x: int, y: int) -> MainGameEventHandler:
         """Return to main handler."""
@@ -493,9 +501,27 @@ class LookHandler(SelectIndexHandler):
         if not self.engine.game_map.visible[x, y]:
             return
 
-        entity = self.engine.game_map.get_entity_at_location(x, y)
-        if entity is not None:
-            self.engine.look_block.render(console, entity)
+        entities = list(self.engine.game_map.get_entities_at_location(x, y))
+        self.entities_here = len(entities)
+
+        if self.entities_here > 0:
+            hint = self.entities_here > 1
+            self.engine.look_block.render(console, entities[self.look_index], show_multi_hint=hint)
+
+    def on_index_selection_changed(self) -> None:
+        self.look_index = 0
+        super().on_index_selection_changed()
+
+    def ev_keydown(self, event: tcod.event.KeyDown) -> Optional[ActionOrHandler]:
+
+        if event.sym in keys.MENU_NAV_UP and event.sym not in keys.MOVE_KEYS:
+            self.look_index = (self.look_index - 1) % self.entities_here
+            return None
+        elif event.sym in keys.MENU_NAV_DOWN and event.sym not in keys.MOVE_KEYS:
+            self.look_index = (self.look_index + 1) % self.entities_here
+            return None
+
+        return super().ev_keydown(event)
 
 
 class SingleRangedAttackHandler(SelectIndexHandler):

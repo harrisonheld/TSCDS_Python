@@ -4,7 +4,6 @@ musings = [
     "It is morally correct to destroy your enemy to the point that he will never rise again.",
     "Violence now, for peace later.",
     "By any means necessary.",
-    "What is today but ereyesterday's postmorrow?",
     # song lyrics
     "To wait for tomorrow is for fools in their sorrow.",  # Hour of the Dragon, Manilla Road
     "In this world's darkest hour, up the hammers to strike.",  # Flaming Metal System, Manilla Road
@@ -19,7 +18,7 @@ musings = [
     "There's emptiness behind their eyes, and dust in all their hearts.",  # Love my Way, The Psychadelic Furs
     "The torture never stops.",  # The Torture Never Stops, WASP
     # quotes
-    "Wit is the salt of conversation, not the food.",  # John Held, my father
+    "Wit is the salt of conversation, not the food.",  # John Held, who is my father
     "To be born good, or to overcome your evil nature through great effort?",  # Paarthurnax, Skyrim
     "There is no hunting like the hunting of man.",  # Ernest Hemingway
 ]
