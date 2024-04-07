@@ -519,10 +519,10 @@ class LookHandler(SelectIndexHandler):
 
         if  self.entities_here > 0 and event.sym not in keys.MOVE_KEYS:
             if event.sym in keys.MENU_NAV_UP:
-                self.look_index = (self.look_index - 1) % self.entities_here
+                self.look_index = (self.look_index + 1) % self.entities_here
                 return None
             elif event.sym in keys.MENU_NAV_DOWN:
-                self.look_index = (self.look_index + 1) % self.entities_here
+                self.look_index = (self.look_index - 1) % self.entities_here
                 return None
 
         return super().ev_keydown(event)
