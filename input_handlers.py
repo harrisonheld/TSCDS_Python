@@ -178,48 +178,32 @@ class CharacterScreenEventHandler(AskUserEventHandler):
 
 
 class LevelUpEventHandler(AskUserEventHandler):
-    TITLE = "Level Up"
-
     def on_render(self, console: tcod.Console) -> None:
         super().on_render(console)
 
-        if self.engine.player.x <= 30:
-            x = 40
-        else:
-            x = 0
+        width = 42
+        height = 9
+        x = console.width // 2 - width // 2
+        y = console.height // 2 - height // 2
 
-        console.draw_frame(
-            x=x,
+        sub_console = tcod.console.Console(width, height)
+        sub_console.draw_frame(0, 0, width, height, bg=color.black, fg=color.white)
+        sub_console.print(
+            x=width // 2,
             y=0,
-            width=40,
-            height=9,
-            title=f"┤{self.TITLE}├",
-            clear=False
+            string="┤Level Up├",
+            alignment=libtcodpy.CENTER
         )
 
-        console.print(x=x + 1, y=1, string="Congratulations! You level up!")
-        console.print(x=x + 1, y=2, string="Select an attribute to increase.")
+        sub_console.print(x=1, y=1, string="Congratulations! You level up!")
+        sub_console.print(x=1, y=2, string="Select an attribute to increase.")
 
-        console.print(
-            x=x + 1,
-            y=4,
-            string=f"a) Constitution (+10 HP, from {self.engine.player.fighter.max_hp})",
-        )
-        console.print(
-            x=x + 1,
-            y=5,
-            string=f"b) Strength (+1 attack, from {self.engine.player.fighter.power})",
-        )
-        console.print(
-            x=x + 1,
-            y=6,
-            string=f"c) Agility (+1 defense, from {self.engine.player.fighter.defense})",
-        )
-        console.print(
-            x=x + 1,
-            y=7,
-            string=f"d) Inventory Space (+2 items, from {self.engine.player.inventory.capacity})"
-        )
+        sub_console.print(x=1, y=4, string=f"a) Constitution (+10 HP, from {self.engine.player.fighter.max_hp})")
+        sub_console.print(x=1, y=5, string=f"b) Strength (+1 attack, from {self.engine.player.fighter.power})")
+        sub_console.print(x=1, y=6, string=f"c) Agility (+1 defense, from {self.engine.player.fighter.defense})")
+        sub_console.print(x=1, y=7, string=f"d) Inventory Space (+2 items, from {self.engine.player.inventory.capacity})")
+
+        sub_console.blit(console, x, y)
 
     def ev_keydown(self, event: tcod.event.KeyDown) -> Optional[ActionOrHandler]:
         player = self.engine.player
@@ -517,7 +501,7 @@ class LookHandler(SelectIndexHandler):
 
     def ev_keydown(self, event: tcod.event.KeyDown) -> Optional[ActionOrHandler]:
 
-        if  self.entities_here > 0 and event.sym not in keys.MOVE_KEYS:
+        if self.entities_here > 0 and event.sym not in keys.MOVE_KEYS:
             if event.sym in keys.MENU_NAV_UP:
                 self.look_index = (self.look_index + 1) % self.entities_here
                 return None
