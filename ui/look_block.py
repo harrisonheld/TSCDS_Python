@@ -14,7 +14,7 @@ class LookBlock:
     def set_show_full_detail_mode(self, b: bool):
         self.show_full_detail = b
 
-    def calculate_bounds(self, console: tcod.console.Console, entity: Entity):
+    def calculate_bounds(self, console: tcod.console.Console, entity: Entity, min_height: int):
         name = entity.name
         description = entity.description
 
@@ -33,7 +33,7 @@ class LookBlock:
         # height based on entity description
         height = console.get_height_rect(0, 0, width - 2, 1000, description)
         height += 2  # for border
-        height = max(4, height)  # minimal height so 1-line descriptions aren't tiny
+        height = max(height, min_height)  # minimal height so 1-line descriptions aren't tiny
 
         if y + height > console.height:
             y -= height
@@ -43,9 +43,8 @@ class LookBlock:
         return x, y, width, height
 
     def render(self, console: tcod.console.Console, entity: Entity, show_multi_hint: bool = False) -> None:
-        x, y, width, height = self.calculate_bounds(console, entity)
-        if show_multi_hint:
-            height = max(height, 8)
+        min_height = 8 if show_multi_hint else 4
+        x, y, width, height = self.calculate_bounds(console, entity, min_height)
 
         # draw frame
         console.draw_frame(x, y, width, height, bg=color.black, fg=color.white)

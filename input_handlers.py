@@ -505,6 +505,9 @@ class LookHandler(SelectIndexHandler):
         self.entities_here = len(entities)
 
         if self.entities_here > 0:
+            # render the selected entity
+            console.print(x, y, entities[self.look_index].char)
+
             hint = self.entities_here > 1
             self.engine.look_block.render(console, entities[self.look_index], show_multi_hint=hint)
 
@@ -514,12 +517,13 @@ class LookHandler(SelectIndexHandler):
 
     def ev_keydown(self, event: tcod.event.KeyDown) -> Optional[ActionOrHandler]:
 
-        if event.sym in keys.MENU_NAV_UP and event.sym not in keys.MOVE_KEYS:
-            self.look_index = (self.look_index - 1) % self.entities_here
-            return None
-        elif event.sym in keys.MENU_NAV_DOWN and event.sym not in keys.MOVE_KEYS:
-            self.look_index = (self.look_index + 1) % self.entities_here
-            return None
+        if  self.entities_here > 0 and event.sym not in keys.MOVE_KEYS:
+            if event.sym in keys.MENU_NAV_UP:
+                self.look_index = (self.look_index - 1) % self.entities_here
+                return None
+            elif event.sym in keys.MENU_NAV_DOWN:
+                self.look_index = (self.look_index + 1) % self.entities_here
+                return None
 
         return super().ev_keydown(event)
 

@@ -45,10 +45,24 @@ class GameMap:
 
         return None
 
-    def get_entities_at_location(self, x: int, y: int) -> Iterable['Entity']:
+    def get_entities_at_location(self, x: int, y: int) -> Iterable[Entity]:
+        entities_at_location = []
         for entity in self.entities:
             if entity.x == x and entity.y == y:
-                yield entity
+                entities_at_location.append(entity)
+
+        # Sort entities based on render_order.value
+        # Ensure Player is returned first if it occurs
+        entities_at_location.sort(
+            key=lambda e: (
+                e.render_order.value
+            )
+        )
+        # items which get rendered first should be put at beggining of list
+        entities_at_location.reverse()
+
+        for entity in entities_at_location:
+            yield entity
 
     def get_blocking_entity_at_location(
         self,
@@ -80,7 +94,7 @@ class GameMap:
         If it isn't, but it's in the "explored" array, then draw it with the "dark" colors.
         Otherwise, the default is "SHROUD".
         """
-        console.rgb[0 : self.width, 0 : self.height] = np.select(
+        console.rgb[0: self.width, 0: self.height] = np.select(
             condlist=[self.visible, self.explored],
             choicelist=[self.tiles["light"], self.tiles["dark"]],
             default=tile_types.SHROUD,
