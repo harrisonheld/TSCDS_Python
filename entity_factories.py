@@ -23,11 +23,11 @@ player = Actor(
     level=Level(level_up_base=200),
 )
 
-orc = Actor(
-    char="o",
+frog_warden = Actor(
+    char="f",
     color=color.dark_green,
-    name="orc",
-    description="He looks like the average british person.",
+    name="frog warden",
+    description="A creature in the shape of a man, wrought of decayed sinews and oozing ichors. The xanthous eyes belie a rather animated disposition. Through the mire, its skeletal fingers grasp ferventaly at amphibious creatures with undisputed affection: for what ghastly purpose, no one knows.",
     ai_cls=HostileEnemy,
     equipment=Equipment(),
     fighter=Fighter(hp=10, base_defense=0, base_power=3),
