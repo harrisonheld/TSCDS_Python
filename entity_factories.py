@@ -27,7 +27,7 @@ frog_warden = Actor(
     char="f",
     color=color.dark_green,
     name="frog warden",
-    description="A creature in the shape of a man, wrought of decayed sinews and oozing ichors. The xanthous eyes belie a rather animated disposition. Through the mire, its skeletal fingers grasp ferventaly at amphibious creatures with undisputed affection: for what ghastly purpose, no one knows.",
+    description="A creature in the shape of a man, wrought of decayed sinews and oozing ichors. The xanthous eyes belie an animated disposition. Through the mire, its skeletal fingers grasp fervently at amphibious creatures with undisputed affection; for what ghastly purpose, no one knows.",
     ai_cls=HostileEnemy,
     equipment=Equipment(),
     fighter=Fighter(hp=10, base_defense=0, base_power=3),

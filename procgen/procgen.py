@@ -5,6 +5,7 @@ import random
 
 import tcod
 
+import sizes
 from game_map import GameMap
 import entity_factories
 import tile_types
@@ -120,10 +121,8 @@ class RegularRoom(RoomBase):
             x = random.randint(self.x1 + 1, self.x2 - 1)
             y = random.randint(self.y1 + 1, self.y2 - 1)
 
-            if not any(entity.x == x and entity.y == y for entity in dungeon.entities):
+            if len(dungeon.get_entities_at_location(x, y)) == 0 and not dungeon.tiles[x, y] == tile_types.down_stairs:
                 entity.spawn(dungeon, x, y)
-
-
 
 
 class TreasureRoom(RoomBase):
@@ -159,17 +158,14 @@ def tunnel_between(start: Tuple[int, int], end: Tuple[int, int]) -> Iterator[Tup
         yield x, y
 
 
-def generate_dungeon(
-    max_rooms: int,
-    room_min_size: int,
-    room_max_size: int,
-    map_width: int,
-    map_height: int,
-    engine: Engine,
-) -> GameMap:
+def generate_dungeon(engine: Engine) -> GameMap:
     """Generate a new dungeon map."""
+    room_max_size = 10
+    room_min_size = 6
+    max_rooms = 30
+
     player = engine.player
-    dungeon = GameMap(engine, map_width, map_height, entities=[player])
+    dungeon = GameMap(engine, sizes.dungeon_width, sizes.dungeon_height, entities=[player])
 
     treasure_room_generated = False
     rooms: List[RoomBase] = []

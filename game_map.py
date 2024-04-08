@@ -45,7 +45,7 @@ class GameMap:
 
         return None
 
-    def get_entities_at_location(self, x: int, y: int) -> Iterable[Entity]:
+    def get_entities_at_location(self, x: int, y: int) -> List[Entity]:
         entities_at_location = []
         for entity in self.entities:
             if entity.x == x and entity.y == y:
@@ -60,9 +60,7 @@ class GameMap:
         )
         # items which get rendered first should be put at beggining of list
         entities_at_location.reverse()
-
-        for entity in entities_at_location:
-            yield entity
+        return entities_at_location
 
     def get_blocking_entity_at_location(
         self,
@@ -114,39 +112,16 @@ class GameWorld:
 
     def __init__(
         self,
-        *,
         engine: Engine,
-        map_width: int,
-        map_height: int,
-        max_rooms: int,
-        room_min_size: int,
-        room_max_size: int,
         current_floor: int = 0,
     ):
         self.engine = engine
-
-        self.map_width = map_width
-        self.map_height = map_height
-
-        self.max_rooms = max_rooms
-
-        self.room_min_size = room_min_size
-        self.room_max_size = room_max_size
 
         self.current_floor = current_floor
 
         self.treasure_pool: List[Entity] = []
 
     def generate_floor(self) -> None:
-        from procgen import generate_dungeon
+        from procgen.procgen import generate_dungeon
 
-        self.current_floor += 1
-
-        self.engine.game_map = generate_dungeon(
-            max_rooms=self.max_rooms,
-            room_min_size=self.room_min_size,
-            room_max_size=self.room_max_size,
-            map_width=self.map_width,
-            map_height=self.map_height,
-            engine=self.engine,
-        )
+        self.engine.game_map = generate_dungeon(self.engine)

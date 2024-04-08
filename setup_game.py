@@ -29,25 +29,11 @@ background_image = Image.open("data/menu_background.png")
 
 def new_game() -> Engine:
     """Return a brand new game session as an Engine instance."""
-    map_width = 80
-    map_height = 43
-
-    room_max_size = 10
-    room_min_size = 6
-    max_rooms = 30
-
     player = copy.deepcopy(entity_factories.player)
 
     engine = Engine(player=player)
 
-    engine.game_world = GameWorld(
-        engine=engine,
-        max_rooms=max_rooms,
-        room_min_size=room_min_size,
-        room_max_size=room_max_size,
-        map_width=map_width,
-        map_height=map_height,
-    )
+    engine.game_world = GameWorld(engine=engine)
 
     engine.game_world.treasure_pool = [
         entity_factories.eye_of_belial,
@@ -122,7 +108,7 @@ class MainMenu(input_handlers.BaseEventHandler):
         )
 
         menu_width = 24
-        for i, text in enumerate(["[n] New game", "[c] Continue last game", "[q] Quit"]):
+        for i, text in enumerate(["[n] new game", "[c] continue last game", "[q] quit"]):
             console.print(
                 console.width // 2,
                 console.height // 2 - 2 + i,
