@@ -16,14 +16,14 @@ if TYPE_CHECKING:
 
 
 max_items_by_floor = [
-    (1, 1),
-    (4, 2),
+    (0, 1),
+    (3, 2),
 ]
 
 max_monsters_by_floor = [
-    (1, 2),
-    (4, 3),
-    (6, 5),
+    (0, 2),
+    (3, 3),
+    (5, 5),
 ]
 
 item_chances: Dict[int, List[Tuple[Entity, int]]] = {
