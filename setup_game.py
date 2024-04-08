@@ -21,6 +21,8 @@ from tcod import libtcodpy
 
 import random
 
+from ui.starfield import Starfield
+
 # Load the background image.  Pillow returns an object convertable into a NumPy array.
 background_image = Image.open("data/menu_background.png")
 
@@ -88,12 +90,11 @@ def load_game(filename: str) -> Engine:
 class MainMenu(input_handlers.BaseEventHandler):
     """Handle the main menu rendering and input."""
     musing = random.choice(strings.musings)
+    starfield = Starfield()
 
     def on_render(self, console: tcod.Console) -> None:
         """Render the main menu."""
-
-        # console.draw_semigraphics(background_image, 0, 0)
-        console.print(0, 0, strings.eye_art, color.main_menu_background)
+        self.starfield.render(console, console.width, console.height)
 
         console.print(
             console.width // 2,
