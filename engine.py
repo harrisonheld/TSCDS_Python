@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING, List, Optional, Tuple
 import lzma
 import pickle
 
-from tcod import tcod
+from tcod import libtcodpy
 from tcod.console import Console
 from tcod.map import compute_fov
 
@@ -46,6 +46,7 @@ class Engine:
             self.game_map.tiles["transparent"],
             (self.player.x, self.player.y),
             radius=8,
+            algorithm=libtcodpy.FOV_SYMMETRIC_SHADOWCAST
         )
         # If a tile is "visible" it should be added to "explored".
         self.game_map.explored |= self.game_map.visible
@@ -64,7 +65,7 @@ class Engine:
                                 height=sizes.screen_height - sizes.info_block_height)
         console.draw_frame(self.game_map.width, 0, 1, self.game_map.height, decoration="│││││││││")
         console.draw_frame(self.game_map.width, 10, sizes.sidebar_width_including_border, 1, decoration="──────├──")
-        console.print_box(self.game_map.width+1, 10, sizes.sidebar_width_including_border-1, 1, "┤Message Log├", fg=color.white, alignment=tcod.constants.CENTER)
+        console.print_box(self.game_map.width+1, 10, sizes.sidebar_width_including_border-1, 1, "┤Message Log├", fg=color.white, alignment=libtcodpy.CENTER)
         render_functions.render_names_at_mouse_location(console=console, x=0, y=self.game_map.height-1, engine=self)
 
     def save_as(self, filename: str) -> None:
