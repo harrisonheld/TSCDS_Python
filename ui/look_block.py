@@ -33,6 +33,7 @@ class LookBlock:
         # height based on entity description
         height = console.get_height_rect(0, 0, width - 2, 1000, description)
         height += 2  # for border
+        height += 1  # for extra line beneath description
         height = max(height, min_height)  # minimal height so 1-line descriptions aren't tiny
 
         if y + height > console.height:

@@ -27,7 +27,9 @@ def generate_dungeon(engine: Engine) -> GameMap:
     dungeon.tiles[sizes.dungeon_width // 2, sizes.dungeon_height // 2] = tile_types.down_stairs
     dungeon.downstairs_location = (sizes.dungeon_width // 2, sizes.dungeon_height // 2)
     # Place player
-    player.place(*dungeon.downstairs_location, gamemap=dungeon)
+    player.place(sizes.dungeon_width // 2, sizes.dungeon_height * 3 // 4, gamemap=dungeon)
+    # Place boss
+    entity_factories.indrix.spawn(dungeon, sizes.dungeon_width // 2, sizes.dungeon_height // 4)
 
     # make room visible
     dungeon.explored[room_x-1:room_x + room_width+1, room_y-1:room_y + room_height+1] = True
