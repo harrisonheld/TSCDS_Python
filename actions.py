@@ -42,20 +42,17 @@ class PickupAction(Action):
         super().__init__(entity)
 
     def perform(self) -> None:
-        actor_location_x = self.entity.x
-        actor_location_y = self.entity.y
+        x = self.entity.x
+        y = self.entity.y
+        item = self.engine.game_map.get_item_at_location(x, y)
+        if item is None:
+            raise exceptions.Impossible("There is nothing here to pick up.")
+
         inventory = self.entity.inventory
+        inventory.add(item)
 
-        for item in self.engine.game_map.items:
-            if actor_location_x == item.x and actor_location_y == item.y:
-                inventory.add(item)
-
-                if isinstance(item, Upgrade):
-                    item.on_pickup(self.entity)
-
-                return
-
-        raise exceptions.Impossible("There is nothing here to pick up.")
+        if isinstance(item, Upgrade):
+            item.on_pickup(self.entity)
 
 
 class ItemAction(Action):
