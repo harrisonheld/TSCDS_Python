@@ -19,7 +19,6 @@ class Starfield:
             star = Star(x, y, brightness)
             self.stars.append(star)
 
-
     def render(self, console, width, height):
         # draw stars
         for star in self.stars:

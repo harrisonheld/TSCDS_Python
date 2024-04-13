@@ -130,6 +130,6 @@ class GameWorld:
         self.treasure_pool: List[Entity] = []
 
     def generate_floor(self) -> None:
-        from procgen.boss import generate_dungeon
+        from procgen.devroom import generate_dungeon
 
         self.engine.game_map = generate_dungeon(self.engine)
