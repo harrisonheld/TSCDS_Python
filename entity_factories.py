@@ -4,11 +4,13 @@ import color
 from components import consumable, equippable
 from components.ai import *
 from components.consumable import SwapConsumable
+from components.equippable import Equippable
 from components.equipment import Equipment
 from components.fighter import Fighter
 from components.inventory import Inventory
 from components.level import Level
 from entity import *
+from equipment_types import EquipmentType
 from upgrades import *
 
 player = Actor(
@@ -139,8 +141,9 @@ no_loot_note = Item(
 )
 
 
-dagger = Item(char="/", color=(0, 191, 255), name="Dagger", equippable=equippable.Dagger())
-sword = Item(char="/", color=(0, 191, 255), name="Sword", equippable=equippable.Sword())
+dagger = Item(char="/", color=color.light_grey, name="Dagger", equippable=Equippable(equipment_type=EquipmentType.WEAPON, power_bonus=2))
+carbide_hammer = Item(char="/", color=color.light_carbide_blue, name="Carbide Hammer", equippable=Equippable(equipment_type=EquipmentType.WEAPON, power_bonus=5))
+sword = Item(char="\\", color=color.light_grey, name="Sword", equippable=Equippable(equipment_type=EquipmentType.WEAPON, power_bonus=4))
 
-leather_armor = Item(char="[", color=(139, 69, 19), name="Leather Armor", equippable=equippable.LeatherArmor())
-chain_mail = Item(char="[", color=(139, 69, 19), name="Chain Mail", equippable=equippable.ChainMail())
+leather_armor = Item(char="[", color=color.brown, name="Leather Armor", equippable=Equippable(equipment_type=EquipmentType.ARMOR, defense_bonus=1))
+chain_mail = Item(char="[", color=color.light_grey, name="Chain Mail", equippable=Equippable(equipment_type=EquipmentType.ARMOR, defense_bonus=3))
