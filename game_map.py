@@ -124,12 +124,19 @@ class GameWorld:
         current_floor: int = 0,
     ):
         self.engine = engine
-
         self.current_floor = current_floor
-
         self.treasure_pool: List[Entity] = []
+        self.boss_pool: List[Entity] = []
 
     def generate_floor(self) -> None:
-        from procgen.devroom import generate_dungeon
+        import procgen.rooms
+        import procgen.boss
 
-        self.engine.game_map = generate_dungeon(self.engine)
+        self.current_floor += 1
+        if self.current_floor in [2, 4, 6]:
+            self.engine.game_map = procgen.boss.generate(self.engine)
+            return
+        elif self.current_floor == 7:
+            pass
+            return
+        self.engine.game_map = procgen.rooms.generate(self.engine)

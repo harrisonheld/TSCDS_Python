@@ -97,7 +97,7 @@ def tunnel_between(start: Tuple[int, int], end: Tuple[int, int]) -> Iterator[Tup
         yield x, y
 
 
-def generate_dungeon(engine: Engine) -> GameMap:
+def generate(engine: Engine) -> GameMap:
     """Generate a new dungeon map."""
     room_max_size = 10
     room_min_size = 6

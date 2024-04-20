@@ -14,7 +14,7 @@ if TYPE_CHECKING:
     from entity import Entity
 
 
-def generate_dungeon(engine: Engine) -> GameMap:
+def generate(engine: Engine) -> GameMap:
     player = engine.player
     dungeon = GameMap(engine, sizes.dungeon_width, sizes.dungeon_height, entities=[player])
 

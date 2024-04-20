@@ -42,6 +42,9 @@ def new_game() -> Engine:
         entity_factories.cracked_red_eye_orb,
         entity_factories.cracked_blue_eye_orb,
     ]
+    engine.game_world.boss_pool = [
+        entity_factories.indrix,
+    ]
     engine.game_world.generate_floor()
     engine.update_fov()
 
@@ -56,11 +59,6 @@ def new_game() -> Engine:
 
     player.equipment.toggle_equip(dagger, add_message=False)
     player.equipment.toggle_equip(leather_armor, add_message=False)
-
-    # cheats
-    player.inventory.capacity = 100
-    for treasure_ent in engine.game_world.treasure_pool:
-        treasure_ent.spawn(engine.game_map, *player.xy)
 
     return engine
 
