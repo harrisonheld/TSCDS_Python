@@ -8,6 +8,7 @@ import tcod
 
 import entity_factories
 from actions import Action, MeleeAction, MovementAction, WaitAction, RangedAction, BumpAction, DisplaceAction
+from entity import Item
 
 if TYPE_CHECKING:
     from entity import Actor
@@ -228,6 +229,14 @@ class IndrixAI(BaseAI):
                     self.entity.fighter.base_power += 4
                     MeleeAction(self.entity, dx, dy).perform()
                     self.entity.fighter.base_power -= 4
+                else:
+                    stuff_here = self.engine.game_map.get_entities_at_location(self.entity.x, self.entity.y)
+                    # find Equippable() in stuff_here
+                    for thing in stuff_here:
+                        if isinstance(thing, Item) and thing.equippable and thing.equippable.power_bonus > 0:
+                            damage = thing.equippable.power_bonus * 5
+                            self.engine.message_log.add_message(f"Indrix hurts himself on the dropped {thing.name} for {damage} damage.")
+                            target.fighter.hp -= damage
 
             return
 

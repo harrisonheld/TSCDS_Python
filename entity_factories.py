@@ -168,9 +168,9 @@ no_loot_note = Item(
 )
 
 
-dagger = Item(char="/", color=color.light_grey, name="Dagger", equippable=Equippable(equipment_type=EquipmentType.WEAPON, power_bonus=2))
-carbide_hammer = Item(char="/", color=color.light_carbide_blue, name="Carbide Hammer", equippable=Equippable(equipment_type=EquipmentType.WEAPON, power_bonus=5))
-sword = Item(char="\\", color=color.light_grey, name="Sword", equippable=Equippable(equipment_type=EquipmentType.WEAPON, power_bonus=4))
+dagger = Item(char="/", color=color.light_grey, name="dagger", equippable=Equippable(equipment_type=EquipmentType.WEAPON, power_bonus=2))
+carbide_hammer = Item(char="/", color=color.light_carbide_blue, name="carbide hammer", equippable=Equippable(equipment_type=EquipmentType.WEAPON, power_bonus=5))
+sword = Item(char="\\", color=color.light_grey, name="sword", equippable=Equippable(equipment_type=EquipmentType.WEAPON, power_bonus=4))
 
-leather_armor = Item(char="[", color=color.brown, name="Leather Armor", equippable=Equippable(equipment_type=EquipmentType.ARMOR, defense_bonus=1))
-chain_mail = Item(char="[", color=color.light_grey, name="Chain Mail", equippable=Equippable(equipment_type=EquipmentType.ARMOR, defense_bonus=3))
+leather_armor = Item(char="[", color=color.brown, name="leather armor", equippable=Equippable(equipment_type=EquipmentType.ARMOR, defense_bonus=1))
+chain_mail = Item(char="[", color=color.light_grey, name="chain mail", equippable=Equippable(equipment_type=EquipmentType.ARMOR, defense_bonus=3))
