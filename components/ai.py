@@ -114,6 +114,34 @@ class RangedEnemy(BaseAI):
         return WaitAction(self.entity).perform()
 
 
+class FlamewalkerAI(BaseAI):
+    """Pursue the player and leave a trail of fire. Does not attack otherwise."""
+    def __init__(self, entity: Actor):
+        super().__init__(entity)
+        self.path: List[Tuple[int, int]] = []
+
+    def perform(self) -> None:
+        target = self.engine.player
+
+        if self.engine.game_map.visible[self.entity.x, self.entity.y]:
+            self.path = self.get_path(target.x, target.y)
+
+        if self.path:
+            dest_x, dest_y = self.path.pop(0)
+            old_x, old_y = self.entity.x, self.entity.y
+            MovementAction(
+                self.entity,
+                dest_x - old_x,
+                dest_y - old_y,
+            ).perform()
+            # Leave a trail of fire if there is no fire there already.
+            if not self.engine.game_map.get_entities_at_location(old_x, old_y):
+                entity_factories.fire.spawn(self.entity.gamemap, old_x, old_y)
+            return
+
+        WaitAction(self.entity).perform()
+
+
 class ConfusedEnemy(BaseAI):
     """
     A confused enemy will stumble around aimlessly for a given number of turns, then revert back to its previous AI.
@@ -164,7 +192,7 @@ class IndrixAI(BaseAI):
         self.leap_period = 7
         self.leap_cooldown = 4
         self.leaping = 0
-        self.leap_indicator: Entity = None
+        self.leap_indicator: Optional[Entity] = None
 
     def perform(self) -> None:
         target = self.engine.player
@@ -220,9 +248,6 @@ class IndrixAI(BaseAI):
                 dest_x - old_x,
                 dest_y - old_y,
             ).perform()
-            # Leave a trail of fire if there is no fire there already.
-            if not self.engine.game_map.get_entities_at_location(old_x, old_y):
-                entity_factories.fire.spawn(self.entity.gamemap, old_x, old_y)
             return
 
         WaitAction(self.entity).perform()

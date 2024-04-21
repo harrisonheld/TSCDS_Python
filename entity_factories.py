@@ -26,7 +26,7 @@ player = Actor(
 )
 
 frog_warden = Actor(
-    char="f",
+    char="w",
     color=color.dark_green,
     name="frog warden",
     description="A creature in the shape of a man, wrought of decayed sinews and oozing ichors. The xanthous eyes belie an animated disposition. Through the mire, its skeletal fingers grasp fervently at amphibious creatures with undisputed affection; for what ghastly purpose, no one knows.",
@@ -47,6 +47,18 @@ ranger = Actor(
     fighter=Fighter(hp=16, base_defense=1, base_power=4),
     inventory=Inventory(capacity=0),
     level=Level(xp_given=100),
+)
+
+flamewalker = Actor(
+    char="f",
+    color=color.dark_red,
+    name="flamewalker",
+    description="A little spur of fire. Locks of flame dance close behind him as he rolls and tumbles.",
+    ai_cls=FlamewalkerAI,
+    equipment=Equipment(),
+    fighter=Fighter(hp=3, base_defense=0, base_power=1),
+    inventory=Inventory(capacity=0),
+    level=Level(xp_given=20)
 )
 
 indrix = Actor(
