@@ -1,3 +1,8 @@
+def preserve_capitalize(string: str) -> str:
+    """Capitalize the first letter of a string, without converting the rest of the string to lowercase."""
+    return string[0].upper() + string[1:]
+
+
 musings = [
     # just random things that sound cool
     "Know no want.",

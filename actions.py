@@ -7,6 +7,7 @@ from tcod import tcod
 
 import color
 import exceptions
+import strings
 from upgrades import Upgrade
 
 if TYPE_CHECKING:
@@ -170,7 +171,7 @@ class MeleeAction(ActionWithDirection):
 
         damage = self.entity.fighter.power - target.fighter.defense
 
-        attack_desc = f"{self.entity.name.capitalize()} attacks {target.name}"
+        attack_desc = f"{strings.preserve_capitalize(self.entity.name)} attacks {target.name}"
         if self.entity is self.engine.player:
             attack_color = color.player_atk
         else:
@@ -233,7 +234,7 @@ class RangedAction(ActionWithDirection):
 
         damage = self.entity.fighter.power - target.fighter.defense
 
-        attack_desc = f"{self.entity.name.capitalize()} fires a bolt at {target.name}"
+        attack_desc = f"{strings.preserve_capitalize(entity.name)} fires a bolt at {target.name}"
         if self.entity is self.engine.player:
             attack_color = color.player_atk
         else:
