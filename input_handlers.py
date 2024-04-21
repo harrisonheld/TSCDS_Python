@@ -566,6 +566,8 @@ class MainGameEventHandler(EventHandler):
         player = self.engine.player
 
         if key == tcod.event.KeySym.PERIOD and modifier & (tcod.event.KeySym.LSHIFT | tcod.event.KeySym.RSHIFT):
+            # TODO: remove this cheat lol
+            player.x, player.y = self.engine.game_map.downstairs_location
             return actions.TakeStairsAction(player)
 
         if key in keys.MOVE_KEYS:
