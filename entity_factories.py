@@ -53,7 +53,7 @@ indrix = Actor(
     char="g",
     color=color.light_carbide_blue,
     name="teary-eyed Indrix",
-    description="Cast from his home twice too many times, the pariah willfully wields the amaranthine prism, seeking to end his own life in a spectacular fashion. The great curling horn slung low about his hip gives him the distinction of being the only warrior to bear his own appendage as a trophy. Finally, beware: his power is most potent when he lays his hands on you.",
+    description="Cast from his home twice too many times, the caprine pariah willfully wields the amaranthine prism, seeking to end his own life in a spectacular fashion. The great curling horn slung low about his hip gives him the distinction of being the only warrior to bear his own appendage as a trophy.",
     ai_cls=IndrixAI,
     equipment=Equipment(),
     fighter=Fighter(hp=35, base_defense=1, base_power=4),

@@ -7,7 +7,7 @@ import numpy as np
 import tcod
 
 import entity_factories
-from actions import Action, MeleeAction, MovementAction, WaitAction, RangedAction, BumpAction
+from actions import Action, MeleeAction, MovementAction, WaitAction, RangedAction, BumpAction, DisplaceAction
 
 if TYPE_CHECKING:
     from entity import Actor
@@ -188,10 +188,19 @@ class IndrixAI(BaseAI):
             turns = "turns" if self.leaping > 1 else "turn"
             self.leap_indicator.description = f"Indrix will land in {self.leaping} {turns}."
             if self.leaping == 0:
-                self.engine.message_log.add_message("Indrix lands with a crash!")
+                # Land
                 self.entity.x, self.entity.y = self.leap_indicator.xy
                 self.engine.game_map.entities.remove(self.leap_indicator)
                 self.leap_indicator = None
+                self.engine.message_log.add_message("Indrix slams down his folded carbide hammer!")
+                if self.entity.xy == target.xy:
+                    DisplaceAction(target).perform()
+                    dx = target.x - self.entity.x
+                    dy = target.y - self.entity.y
+                    self.entity.fighter.base_power += 4
+                    MeleeAction(self.entity, dx, dy).perform()
+                    self.entity.fighter.base_power -= 4
+
             return
 
         self.leap_cooldown -= 1
