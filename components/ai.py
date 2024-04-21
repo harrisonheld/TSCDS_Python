@@ -236,7 +236,7 @@ class IndrixAI(BaseAI):
                         if isinstance(thing, Item) and thing.equippable and thing.equippable.power_bonus > 0:
                             damage = thing.equippable.power_bonus * 5
                             self.engine.message_log.add_message(f"Indrix hurts himself on the dropped {thing.name} for {damage} damage.")
-                            target.fighter.hp -= damage
+                            self.entity.fighter.hp -= damage
 
             return
 
