@@ -4,6 +4,7 @@ from typing import TYPE_CHECKING, Optional, Tuple, Type, TypeVar, Union, List
 import copy
 import math
 
+from components.base_component import BaseComponent
 from render_order import RenderOrder
 
 if TYPE_CHECKING:
@@ -38,6 +39,7 @@ class Entity:
         description: str = "<No Description>",
         blocks_movement: bool = False,
         render_order: RenderOrder = RenderOrder.CORPSE,
+        components: List[BaseComponent] = None,
     ):
         self.x = x
         self.y = y
@@ -47,6 +49,11 @@ class Entity:
         self.description = description
         self.blocks_movement = blocks_movement
         self.render_order = render_order
+        self.components: List[BaseComponent] = components
+        if components is None:
+            self.components = []
+        for component in self.components:
+            component.parent = self
         if parent:
             # If parent isn't provided now then it will be set later.
             self.parent = parent
@@ -60,6 +67,9 @@ class Entity:
     def xy(self) -> Tuple[int, int]:
         """Return the (x, y) coordinates as a tuple."""
         return self.x, self.y
+
+    def has_component(self, component_type: Type[BaseComponent]) -> bool:
+        return any(isinstance(c, component_type) for c in self.components)
 
     def spawn(self: T, gamemap: GameMap, x: int, y: int) -> T:
         """Spawn a copy of this instance at the given location."""
@@ -108,6 +118,7 @@ class Actor(Entity):
         fighter: Fighter,
         inventory: Inventory,
         level: Level,
+        components: List[BaseComponent] = None
     ):
         super().__init__(
             x=x,
@@ -118,6 +129,7 @@ class Actor(Entity):
             description=description,
             blocks_movement=True,
             render_order=RenderOrder.ACTOR,
+            components=components,
         )
 
         self.ai: Optional[BaseAI] = ai_cls(self)
@@ -152,6 +164,7 @@ class Item(Entity):
         description: str = "<No Description>",
         consumable: Optional[Consumable] = None,
         equippable: Optional[Equippable] = None,
+        components: List[BaseComponent] = None
     ):
         super().__init__(
             x=x,
@@ -162,6 +175,7 @@ class Item(Entity):
             description=description,
             blocks_movement=False,
             render_order=RenderOrder.ITEM,
+            components=components,
         )
 
         self.consumable = consumable

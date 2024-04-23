@@ -7,6 +7,8 @@ from components.consumable import SwapConsumable
 from components.equippable import Equippable
 from components.equipment import Equipment
 from components.fighter import Fighter
+from components.fire import Fire
+from components.fire_immune import FireImmune
 from components.inventory import Inventory
 from components.level import Level
 from entity import *
@@ -58,7 +60,8 @@ flamewalker = Actor(
     equipment=Equipment(),
     fighter=Fighter(hp=3, base_defense=0, base_power=1),
     inventory=Inventory(capacity=0),
-    level=Level(xp_given=20)
+    level=Level(xp_given=20),
+    components=[FireImmune()],
 )
 
 indrix = Actor(
@@ -73,13 +76,15 @@ indrix = Actor(
     level=Level(xp_given=400),
 )
 
-# TODO: make fire actually hurt, and have a lifespan
 fire = Entity(
     char="‼",
     name="fire",
     description="A roaring fire.",
-    color=color.red
+    color=color.red,
+    blocks_movement=False,
+    components=[Fire(lifetime=4, damage=1)],
 )
+
 indrix_leap_indicator = Entity(
     char="▼",
     name="leap indicator",

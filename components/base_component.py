@@ -18,3 +18,7 @@ class BaseComponent:
     @property
     def engine(self) -> Engine:
         return self.gamemap.engine
+
+    def on_turn(self) -> None:
+        """Called every turn by the engine."""
+        pass

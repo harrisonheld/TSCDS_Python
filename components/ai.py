@@ -202,7 +202,7 @@ class IndrixAI(BaseAI):
         distance = max(abs(dx), abs(dy))  # Chebyshev distance.
 
         # Leap towards the player if the cooldown is ready.
-        if self.leap_cooldown <= 0 and distance > 2:
+        if self.leap_cooldown <= 0 and distance > 1:
             self.engine.message_log.add_message("Indrix leaps into the air!")
             self.leap_cooldown = self.leap_period
             self.leaping = 2

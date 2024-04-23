@@ -159,6 +159,11 @@ class ActionWithDirection(Action):
         """Return the actor at this actions destination."""
         return self.engine.game_map.get_actor_at_location(*self.dest_xy)
 
+    @property
+    def target_entity(self) -> Optional[Entity]:
+        """Return the entity at this actions destination."""
+        return self.engine.game_map.get_entity_at_location(*self.dest_xy)
+
     def perform(self) -> None:
         raise NotImplementedError()
 
@@ -213,7 +218,7 @@ class BumpAction(ActionWithDirection):
 class SwapAction(ActionWithDirection):
     """Swap positions with an entity."""
     def perform(self) -> None:
-        target = self.target_actor
+        target = self.target_entity
         if target is None:
             raise exceptions.Impossible("There is nothing there to swap with.")
 

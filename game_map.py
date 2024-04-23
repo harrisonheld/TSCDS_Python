@@ -62,6 +62,10 @@ class GameMap:
         entities_at_location.reverse()
         return entities_at_location
 
+    def get_actors_at_location(self, x: int, y: int) -> List[Actor]:
+        return [entity for entity in self.get_entities_at_location(x, y) if isinstance(entity, Actor)]
+
+
     def get_blocking_entity_at_location(
         self,
         location_x: int,

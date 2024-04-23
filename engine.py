@@ -33,12 +33,17 @@ class Engine:
         self.player = player
 
     def handle_enemy_turns(self) -> None:
-        for entity in set(self.game_map.actors) - {self.player}:
-            if entity.ai:
+        for actor in set(self.game_map.actors) - {self.player}:
+            if actor.ai:
                 try:
-                    entity.ai.perform()
+                    actor.ai.perform()
                 except exceptions.Impossible:
                     pass  # Ignore impossible action exceptions from AI.
+
+        entities_copy = list(self.game_map.entities)
+        for entity in entities_copy:
+            for component in entity.components:
+                component.on_turn()
 
     def update_fov(self) -> None:
         """Recompute the visible area based on the players point of view."""
