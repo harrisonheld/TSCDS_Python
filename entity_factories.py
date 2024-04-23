@@ -180,3 +180,21 @@ sword = Item(char="\\", color=color.light_grey, name="sword", equippable=Equippa
 
 leather_armor = Item(char="[", color=color.brown, name="leather armor", equippable=Equippable(equipment_type=EquipmentType.ARMOR, defense_bonus=1))
 chain_mail = Item(char="[", color=color.light_grey, name="chain mail", equippable=Equippable(equipment_type=EquipmentType.ARMOR, defense_bonus=3))
+
+brazier = Entity(
+    char="O",
+    name="brazier",
+    description="A brazier. It's lit.",
+    color=color.orange,
+    blocks_movement=True,
+    render_order=RenderOrder.ACTOR,
+    components=[Illumination(light_radius=10)],
+)
+statue = Entity(
+    char="Ω",
+    name="statue",
+    description="A statue of an ancient hero.",
+    color=color.grey,
+    blocks_movement=True,
+    render_order=RenderOrder.ACTOR,
+)
