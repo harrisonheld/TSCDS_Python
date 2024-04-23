@@ -7,7 +7,8 @@ import numpy as np
 import tcod
 
 import entity_factories
-from actions import Action, MeleeAction, MovementAction, WaitAction, RangedAction, BumpAction, DisplaceAction
+from actions import Action, MeleeAction, MovementAction, WaitAction, RangedAction, BumpAction, DisplaceAction, \
+    OggleAction
 from entity import Item
 
 if TYPE_CHECKING:
@@ -123,6 +124,12 @@ class FlamewalkerAI(BaseAI):
 
     def perform(self) -> None:
         target = self.engine.player
+        dx = target.x - self.entity.x
+        dy = target.y - self.entity.y
+        distance = max(abs(dx), abs(dy))  # Chebyshev distance.
+        if distance <= 1:
+            OggleAction(self.entity, target).perform()
+            return
 
         if self.engine.game_map.visible[self.entity.x, self.entity.y]:
             self.path = self.get_path(target.x, target.y)
