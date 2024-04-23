@@ -33,7 +33,7 @@ main_menu_title = cyan
 main_menu_subtitle = grey
 menu_text = white
 
-player_atk = white
+player_action = cyan
 enemy_atk = salmon
 needs_target = (0x3F, 0xFF, 0xFF)
 status_effect_applied = (0x3F, 0xFF, 0x3F)
@@ -47,8 +47,12 @@ impossible = grey
 error = (0xFF, 0x40, 0x40)
 
 welcome_text = light_carbide_blue
-health_recovered = green
 
 bar_text = white
 bar_filled = (0x0, 0x60, 0x0)
 bar_empty = (0x40, 0x10, 0x10)
+
+floor_dark = (0x40, 0x40, 0x40)
+wall_dark = (0x20, 0x20, 0x20)
+floor_light = (0x95, 0xBC, 0x74)
+wall_light = (0x65, 0x9B, 0x5E)

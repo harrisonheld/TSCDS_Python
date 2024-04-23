@@ -121,7 +121,7 @@ class EquipAction(Action):
 class WaitAction(Action):
     def perform(self) -> None:
         if self.entity is self.engine.player:
-            self.engine.message_log.add_message("You wait.", color.white)
+            self.engine.message_log.add_message("You wait.", color.player_action)
         pass
 
 
@@ -193,7 +193,8 @@ class MeleeAction(ActionWithDirection):
 
         attack_desc = f"{strings.preserve_capitalize(self.entity.name)} attacks {target.name}"
         if self.entity is self.engine.player:
-            attack_color = color.player_atk
+            attack_desc = f"You attack {target.name}"
+            attack_color = color.player_action
         else:
             attack_color = color.enemy_atk
 
