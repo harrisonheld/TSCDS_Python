@@ -26,6 +26,12 @@ class Fire(BaseComponent):
 
             actor.fighter.take_damage(self._damage)
 
+            if actor is self.engine.player:
+                self.engine.message_log.add_message(f"The fire beneath you burns for {self._damage} damage.", color.enemy_atk)
+            else:
+                self.engine.message_log.add_message(f"The fire beneath the {actor.name} burns for {self._damage} damage.", color.white)
+
+
         # burn down
         self._life_remaining -= 1
         if self._life_remaining == 2:
@@ -35,5 +41,6 @@ class Fire(BaseComponent):
             self.parent.description = "A dying fire."
             self.parent.color = color.yellow
         elif self._life_remaining <= 0:
-            self.parent.gamemap.entities.remove(self.parent)
+            self.gamemap.entities.remove(self.parent)
+            self.engine.message_log.add_message("The fire burns out.", color.white)
 
