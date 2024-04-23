@@ -46,7 +46,7 @@ def new_game() -> Engine:
         entity_factories.indrix,
     ]
     engine.game_world.generate_floor()
-    engine.update_fov()
+    engine.update_visibility()
 
     engine.message_log.add_message("Artow a Saad of olde Salum, and nou stonden thu at the heigh gate to Brightsheol. Fight or die.")
     engine.message_log.add_message("Press '?' for help.", color.welcome_text)

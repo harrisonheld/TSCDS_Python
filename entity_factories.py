@@ -9,6 +9,7 @@ from components.equipment import Equipment
 from components.fighter import Fighter
 from components.fire import Fire
 from components.fire_immune import FireImmune
+from components.illumination import Illumination
 from components.inventory import Inventory
 from components.level import Level
 from entity import *
@@ -39,12 +40,12 @@ frog_warden = Actor(
     level=Level(xp_given=35),
 )
 
-ranger = Actor(
-    char="r",
+beamer = Actor(
+    char="b",
     color=color.dark_red,
-    name="ranger",
+    name="beamer",
     description="[TODO]",
-    ai_cls=RangedEnemy,
+    ai_cls=BeamerAI,
     equipment=Equipment(),
     fighter=Fighter(hp=16, base_defense=1, base_power=4),
     inventory=Inventory(capacity=0),
@@ -82,7 +83,7 @@ fire = Entity(
     description="A roaring fire.",
     color=color.red,
     blocks_movement=False,
-    components=[Fire(lifetime=4, damage=1)],
+    components=[Fire(lifetime=6, damage=1), Illumination(light_radius=4)],
 )
 
 indrix_leap_indicator = Entity(

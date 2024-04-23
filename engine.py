@@ -10,6 +10,7 @@ from tcod.map import compute_fov
 
 import color
 import sizes
+from components.illumination import Illumination
 from ui.look_block import LookBlock
 from ui.message_log import MessageLog
 from ui.info_block import InfoBlock
@@ -45,14 +46,24 @@ class Engine:
             for component in entity.components:
                 component.on_turn()
 
-    def update_fov(self) -> None:
-        """Recompute the visible area based on the players point of view."""
+    def update_visibility(self) -> None:
+        """Computer what is visible to the player"""
         self.game_map.visible[:] = compute_fov(
             self.game_map.tiles["transparent"],
             (self.player.x, self.player.y),
             radius=8,
             algorithm=libtcodpy.FOV_SYMMETRIC_SHADOWCAST
         )
+
+        # for every entity that has an Illumination component
+        for entity in self.game_map.entities:
+            if illumination := entity.get_component(Illumination):
+                self.game_map.visible |= compute_fov(
+                    self.game_map.tiles["transparent"],
+                    (entity.x, entity.y),
+                    radius=illumination.light_radius,
+                    algorithm=libtcodpy.FOV_SYMMETRIC_SHADOWCAST
+                )
         # If a tile is "visible" it should be added to "explored".
         self.game_map.explored |= self.game_map.visible
 

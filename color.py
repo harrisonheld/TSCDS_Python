@@ -42,7 +42,7 @@ descend = light_carbide_blue
 player_die = red
 enemy_die = orange
 
-invalid = (0xFF, 0xFF, 0x00)
+invalid = yellow
 impossible = grey
 error = (0xFF, 0x40, 0x40)
 

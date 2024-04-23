@@ -49,6 +49,11 @@ class BaseAI(Action):
         # Convert from List[List[int]] to List[Tuple[int, int]].
         return [(index[0], index[1]) for index in path]
 
+    def can_see(self, me: Entity, other: Entity) -> bool:
+        """Return True if the other entity is within the FOV of me."""
+        # as is, enemies see what players see. so if the enemy is visible, it can see you
+        return self.entity.gamemap.visible[me.x, me.y]
+
 
 class HostileEnemy(BaseAI):
     def __init__(self, entity: Actor):
@@ -61,7 +66,7 @@ class HostileEnemy(BaseAI):
         dy = target.y - self.entity.y
         distance = max(abs(dx), abs(dy))  # Chebyshev distance.
 
-        if self.engine.game_map.visible[self.entity.x, self.entity.y]:
+        if self.can_see(self.entity, target):
             if distance <= 1:
                 MeleeAction(self.entity, dx, dy).perform()
                 return
@@ -80,7 +85,7 @@ class HostileEnemy(BaseAI):
         WaitAction(self.entity).perform()
 
 
-class RangedEnemy(BaseAI):
+class BeamerAI(BaseAI):
     fire_range = 5
     flee_range = 3
 
@@ -94,8 +99,7 @@ class RangedEnemy(BaseAI):
         dy = target.y - self.entity.y
         distance = max(abs(dx), abs(dy))  # Chebyshev distance.
 
-        if self.engine.game_map.visible[self.entity.x, self.entity.y]:
-
+        if self.can_see(self.entity, target):
             if distance <= 1:
                 return MeleeAction(self.entity, dx, dy).perform()
             elif distance <= self.flee_range:
@@ -113,7 +117,7 @@ class RangedEnemy(BaseAI):
                 dest_y - self.entity.y,
             ).perform()
 
-        return WaitAction(self.entity).perform()
+        WaitAction(self.entity).perform()
 
 
 class FlamewalkerAI(BaseAI):
@@ -131,7 +135,7 @@ class FlamewalkerAI(BaseAI):
             OggleAction(self.entity, target).perform()
             return
 
-        if self.engine.game_map.visible[self.entity.x, self.entity.y]:
+        if self.can_see(self.entity, target):
             self.path = self.get_path(target.x, target.y)
 
         if self.path:

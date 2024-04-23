@@ -6,6 +6,7 @@ from components.base_component import BaseComponent
 from typing import TYPE_CHECKING
 
 from components.fire_immune import FireImmune
+from components.illumination import Illumination
 
 if TYPE_CHECKING:
     from engine import Engine
@@ -37,9 +38,13 @@ class Fire(BaseComponent):
         if self._life_remaining == 2:
             self.parent.description = "A modest fire."
             self.parent.color = color.orange
+            if illumination := self.parent.get_component(Illumination):
+                illumination.light_radius = max(0, illumination.light_radius - 1)
         elif self._life_remaining == 1:
             self.parent.description = "A dying fire."
             self.parent.color = color.yellow
+            if illumination := self.parent.get_component(Illumination):
+                illumination.light_radius = max(0, illumination.light_radius - 1)
         elif self._life_remaining <= 0:
             self.gamemap.entities.remove(self.parent)
             self.engine.message_log.add_message("The fire burns out.", color.white)

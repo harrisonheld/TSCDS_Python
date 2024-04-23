@@ -68,6 +68,12 @@ class Entity:
         """Return the (x, y) coordinates as a tuple."""
         return self.x, self.y
 
+    def get_component(self, component_type: Type[BaseComponent]) -> Optional[BaseComponent]:
+        for component in self.components:
+            if isinstance(component, component_type):
+                return component
+        return None
+
     def has_component(self, component_type: Type[BaseComponent]) -> bool:
         return any(isinstance(c, component_type) for c in self.components)
 
