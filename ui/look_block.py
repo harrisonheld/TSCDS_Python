@@ -100,11 +100,11 @@ class LookBlock:
                 console.print(right - acc_x, bottom, defense)
                 # print defense glyph
                 acc_x += 1
-                console.print(right - acc_x, bottom, "♦", color.defense)
+                console.print(right - acc_x, bottom, "♦", color.defense_stat)
                 # print power
                 power = str(actor.fighter.power)
                 acc_x += len(power)
                 # print power glyph
                 console.print(right - acc_x, bottom, power)
                 acc_x += 1
-                console.print(right - acc_x, bottom, "♦", color.dark_red)
+                console.print(right - acc_x, bottom, "♦", color.attack_stat)
