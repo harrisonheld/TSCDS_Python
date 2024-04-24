@@ -19,7 +19,7 @@ from upgrades import *
 
 player = Actor(
     char="@",
-    color=(255, 255, 255),
+    color=color.blue,
     name="Player",
     description="It's you.",
     ai_cls=HostileEnemy,
@@ -31,7 +31,7 @@ player = Actor(
 
 frog_warden = Actor(
     char="w",
-    color=color.dark_green,
+    color=color.green,
     name="frog warden",
     description="A creature in the shape of a man, wrought of decayed sinews and oozing ichors. The xanthous eyes belie an animated disposition. Through the mire, its skeletal fingers grasp fervently at amphibious creatures with undisputed affection; for what ghastly purpose, no one knows.",
     ai_cls=HostileEnemy,
@@ -43,7 +43,7 @@ frog_warden = Actor(
 
 beamer = Actor(
     char="b",
-    color=color.dark_red,
+    color=color.red,
     name="beamer",
     description="[TODO]",
     ai_cls=BeamerAI,
@@ -55,7 +55,7 @@ beamer = Actor(
 
 flamewalker = Actor(
     char="f",
-    color=color.dark_red,
+    color=color.red,
     name="flamewalker",
     description="A little spur of fire. Locks of flame dance close behind him as he rolls and tumbles.",
     ai_cls=FlamewalkerAI,
@@ -68,7 +68,7 @@ flamewalker = Actor(
 
 indrix = Actor(
     char="g",
-    color=color.light_carbide_blue,
+    color=color.sky_blue,
     name="teary-eyed Indrix",
     description="Cast from his home twice too many times, the caprine pariah willfully wields the amaranthine prism, seeking to end his own life in a spectacular fashion. The great curling horn slung low about his hip gives him the distinction of being the only warrior to bear his own appendage as a trophy.",
     ai_cls=IndrixAI,
@@ -79,7 +79,7 @@ indrix = Actor(
 )
 fume_knight = Actor(
     char="f",
-    color=color.black,
+    color=color.dark_grey,
     name="fume knight",
     description="[TODO]",
     ai_cls=FumeKnightAI,
@@ -101,7 +101,7 @@ gas = Entity(
     char="▓",
     name="gas",
     description="A cloud of toxic gas.",
-    color=color.dark_red,
+    color=color.red,
     blocks_movement=False,
     components=[Gas(density=5, damage=1, spread_chance=0.2)],
 )
@@ -130,7 +130,7 @@ fireball_scroll = Item(
 )
 health_potion = Item(
     char="&",
-    color=color.dark_green,
+    color=color.green,
     name="health potion",
     description="[TODO]",
     consumable=consumable.HealingConsumable(amount=4),
@@ -195,10 +195,10 @@ no_loot_note = Item(
 
 
 dagger = Item(char="/", color=color.light_grey, name="dagger", equippable=Equippable(equipment_type=EquipmentType.WEAPON, power_bonus=2))
-carbide_hammer = Item(char="/", color=color.light_carbide_blue, name="carbide hammer", equippable=Equippable(equipment_type=EquipmentType.WEAPON, power_bonus=5))
+carbide_hammer = Item(char="/", color=color.sky_blue, name="carbide hammer", equippable=Equippable(equipment_type=EquipmentType.WEAPON, power_bonus=5))
 sword = Item(char="\\", color=color.light_grey, name="sword", equippable=Equippable(equipment_type=EquipmentType.WEAPON, power_bonus=4))
 
-leather_armor = Item(char="[", color=color.brown, name="leather armor", equippable=Equippable(equipment_type=EquipmentType.ARMOR, defense_bonus=1))
+leather_armor = Item(char="[", color=color.orange, name="leather armor", equippable=Equippable(equipment_type=EquipmentType.ARMOR, defense_bonus=1))
 chain_mail = Item(char="[", color=color.light_grey, name="chain mail", equippable=Equippable(equipment_type=EquipmentType.ARMOR, defense_bonus=3))
 
 brazier = Entity(
@@ -214,7 +214,7 @@ statue = Entity(
     char="Ω",
     name="statue",
     description="A statue of an ancient hero.",
-    color=color.grey,
+    color=color.light_grey,
     blocks_movement=True,
     render_order=RenderOrder.ACTOR,
 )

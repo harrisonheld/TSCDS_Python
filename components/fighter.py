@@ -62,7 +62,7 @@ class Fighter(BaseComponent):
             self.engine.player.level.add_xp(self.parent.level.xp_given)
 
         self.parent.char = "%"
-        self.parent.color = (191, 0, 0)
+        self.parent.color = color.deep_red
         self.parent.blocks_movement = False
         self.parent.ai = None
         self.parent.name = f"remains of {self.parent.name}"

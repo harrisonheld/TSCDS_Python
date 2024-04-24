@@ -162,7 +162,7 @@ class CharacterScreenEventHandler(AskUserEventHandler):
             title=self.TITLE,
             clear=True,
             fg=(255, 255, 255),
-            bg=(0, 0, 0),
+            bg=color.black
         )
 
         console.print(x=x + 1, y=y + 1, string=f"Level: {self.engine.player.level.current_level}")
@@ -271,7 +271,7 @@ class InventoryEventHandler(AskUserEventHandler):
             height=height,
             clear=True,
             fg=(255, 255, 255),
-            bg=(0, 0, 0),
+            bg=color.black,
         )
         console.print(x + 1, y, f"┤{self.TITLE} ({number_of_items_in_inventory}/{inventory.capacity} items)├")
 

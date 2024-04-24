@@ -31,7 +31,7 @@ class Starfield:
 
             if 0 <= x < width and 0 <= y < height:
                 t = star.apparent_brightness
-                c = libtcodpy.color_lerp(color.dark_blue, color.white, t)
+                c = libtcodpy.color_lerp(color.navy, color.white, t)
                 glyphs = ".,*~"
                 g = int(t * (len(glyphs) - 1))
                 console.print(x, y, glyphs[g], c)

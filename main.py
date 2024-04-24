@@ -32,7 +32,7 @@ def main() -> None:
         root_console = tcod.console.Console(sizes.screen_width, sizes.screen_height, order="F")
         try:
             while True:
-                root_console.clear()
+                root_console.clear(bg=color.black)
                 handler.on_render(console=root_console)
                 context.present(root_console)
 
