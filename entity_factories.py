@@ -9,6 +9,7 @@ from components.equipment import Equipment
 from components.fighter import Fighter
 from components.fire import Fire
 from components.fire_immune import FireImmune
+from components.gas import Gas
 from components.illumination import Illumination
 from components.inventory import Inventory
 from components.level import Level
@@ -72,9 +73,20 @@ indrix = Actor(
     description="Cast from his home twice too many times, the caprine pariah willfully wields the amaranthine prism, seeking to end his own life in a spectacular fashion. The great curling horn slung low about his hip gives him the distinction of being the only warrior to bear his own appendage as a trophy.",
     ai_cls=IndrixAI,
     equipment=Equipment(),
-    fighter=Fighter(hp=35, base_defense=1, base_power=4),
+    fighter=Fighter(hp=30, base_defense=1, base_power=4),
     inventory=Inventory(capacity=0),
     level=Level(xp_given=400),
+)
+fume_knight = Actor(
+    char="f",
+    color=color.black,
+    name="fume knight",
+    description="[TODO]",
+    ai_cls=FumeKnightAI,
+    equipment=Equipment(),
+    fighter=Fighter(hp=50, base_defense=2, base_power=6),
+    inventory=Inventory(capacity=0),
+    level=Level(xp_given=500),
 )
 
 fire = Entity(
@@ -84,6 +96,14 @@ fire = Entity(
     color=color.red,
     blocks_movement=False,
     components=[Fire(lifetime=6, damage=1), Illumination(light_radius=4)],
+)
+gas = Entity(
+    char="▓",
+    name="gas",
+    description="A cloud of toxic gas.",
+    color=color.dark_red,
+    blocks_movement=False,
+    components=[Gas(density=5, damage=1, spread_chance=0.2)],
 )
 
 indrix_leap_indicator = Entity(

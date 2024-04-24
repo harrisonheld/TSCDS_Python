@@ -44,6 +44,7 @@ def new_game() -> Engine:
     ]
     engine.game_world.boss_pool = [
         entity_factories.indrix,
+        entity_factories.fume_knight
     ]
     engine.game_world.generate_floor()
     engine.update_visibility()

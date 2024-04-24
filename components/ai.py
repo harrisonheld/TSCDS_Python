@@ -271,3 +271,18 @@ class IndrixAI(BaseAI):
             return
 
         WaitAction(self.entity).perform()
+
+
+class FumeKnightAI(BaseAI):
+    def __init__(self, entity: Actor):
+        super().__init__(entity)
+        self.path: List[Tuple[int, int]] = []
+        self.phase = 1
+
+    def perform(self) -> None:
+        target = self.engine.player
+        dx = target.x - self.entity.x
+        dy = target.y - self.entity.y
+        distance = max(abs(dx), abs(dy))  # Chebyshev distance.
+
+        entity_factories.gas.spawn(self.engine.game_map, self.entity.x, self.entity.y)
