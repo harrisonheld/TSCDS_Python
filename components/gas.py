@@ -9,6 +9,7 @@ from components.base_component import BaseComponent
 from typing import TYPE_CHECKING
 
 from components.fire_immune import FireImmune
+from components.gas_immune import GasImmune
 from components.illumination import Illumination
 
 if TYPE_CHECKING:
@@ -16,24 +17,39 @@ if TYPE_CHECKING:
     from entity import Entity
     from game_map import GameMap
 
+
 class Gas(BaseComponent):
     def __init__(self, density: int, damage: int, spread_chance: float):
         self._density = density
         self._damage = damage
         self._spread_chance = spread_chance
 
+    def do_contact_damage(self):
+        for actor in self.parent.gamemap.get_actors_at_location(*self.parent.xy):
+
+            if actor.has_component(GasImmune):
+                continue
+
+            actor.fighter.take_damage(self._damage)
+
+            if actor is self.engine.player:
+                self.engine.message_log.add_message(f"The gas scalds you for {self._damage} damage.", color.enemy_atk)
+            else:
+                self.engine.message_log.add_message(f"The gas beneath the {actor.name} scalds for {self._damage} damage.", color.white)
+
     def on_turn(self) -> None:
+
+        self.do_contact_damage()
+
         self._density -= 1
-        if self._density == 3:
-            self.parent.char = "▒"
-        elif self._density == 2:
-            self.parent.char = "░"
-        elif self._density == 1:
-            self.parent.char = "#"
-        elif self._density <= 0:
+        if self._density <= 0:
             self.gamemap.entities.remove(self.parent)
             self.engine.message_log.add_message("The gas dissipates.", color.white)
             return
+        if self._density <= 2:
+            self.parent.char = "░"
+        elif self._density <= 4:
+            self.parent.char = "▒"
 
         # spread gas via deepclone
         for x in range(-1, 2):
@@ -45,14 +61,13 @@ class Gas(BaseComponent):
                     continue
                 if not self.gamemap.tiles["walkable"][new_x, new_y]:
                     continue
-                if self.gamemap.get_blocking_entity_at_location(new_x, new_y):
-                    continue
                 if self._spread_chance < random.random():
                     continue
                 # if there's already gas there, don't spread
                 if any(entity for entity in self.gamemap.get_entities_at_location(new_x, new_y) if entity.has_component(Gas)):
                     continue
+
                 new_gas = copy.deepcopy(self.parent)
                 new_gas.place(new_x, new_y, self.gamemap)
                 new_gas.get_component(Gas).density = self._density - 1
-
+                new_gas.get_component(Gas).do_contact_damage()

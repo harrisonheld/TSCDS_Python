@@ -18,8 +18,6 @@ if TYPE_CHECKING:
     from upgrades import Upgrade
     from game_map import GameMap
 
-T = TypeVar("T", bound="Entity")
-
 
 class Entity:
     """
@@ -68,13 +66,15 @@ class Entity:
         """Return the (x, y) coordinates as a tuple."""
         return self.x, self.y
 
-    def get_component(self, component_type: Type[BaseComponent]) -> Optional[BaseComponent]:
+    T = TypeVar("T", bound="BaseComponent")
+
+    def get_component(self, component_type: Type[T]) -> Optional[T]:
         for component in self.components:
             if isinstance(component, component_type):
                 return component
         return None
 
-    def has_component(self, component_type: Type[BaseComponent]) -> bool:
+    def has_component(self, component_type: Type[T]) -> bool:
         return any(isinstance(c, component_type) for c in self.components)
 
     def spawn(self: T, gamemap: GameMap, x: int, y: int) -> T:

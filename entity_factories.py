@@ -10,6 +10,7 @@ from components.fighter import Fighter
 from components.fire import Fire
 from components.fire_immune import FireImmune
 from components.gas import Gas
+from components.gas_immune import GasImmune
 from components.illumination import Illumination
 from components.inventory import Inventory
 from components.level import Level
@@ -19,7 +20,7 @@ from upgrades import *
 
 player = Actor(
     char="@",
-    color=color.blue,
+    color=color.sky_blue,
     name="Player",
     description="It's you.",
     ai_cls=HostileEnemy,
@@ -55,7 +56,7 @@ beamer = Actor(
 
 flamewalker = Actor(
     char="f",
-    color=color.red,
+    color=color.deep_red,
     name="flamewalker",
     description="A little spur of fire. Locks of flame dance close behind him as he rolls and tumbles.",
     ai_cls=FlamewalkerAI,
@@ -87,6 +88,7 @@ fume_knight = Actor(
     fighter=Fighter(hp=50, base_defense=2, base_power=6),
     inventory=Inventory(capacity=0),
     level=Level(xp_given=500),
+    components=[GasImmune()]
 )
 
 fire = Entity(
@@ -103,7 +105,7 @@ gas = Entity(
     description="A cloud of toxic gas.",
     color=color.red,
     blocks_movement=False,
-    components=[Gas(density=5, damage=1, spread_chance=0.2)],
+    components=[Gas(density=7, damage=1, spread_chance=0.1)],
 )
 
 indrix_leap_indicator = Entity(
@@ -116,14 +118,14 @@ indrix_leap_indicator = Entity(
 
 confusion_scroll = Item(
     char="~",
-    color=(207, 63, 255),
+    color=color.purple,
     name="confusion scroll",
     description="[TODO]",
     consumable=consumable.ConfusionConsumable(number_of_turns=10),
 )
 fireball_scroll = Item(
     char="~",
-    color=(255, 0, 0),
+    color=color.red,
     name="fireball scroll",
     description="[TODO]",
     consumable=consumable.FireballDamageConsumable(damage=12, radius=3),
@@ -137,7 +139,7 @@ health_potion = Item(
 )
 lightning_scroll = Item(
     char="~",
-    color=(255, 255, 0),
+    color=color.yellow,
     name="lightning scroll",
     description="[TODO]",
     consumable=consumable.LightningDamageConsumable(damage=20, maximum_range=5),
@@ -214,7 +216,7 @@ statue = Entity(
     char="Ω",
     name="statue",
     description="A statue of an ancient hero.",
-    color=color.light_grey,
+    color=color.dark_grey,
     blocks_movement=True,
     render_order=RenderOrder.ACTOR,
 )
