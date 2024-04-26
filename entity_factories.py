@@ -51,7 +51,7 @@ beamer = Actor(
     equipment=Equipment(),
     fighter=Fighter(hp=16, base_defense=1, base_power=4),
     inventory=Inventory(capacity=0),
-    level=Level(xp_given=100),
+    level=Level(xp_given=150),
 )
 
 flamewalker = Actor(
@@ -110,9 +110,16 @@ gas = Entity(
 
 indrix_leap_indicator = Entity(
     char="▼",
-    name="leap indicator",
+    name="indicator",
     description="Indrix is about to land!",
     color=color.red,
+    render_order=RenderOrder.EFFECT
+)
+beamer_ray_indicator = Entity(
+    char=".",
+    color=color.red,
+    name="indicator",
+    description="If you're standing here, you're wrong.",
     render_order=RenderOrder.EFFECT
 )
 
@@ -197,7 +204,6 @@ no_loot_note = Item(
 
 
 dagger = Item(char="/", color=color.light_grey, name="dagger", equippable=Equippable(equipment_type=EquipmentType.WEAPON, power_bonus=2))
-carbide_hammer = Item(char="/", color=color.sky_blue, name="carbide hammer", equippable=Equippable(equipment_type=EquipmentType.WEAPON, power_bonus=5))
 sword = Item(char="\\", color=color.light_grey, name="sword", equippable=Equippable(equipment_type=EquipmentType.WEAPON, power_bonus=4))
 
 leather_armor = Item(char="[", color=color.orange, name="leather armor", equippable=Equippable(equipment_type=EquipmentType.ARMOR, defense_bonus=1))
@@ -206,7 +212,7 @@ chain_mail = Item(char="[", color=color.light_grey, name="chain mail", equippabl
 brazier = Entity(
     char="O",
     name="brazier",
-    description="A brazier. It's lit.",
+    description="A large copper basin of flaming coals.",
     color=color.orange,
     blocks_movement=True,
     render_order=RenderOrder.ACTOR,
@@ -215,7 +221,7 @@ brazier = Entity(
 statue = Entity(
     char="Ω",
     name="statue",
-    description="A statue of an ancient hero.",
+    description="An ivory statue depicting an extremely large Greek letter Omega.",
     color=color.dark_grey,
     blocks_movement=True,
     render_order=RenderOrder.ACTOR,

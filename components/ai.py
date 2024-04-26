@@ -6,10 +6,12 @@ import random
 import numpy as np
 import tcod
 
+import color
 import entity_factories
 from actions import Action, MeleeAction, MovementAction, WaitAction, RangedAction, BumpAction, DisplaceAction, \
     OggleAction
 from entity import Item
+from shape.ray import Ray
 
 if TYPE_CHECKING:
     from entity import Actor
@@ -86,12 +88,16 @@ class HostileEnemy(BaseAI):
 
 
 class BeamerAI(BaseAI):
-    fire_range = 5
-    flee_range = 3
 
     def __init__(self, entity: Actor):
         super().__init__(entity)
         self.path: List[Tuple[int, int]] = []
+
+        self.ray_cooldown = 5
+        self.ray_charge = 1
+        self.ray_cooldown_curr = self.ray_cooldown
+        self.ray_charge_curr = 0
+        self.indicators: List[Entity] = []
 
     def perform(self) -> None:
         target = self.engine.player
@@ -99,15 +105,24 @@ class BeamerAI(BaseAI):
         dy = target.y - self.entity.y
         distance = max(abs(dx), abs(dy))  # Chebyshev distance.
 
+        for indicator in self.indicators:
+            self.engine.game_map.entities.remove(indicator)
+        self.indicators.clear()
+
         if self.can_see(self.entity, target):
-            if distance <= 1:
-                return MeleeAction(self.entity, dx, dy).perform()
-            elif distance <= self.flee_range:
-                self.path = self.get_path(target.x, target.y)
-            elif distance <= self.fire_range:
-                return RangedAction(self.entity, dx, dy).perform()
-            else:
-                self.path = self.get_path(target.x, target.y)
+            self.engine.message_log.add_message("The beamer focuses its gaze.", color.yellow)
+            ray = Ray(self.entity.x, self.entity.y, dx, dy)
+            first = True
+            for (x, y) in ray:
+                if first:
+                    first = False
+                    continue
+
+                if self.engine.game_map.tiles["walkable"][x, y]:
+                    indicator = entity_factories.beamer_ray_indicator.spawn(self.entity.gamemap, x, y)
+                    self.indicators.append(indicator)
+                    if self.engine.game_map.get_blocking_entity_at_location(x, y):
+                        break
 
         if self.path:
             dest_x, dest_y = self.path.pop(0)

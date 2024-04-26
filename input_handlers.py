@@ -105,9 +105,13 @@ class EventHandler(BaseEventHandler):
             self.engine.message_log.add_message(exc.args[0], color.impossible)
             return False  # Skip enemy turn on exceptions.
 
+        # TODO: enemies use visibility to know if they can see player.
+        # if we change this, this first update visibility will no longer be necessary
+        self.engine.update_visibility()
         self.engine.handle_enemy_turns()
 
         self.engine.update_visibility()
+
         return True
 
     def ev_mousemotion(self, event: tcod.event.MouseMotion) -> None:
