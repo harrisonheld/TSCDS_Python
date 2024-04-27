@@ -18,6 +18,9 @@ if TYPE_CHECKING:
     from upgrades import Upgrade
     from game_map import GameMap
 
+T = TypeVar("T", bound="BaseComponent")
+E = TypeVar("E", bound="Entity")
+
 
 class Entity:
     """
@@ -37,7 +40,7 @@ class Entity:
         description: str = "<No Description>",
         blocks_movement: bool = False,
         render_order: RenderOrder = RenderOrder.CORPSE,
-        components: List[BaseComponent] = None,
+        components: List[BaseComponent] = [],
     ):
         self.x = x
         self.y = y
@@ -66,8 +69,6 @@ class Entity:
         """Return the (x, y) coordinates as a tuple."""
         return self.x, self.y
 
-    T = TypeVar("T", bound="BaseComponent")
-
     def get_component(self, component_type: Type[T]) -> Optional[T]:
         for component in self.components:
             if isinstance(component, component_type):
@@ -77,7 +78,7 @@ class Entity:
     def has_component(self, component_type: Type[T]) -> bool:
         return any(isinstance(c, component_type) for c in self.components)
 
-    def spawn(self: T, gamemap: GameMap, x: int, y: int) -> T:
+    def spawn(self: E, gamemap: GameMap, x: int, y: int) -> E:
         """Spawn a copy of this instance at the given location."""
         clone = copy.deepcopy(self)
         clone.x = x
@@ -124,7 +125,7 @@ class Actor(Entity):
         fighter: Fighter,
         inventory: Inventory,
         level: Level,
-        components: List[BaseComponent] = None
+        components: List[BaseComponent] = []
     ):
         super().__init__(
             x=x,
@@ -170,7 +171,7 @@ class Item(Entity):
         description: str = "<No Description>",
         consumable: Optional[Consumable] = None,
         equippable: Optional[Equippable] = None,
-        components: List[BaseComponent] = None
+        components: List[BaseComponent] = []
     ):
         super().__init__(
             x=x,

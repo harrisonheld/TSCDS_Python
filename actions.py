@@ -257,7 +257,7 @@ class RangedAction(ActionWithDirection):
 
         attack_desc = f"{strings.preserve_capitalize(self.entity.name)} fires a bolt at {target.name}"
         if self.entity is self.engine.player:
-            attack_color = color.player_atk
+            attack_color = color.player_action
         else:
             attack_color = color.enemy_atk
 

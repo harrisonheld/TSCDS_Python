@@ -139,6 +139,9 @@ class BeamerAI(BaseAI):
 
         # walking
         if self.can_see(self.entity, target):
+            if distance <= 1:
+                MeleeAction(self.entity, dx, dy).perform()
+                return
             self.path = self.get_path(target.x, target.y)
         if self.path:
             dest_x, dest_y = self.path.pop(0)
@@ -168,11 +171,7 @@ class FlamewalkerAI(BaseAI):
             return
 
         if self.can_see(self.entity, target):
-            if distance <= 1:
-                MeleeAction(self.entity, dx, dy).perform()
-                return
             self.path = self.get_path(target.x, target.y)
-
         if self.path:
             dest_x, dest_y = self.path.pop(0)
             old_x, old_y = self.entity.x, self.entity.y
@@ -259,6 +258,8 @@ class IndrixAI(BaseAI):
             return
         # If currently in air
         if self.leaping > 0:
+            assert self.leap_indicator is not None
+
             self.leaping -= 1
             turns = "turns" if self.leaping > 1 else "turn"
             self.leap_indicator.description = f"Indrix will land in {self.leaping} {turns}."
