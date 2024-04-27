@@ -112,15 +112,15 @@ indrix_leap_indicator = Entity(
     char="▼",
     name="indicator",
     description="Indrix is about to land!",
-    color=color.red,
-    render_order=RenderOrder.EFFECT
+    color=color.deep_red,
+    render_order=RenderOrder.EFFECT_TOP
 )
 beamer_ray_indicator = Entity(
     char=".",
-    color=color.red,
+    color=color.deep_red,
     name="indicator",
     description="If you're standing here, you're wrong.",
-    render_order=RenderOrder.EFFECT
+    render_order=RenderOrder.EFFECT_BOTTOM
 )
 
 confusion_scroll = Item(

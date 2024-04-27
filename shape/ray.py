@@ -11,6 +11,9 @@ class Ray(BaseShape):
     def __iter__(self) -> Iterable[Tuple[int, int]]:
         x, y = self.origin
         dx, dy = self.direction
+        # move end point super far away
+        dx *= 100
+        dy *= 100
 
         # Determine the signs of dx and dy for the direction
         sx = 1 if dx > 0 else -1

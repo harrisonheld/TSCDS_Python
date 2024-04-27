@@ -8,6 +8,7 @@ import tcod
 
 import color
 import entity_factories
+import tile_types
 from actions import Action, MeleeAction, MovementAction, WaitAction, RangedAction, BumpAction, DisplaceAction, \
     OggleAction
 from entity import Item
@@ -94,9 +95,8 @@ class BeamerAI(BaseAI):
         self.path: List[Tuple[int, int]] = []
 
         self.ray_cooldown = 5
-        self.ray_charge = 1
-        self.ray_cooldown_curr = self.ray_cooldown
-        self.ray_charge_curr = 0
+        self.ray_cooldown_curr = random.randint(3, self.ray_cooldown)  # inclusive-inclusive
+        self.beam_endpoint: Tuple[int, int] = (-1, -1)
         self.indicators: List[Entity] = []
 
     def perform(self) -> None:
@@ -105,11 +105,23 @@ class BeamerAI(BaseAI):
         dy = target.y - self.entity.y
         distance = max(abs(dx), abs(dy))  # Chebyshev distance.
 
-        for indicator in self.indicators:
-            self.engine.game_map.entities.remove(indicator)
-        self.indicators.clear()
+        self.ray_cooldown_curr -= 1
 
-        if self.can_see(self.entity, target):
+        # if we have taken aim, fire the beam
+        if self.beam_endpoint != (-1, -1):
+            self.engine.message_log.add_message("The beamer fires a beam!", color.yellow)
+
+            # clear the beam indicators
+            for indicator in self.indicators:
+                self.engine.game_map.entities.remove(indicator)
+            self.indicators.clear()
+            self.beam_endpoint = (-1, -1)
+
+            self.ray_cooldown_curr = self.ray_cooldown
+            return
+
+        # take aim
+        if self.ray_cooldown_curr <= 0 and self.can_see(self.entity, target):
             self.engine.message_log.add_message("The beamer focuses its gaze.", color.yellow)
             ray = Ray(self.entity.x, self.entity.y, dx, dy)
             first = True
@@ -117,13 +129,17 @@ class BeamerAI(BaseAI):
                 if first:
                     first = False
                     continue
+                if self.engine.game_map.tiles[x, y] == tile_types.wall:
+                    self.beam_endpoint = (x, y)
+                    break
 
-                if self.engine.game_map.tiles["walkable"][x, y]:
-                    indicator = entity_factories.beamer_ray_indicator.spawn(self.entity.gamemap, x, y)
-                    self.indicators.append(indicator)
-                    if self.engine.game_map.get_blocking_entity_at_location(x, y):
-                        break
+                indicator = entity_factories.beamer_ray_indicator.spawn(self.entity.gamemap, x, y)
+                self.indicators.append(indicator)
+            return
 
+        # walking
+        if self.can_see(self.entity, target):
+            self.path = self.get_path(target.x, target.y)
         if self.path:
             dest_x, dest_y = self.path.pop(0)
             return MovementAction(
@@ -137,6 +153,7 @@ class BeamerAI(BaseAI):
 
 class FlamewalkerAI(BaseAI):
     """Pursue the player and leave a trail of fire. Does not attack otherwise."""
+    # TODO: the fact that the flamewalker has no melee attack should be made more obvious. Playtesters fear the precious creature
     def __init__(self, entity: Actor):
         super().__init__(entity)
         self.path: List[Tuple[int, int]] = []
@@ -151,6 +168,9 @@ class FlamewalkerAI(BaseAI):
             return
 
         if self.can_see(self.entity, target):
+            if distance <= 1:
+                MeleeAction(self.entity, dx, dy).perform()
+                return
             self.path = self.get_path(target.x, target.y)
 
         if self.path:
