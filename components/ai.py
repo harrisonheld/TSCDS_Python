@@ -9,8 +9,13 @@ import tcod
 import color
 import entity_factories
 import tile_types
-from actions import Action, MeleeAction, MovementAction, WaitAction, RangedAction, BumpAction, DisplaceAction, \
-    OggleAction
+from actions.action import Action
+from actions.bump_action import BumpAction
+from actions.movement_action import MovementAction
+from actions.melee_action import MeleeAction
+from actions.oggle_action import OggleAction
+from actions.wait_action import WaitAction
+from actions.displace_action import DisplaceAction
 from entity import Item
 from shape.ray import Ray
 

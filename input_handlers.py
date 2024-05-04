@@ -6,8 +6,13 @@ import os
 import tcod
 from tcod import libtcodpy
 
-from actions import Action, BumpAction, PickupAction, WaitAction
-import actions
+import actions.take_stairs_action
+from actions.action import Action
+from actions.bump_action import BumpAction
+from actions.pickup_action import PickupAction
+from actions.wait_action import WaitAction
+from actions.equip_action import EquipAction
+from actions.drop_item_action import DropItemAction
 import color
 import exceptions
 import strings
@@ -335,7 +340,7 @@ class InventoryActivateHandler(InventoryEventHandler):
         if item.consumable:
             return item.consumable.get_action(self.engine.player)
         elif item.equippable:
-            return actions.EquipAction(self.engine.player, item)
+            return EquipAction(self.engine.player, item)
         else:
             self.engine.message_log.add_message("That item has no uses.", color.impossible)
             return None
@@ -382,7 +387,7 @@ class InventoryDropHandler(InventoryEventHandler):
 
     def on_item_selected(self, item: Item) -> Optional[ActionOrHandler]:
         """Drop this item."""
-        return actions.DropItem(self.engine.player, item)
+        return DropItemAction(self.engine.player, item)
 
 
 class SelectAdjacentHandler(AskUserEventHandler):
@@ -572,7 +577,7 @@ class MainGameEventHandler(EventHandler):
         if key == tcod.event.KeySym.PERIOD and modifier & (tcod.event.KMOD_LSHIFT | tcod.event.KMOD_RSHIFT):
             # TODO: remove this cheat lol
             player.x, player.y = self.engine.game_map.downstairs_location
-            return actions.TakeStairsAction(player)
+            return actions.take_stairs_action.TakeStairsAction(player)
 
         if key in keys.MOVE_KEYS:
             dx, dy = keys.MOVE_KEYS[key]

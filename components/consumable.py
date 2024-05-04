@@ -1,12 +1,13 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Optional, Tuple
+from typing import TYPE_CHECKING, Optional
 
+import actions.item_action
 from components.base_component import BaseComponent
 from exceptions import Impossible
 from input_handlers import ActionOrHandler, AreaRangedAttackHandler, SingleRangedAttackHandler, SelectAdjacentHandler
-import actions
-from actions import SwapAction
+from actions.action import Action
+from actions.swap_action import SwapAction
 import color
 import components.ai
 import components.inventory
@@ -20,9 +21,9 @@ class Consumable(BaseComponent):
 
     def get_action(self, consumer: Actor) -> Optional[ActionOrHandler]:
         """Try to return the action for this item."""
-        return actions.ItemAction(consumer, self.parent)
+        return actions.item_action.ItemAction(consumer, self.parent)
 
-    def activate(self, action: actions.ItemAction) -> None:
+    def activate(self, action: actions.item_action.ItemAction) -> None:
         """Invoke this items ability.
 
         `action` is the context for this activation.
@@ -45,10 +46,10 @@ class ConfusionConsumable(Consumable):
         self.engine.message_log.add_message("Select a target location.", color.needs_target)
         return SingleRangedAttackHandler(
             self.engine,
-            callback=lambda xy: actions.ItemAction(consumer, self.parent, xy),
+            callback=lambda xy: actions.item_action.ItemAction(consumer, self.parent, xy),
         )
 
-    def activate(self, action: actions.ItemAction) -> None:
+    def activate(self, action: actions.item_action.ItemAction) -> None:
         consumer = action.entity
         target = action.target_actor
 
@@ -81,10 +82,10 @@ class FireballDamageConsumable(Consumable):
         return AreaRangedAttackHandler(
             self.engine,
             radius=self.radius,
-            callback=lambda xy: actions.ItemAction(consumer, self.parent, xy),
+            callback=lambda xy: actions.item_action.ItemAction(consumer, self.parent, xy),
         )
 
-    def activate(self, action: actions.ItemAction) -> None:
+    def activate(self, action: actions.item_action.ItemAction) -> None:
         target_xy = action.target_xy
 
         if not self.engine.game_map.visible[target_xy]:
@@ -108,7 +109,7 @@ class HealingConsumable(Consumable):
     def __init__(self, amount: int):
         self.amount = amount
 
-    def activate(self, action: actions.ItemAction) -> None:
+    def activate(self, action: actions.item_action.ItemAction) -> None:
         consumer = action.entity
         amount_recovered = consumer.fighter.heal(self.amount)
 
@@ -127,7 +128,7 @@ class LightningDamageConsumable(Consumable):
         self.damage = damage
         self.maximum_range = maximum_range
 
-    def activate(self, action: actions.ItemAction) -> None:
+    def activate(self, action: actions.item_action.ItemAction) -> None:
         consumer = action.entity
         target = None
         closest_distance = self.maximum_range + 1.0
@@ -153,9 +154,9 @@ class LightningDamageConsumable(Consumable):
 class SwapConsumable(Consumable):
     def get_action(self, consumer: Actor) -> SelectAdjacentHandler:
         self.engine.message_log.add_message("Select a target to swap with.", color.needs_target)
-        return SelectAdjacentHandler(self.engine, callback=lambda xy: actions.ItemAction(consumer, self.parent, xy))
+        return SelectAdjacentHandler(self.engine, callback=lambda xy: actions.item_action.ItemAction(consumer, self.parent, xy))
 
-    def activate(self, action: actions.ItemAction) -> None:
+    def activate(self, action: actions.item_action.ItemAction) -> None:
         dx = action.target_xy[0] - action.entity.x
         dy = action.target_xy[1] - action.entity.y
         swap = SwapAction(action.entity, dx, dy)
