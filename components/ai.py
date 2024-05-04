@@ -14,6 +14,7 @@ from actions.bump_action import BumpAction
 from actions.movement_action import MovementAction
 from actions.melee_action import MeleeAction
 from actions.oggle_action import OggleAction
+from actions.spawn_action import SpawnAction
 from actions.wait_action import WaitAction
 from actions.displace_action import DisplaceAction
 from entity import Item
@@ -187,7 +188,7 @@ class FlamewalkerAI(BaseAI):
             ).perform()
             # Leave a trail of fire if there is no fire there already.
             if not self.engine.game_map.get_entities_at_location(old_x, old_y):
-                entity_factories.fire.spawn(self.entity.gamemap, old_x, old_y)
+                SpawnAction(self.entity, entity_factories.fire, old_x, old_y).perform()
             return
 
         WaitAction(self.entity).perform()
@@ -326,4 +327,5 @@ class FumeKnightAI(BaseAI):
         dy = target.y - self.entity.y
         distance = max(abs(dx), abs(dy))  # Chebyshev distance.
 
-        entity_factories.gas.spawn(self.engine.game_map, self.entity.x, self.entity.y)
+        SpawnAction(self.entity, entity_factories.gas, self.entity.x, self.entity.y).perform()
+        self.engine.message_log.add_message("The Fume Knight releases a cloud of toxic gas!", color.yellow)
