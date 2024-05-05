@@ -49,7 +49,7 @@ class BeamerAI(AIBase):
         # take aim
         if self.ray_cooldown_curr <= 0 and self.can_see(self.entity, target):
             self.engine.message_log.add_message("The beamer focuses its gaze.", color.yellow)
-            ray = Ray(self.entity.x, self.entity.y, dx, dy)
+            ray = Ray(self.entity.x, self.entity.y, target.x, target.y)
             first = True
             for (x, y) in ray:
                 if first:

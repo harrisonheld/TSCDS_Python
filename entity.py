@@ -4,18 +4,17 @@ from typing import TYPE_CHECKING, Optional, Tuple, Type, TypeVar, Union, List
 import copy
 import math
 
+from components.ai.ai_base import AIBase
 from components.base_component import BaseComponent
 from render_order import RenderOrder
 
 if TYPE_CHECKING:
-    from components.ai import BaseAI
     from components.consumable import Consumable
     from components.equipment import Equipment
     from components.equippable import Equippable
     from components.fighter import Fighter
     from components.inventory import Inventory
     from components.level import Level
-    from upgrades import Upgrade
     from game_map import GameMap
 
 T = TypeVar("T", bound="BaseComponent")
@@ -120,7 +119,7 @@ class Actor(Entity):
         color: Tuple[int, int, int] = (255, 255, 255),
         name: str = "<Unnamed>",
         description: str = "<No Description>",
-        ai_cls: Type[BaseAI],
+        ai_cls: Type[AIBase],
         equipment: Equipment,
         fighter: Fighter,
         inventory: Inventory,
@@ -139,7 +138,7 @@ class Actor(Entity):
             components=components,
         )
 
-        self.ai: Optional[BaseAI] = ai_cls(self)
+        self.ai: Optional[AIBase] = ai_cls(self)
 
         self.equipment: Equipment = equipment
         self.equipment.parent = self
