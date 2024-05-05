@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from typing import List, Tuple
 
+from actions.bump_action import BumpAction
 from actions.melee_action import MeleeAction
 from actions.movement_action import MovementAction
 from actions.wait_action import WaitAction
@@ -21,15 +22,11 @@ class HostileEnemyAI(AIBase):
         distance = max(abs(dx), abs(dy))  # Chebyshev distance.
 
         if self.can_see(self.entity, target):
-            if distance <= 1:
-                MeleeAction(self.entity, dx, dy).perform()
-                return
-
             self.path = self.get_path(target.x, target.y)
 
         if self.path:
             dest_x, dest_y = self.path.pop(0)
-            MovementAction(
+            BumpAction(
                 self.entity,
                 dest_x - self.entity.x,
                 dest_y - self.entity.y,

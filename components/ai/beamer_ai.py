@@ -6,6 +6,7 @@ from typing import List, Tuple
 import color
 import entity_factories
 import tile_types
+from actions.bump_action import BumpAction
 from actions.melee_action import MeleeAction
 from actions.movement_action import MovementAction
 from actions.wait_action import WaitAction
@@ -65,13 +66,10 @@ class BeamerAI(AIBase):
 
         # walking
         if self.can_see(self.entity, target):
-            if distance <= 1:
-                MeleeAction(self.entity, dx, dy).perform()
-                return
             self.path = self.get_path(target.x, target.y)
         if self.path:
             dest_x, dest_y = self.path.pop(0)
-            return MovementAction(
+            return BumpAction(
                 self.entity,
                 dest_x - self.entity.x,
                 dest_y - self.entity.y,

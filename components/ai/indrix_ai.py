@@ -3,6 +3,7 @@ from __future__ import annotations
 from typing import List, Tuple, Optional
 
 import entity_factories
+from actions.bump_action import BumpAction
 from actions.displace_action import DisplaceAction
 from actions.melee_action import MeleeAction
 from actions.movement_action import MovementAction
@@ -70,16 +71,12 @@ class IndrixAI(AIBase):
         self.leap_cooldown -= 1
 
         if self.engine.game_map.visible[self.entity.x, self.entity.y]:
-            if distance <= 1:
-                MeleeAction(self.entity, dx, dy).perform()
-                return
-
             self.path = self.get_path(target.x, target.y)
 
         if self.path:
             old_x, old_y = self.entity.x, self.entity.y
             dest_x, dest_y = self.path.pop(0)
-            MovementAction(
+            BumpAction(
                 self.entity,
                 dest_x - old_x,
                 dest_y - old_y,
