@@ -3,6 +3,11 @@ import sys
 import color
 from components import consumable, equippable
 from components.ai import *
+from components.ai.beamer_ai import BeamerAI
+from components.ai.flamewalker_ai import FlamewalkerAI
+from components.ai.fumeknight_ai import FumeKnightAI
+from components.ai.hostile_enemy_ai import HostileEnemyAI
+from components.ai.indrix_ai import IndrixAI
 from components.consumable import SwapConsumable
 from components.equippable import Equippable
 from components.equipment import Equipment
@@ -23,7 +28,7 @@ player = Actor(
     color=color.sky_blue,
     name="Player",
     description="It's you.",
-    ai_cls=HostileEnemy,
+    ai_cls=HostileEnemyAI,
     equipment=Equipment(),
     fighter=Fighter(hp=30, base_defense=0, base_power=2),
     inventory=Inventory(capacity=4),
@@ -35,7 +40,7 @@ frog_warden = Actor(
     color=color.green,
     name="frog warden",
     description="A creature in the shape of a man, wrought of decayed sinews and oozing ichors. The xanthous eyes belie an animated disposition. Through the mire, its skeletal fingers grasp fervently at amphibious creatures with undisputed affection; for what ghastly purpose, no one knows.",
-    ai_cls=HostileEnemy,
+    ai_cls=HostileEnemyAI,
     equipment=Equipment(),
     fighter=Fighter(hp=10, base_defense=0, base_power=3),
     inventory=Inventory(capacity=0),

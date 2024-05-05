@@ -3,14 +3,13 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Optional
 
 import actions.item_action
+import components.ai.confused_ai
 from components.base_component import BaseComponent
 from exceptions import Impossible
 from input_handlers import ActionOrHandler, AreaRangedAttackHandler, SingleRangedAttackHandler, SelectAdjacentHandler
-from actions.action import Action
 from actions.swap_action import SwapAction
 import color
-import components.ai
-import components.inventory
+from components.inventory import Inventory
 
 if TYPE_CHECKING:
     from entity import Actor, Item
@@ -64,7 +63,7 @@ class ConfusionConsumable(Consumable):
             f"The eyes of the {target.name} look vacant, as it starts to stumble around!",
             color.status_effect_applied,
         )
-        target.ai = components.ai.ConfusedEnemy(
+        target.ai = components.ai.confused_ai.ConfusedAI(
             entity=target,
             previous_ai=target.ai,
             turns_remaining=self.number_of_turns,

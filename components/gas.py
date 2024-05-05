@@ -5,12 +5,9 @@ import random
 
 import color
 from components.base_component import BaseComponent
+from components.gas_immune import GasImmune
 
 from typing import TYPE_CHECKING
-
-from components.fire_immune import FireImmune
-from components.gas_immune import GasImmune
-from components.illumination import Illumination
 
 if TYPE_CHECKING:
     from engine import Engine
