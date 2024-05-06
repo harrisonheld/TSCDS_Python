@@ -16,7 +16,7 @@ class FumeKnightAI(AIBase):
         super().__init__(entity)
         self.path: List[Tuple[int, int]] = []
         self.gas_period = 10
-        self.gas_cooldown = 5
+        self.gas_cooldown = 7
         self.gas_duration = 3  # for how many turns to emit gas
 
     def perform(self) -> None:
@@ -32,7 +32,7 @@ class FumeKnightAI(AIBase):
             return
         if self.gas_cooldown < self.gas_duration:
             if self.gas_cooldown == self.gas_duration - 1:
-                self.engine.message_log.add_message("The Fume Knight's sword begins to release toxic gas from the earth.", color.yellow)
+                self.engine.message_log.add_message("The Fume Knight's sword begins to release toxic gas from the earth.", color.pink)
             # else:
             #     self.engine.message_log.add_message("The Fume Knight's sword continues to release residual vapor.", color.yellow)
             if self.gas_cooldown == 0:

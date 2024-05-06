@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from typing import List, Tuple, Optional
 
+import color
 import entity_factories
 from actions.bump_action import BumpAction
 from actions.displace_action import DisplaceAction
@@ -29,7 +30,7 @@ class IndrixAI(AIBase):
 
         # Leap towards the player if the cooldown is ready.
         if self.leap_cooldown <= 0 and distance > 1:
-            self.engine.message_log.add_message("Indrix leaps into the air!")
+            self.engine.message_log.add_message("Indrix leaps into the air!", color.yellow)
             self.leap_cooldown = self.leap_period
             self.leaping = 2
             self.entity.x, self.entity.y = (-1, -1)
@@ -49,7 +50,7 @@ class IndrixAI(AIBase):
                 self.entity.x, self.entity.y = self.leap_indicator.xy
                 self.engine.game_map.entities.remove(self.leap_indicator)
                 self.leap_indicator = None
-                self.engine.message_log.add_message("Indrix slams down his folded carbide hammer!")
+                self.engine.message_log.add_message("Indrix slams down his folded carbide hammer!", color.pink)
                 if self.entity.xy == target.xy:
                     DisplaceAction(target).perform()
                     dx = target.x - self.entity.x
@@ -64,7 +65,7 @@ class IndrixAI(AIBase):
                         if isinstance(thing, Item) and thing.equippable and thing.equippable.power_bonus > 0:
                             damage = thing.equippable.power_bonus * 5
                             self.engine.message_log.add_message(f"Indrix hurts himself on the dropped {thing.name} for {damage} damage.")
-                            self.entity.fighter.hp -= damage
+                            self.entity.fighter.take_damage(damage)
 
             return
 

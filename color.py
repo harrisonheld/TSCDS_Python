@@ -16,7 +16,10 @@ light_grey = (0x94, 0xb0, 0xc2)
 dark_grey = (0x56, 0x6c, 0x86)
 slate_blue = (0x33, 0x3c, 0x57)
 
+pink = (0xfa, 0x91, 0xb2)
 deep_red = (191, 32, 16)
+
+pallette = [black, purple, red, orange, yellow, lime, green, turquoise, navy, blue, sky_blue, cyan, white, light_grey, dark_grey, slate_blue, deep_red, pink]
 
 
 status_perfect = white
@@ -29,7 +32,6 @@ status_dead = dark_grey
 attack_stat = red
 defense_stat = blue
 
-main_menu_background = slate_blue
 main_menu_title = cyan
 main_menu_subtitle = light_grey
 menu_text = white

@@ -124,7 +124,7 @@ beamer_ray_indicator = Entity(
     char=".",
     color=color.deep_red,
     name="indicator",
-    description="If you're standing here, you're wrong.",
+    description="If you're standing here, you shouldn't be.",
     render_order=RenderOrder.EFFECT_BOTTOM
 )
 

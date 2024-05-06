@@ -632,7 +632,7 @@ class GameOverEventHandler(EventHandler):
         width = 19
         height = 19
         sub_console = tcod.console.Console(width, height)
-        sub_console.draw_frame(0, 0, width, height)
+        sub_console.draw_frame(0, 0, width, height, bg=color.black, fg=color.white)
         sub_console.print(width // 2, 0, "┤You Died├", alignment=tcod.constants.CENTER)
         sub_console.print(1,       1, "[n] new game")
         sub_console.print(width // 2, 2, "save and quit", alignment=tcod.constants.CENTER)
@@ -728,7 +728,7 @@ class HelpViewer(EventHandler):
         text = HelpViewer.texts[self.curr_page]
 
         # frame
-        this_here_console.draw_frame(0, 0, this_here_console.width, this_here_console.height)
+        this_here_console.draw_frame(0, 0, this_here_console.width, this_here_console.height, bg=color.black, fg=color.white)
         # contents
         this_here_console.print_box(1, 1, width - 2, height - 2, text)
         # controls in bottom right
@@ -767,7 +767,7 @@ class PauseViewer(EventHandler):
         width = 19
         height = 19
         sub_console = tcod.console.Console(width, height)
-        sub_console.draw_frame(0, 0, width, height)
+        sub_console.draw_frame(0, 0, width, height, bg=color.black, fg=color.white)
         sub_console.print(width // 2, 0, "┤Paused├", alignment=tcod.constants.CENTER)
         sub_console.print(width // 2, 1, "save and quit", alignment=tcod.constants.CENTER)
         sub_console.print(1, 2, "[q] to main menu")

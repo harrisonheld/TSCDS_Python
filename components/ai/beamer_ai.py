@@ -25,6 +25,7 @@ class BeamerAI(AIBase):
         self.ray_cooldown_curr = random.randint(3, self.ray_cooldown)  # inclusive-inclusive
         self.beam_endpoint: Tuple[int, int] = (-1, -1)
         self.indicators: List[Entity] = []
+        self.stored_hp = - 1  # store the hp to know if we got hit while focusing beam
 
     def perform(self) -> None:
         target = self.engine.player
@@ -36,14 +37,30 @@ class BeamerAI(AIBase):
 
         # if we have taken aim, fire the beam
         if self.beam_endpoint != (-1, -1):
-            self.engine.message_log.add_message("The beamer fires a beam!", color.yellow)
+            # check if we got hit while focusing beam
+            if self.stored_hp > self.entity.fighter.hp:
+                self.engine.message_log.add_message("The beamer's focus is interrupted.", color.yellow)
+                self.beam_endpoint = (-1, -1)
+                for indicator in self.indicators:
+                    self.engine.game_map.entities.remove(indicator)
+                self.indicators.clear()
+                # set cooldown to half so it'll fire another beam soonish
+                self.ray_cooldown_curr = self.ray_cooldown / 2
+                return
 
-            # clear the beam indicators
+            # damage every actor in the beam and remove the indicators
+            self.engine.message_log.add_message("The beamer fires a beam!", color.pink)
             for indicator in self.indicators:
+                for actor in self.engine.game_map.get_actors_at_location(indicator.x, indicator.y):
+                    beam_damage = self.entity.fighter.power * 2 - actor.fighter.defense
+                    if beam_damage > 0:
+                        self.engine.message_log.add_message(f"The beam hits the {actor.name} for {beam_damage} damage.", color.enemy_atk)
+                        actor.fighter.take_damage(beam_damage)
+                    else:
+                        self.engine.message_log.add_message(f"The beam hits the {actor.name} but does no damage.", color.enemy_atk)
                 self.engine.game_map.entities.remove(indicator)
             self.indicators.clear()
             self.beam_endpoint = (-1, -1)
-
             self.ray_cooldown_curr = self.ray_cooldown
             return
 
@@ -51,6 +68,7 @@ class BeamerAI(AIBase):
         if self.ray_cooldown_curr <= 0 and self.can_see(self.entity, target):
             self.engine.message_log.add_message("The beamer focuses its gaze.", color.yellow)
             ray = Ray(self.entity.x, self.entity.y, target.x, target.y)
+            self.stored_hp = self.entity.fighter.hp
             first = True
             for (x, y) in ray:
                 if first:
