@@ -84,10 +84,13 @@ class BeamerAI(AIBase):
 
         # walking
         if self.can_see(self.entity, target):
+            if distance <= 1:
+                MeleeAction(self.entity, dx, dy).perform()
+                return
             self.path = self.get_path(target.x, target.y)
         if self.path:
             dest_x, dest_y = self.path.pop(0)
-            return BumpAction(
+            return MovementAction(
                 self.entity,
                 dest_x - self.entity.x,
                 dest_y - self.entity.y,

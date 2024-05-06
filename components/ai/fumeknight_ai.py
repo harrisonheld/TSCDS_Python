@@ -5,6 +5,8 @@ from typing import List, Tuple
 import color
 import entity_factories
 from actions.bump_action import BumpAction
+from actions.melee_action import MeleeAction
+from actions.movement_action import MovementAction
 from actions.spawn_action import SpawnAction
 from actions.wait_action import WaitAction
 from components.ai.ai_base import AIBase
@@ -39,13 +41,16 @@ class FumeKnightAI(AIBase):
                 self.gas_cooldown = self.gas_period
             SpawnAction(self.entity, entity_factories.gas, self.entity.x, self.entity.y).perform()
 
-        if self.engine.game_map.visible[self.entity.x, self.entity.y]:
+        if self.can_see(self.entity, target):
+            if distance <= 1:
+                MeleeAction(self.entity, dx, dy).perform()
+                return
             self.path = self.get_path(target.x, target.y)
 
         if self.path:
             old_x, old_y = self.entity.x, self.entity.y
             dest_x, dest_y = self.path.pop(0)
-            BumpAction(
+            MovementAction(
                 self.entity,
                 dest_x - old_x,
                 dest_y - old_y,
