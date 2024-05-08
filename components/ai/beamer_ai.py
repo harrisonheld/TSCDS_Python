@@ -45,7 +45,7 @@ class BeamerAI(AIBase):
                     self.engine.game_map.entities.remove(indicator)
                 self.indicators.clear()
                 # set cooldown to half so it'll fire another beam soonish
-                self.ray_cooldown_curr = self.ray_cooldown / 2
+                self.ray_cooldown_curr = self.ray_cooldown // 2
                 return
 
             # damage every actor in the beam and remove the indicators
@@ -54,10 +54,11 @@ class BeamerAI(AIBase):
                 for actor in self.engine.game_map.get_actors_at_location(indicator.x, indicator.y):
                     beam_damage = self.entity.fighter.power * 2 - actor.fighter.defense
                     if beam_damage > 0:
-                        self.engine.message_log.add_message(f"The beam hits the {actor.name} for {beam_damage} damage.", color.enemy_atk)
+                        atk_color = color.combat_bad if actor is self.engine.player else color.combat_neutral
+                        self.engine.message_log.add_message(f"The beam hits the {actor.name} for {beam_damage} damage.", atk_color)
                         actor.fighter.take_damage(beam_damage)
                     else:
-                        self.engine.message_log.add_message(f"The beam hits the {actor.name} but does no damage.", color.enemy_atk)
+                        self.engine.message_log.add_message(f"The beam hits the {actor.name} but does no damage.", color.combat_neutral)
                 self.engine.game_map.entities.remove(indicator)
             self.indicators.clear()
             self.beam_endpoint = (-1, -1)

@@ -19,9 +19,6 @@ slate_blue = (0x33, 0x3c, 0x57)
 pink = (0xfa, 0x91, 0xb2)
 deep_red = (191, 32, 16)
 
-pallette = [black, purple, red, orange, yellow, lime, green, turquoise, navy, blue, sky_blue, cyan, white, light_grey, dark_grey, slate_blue, deep_red, pink]
-
-
 status_perfect = white
 status_fine = green
 status_hurt = yellow
@@ -36,14 +33,13 @@ main_menu_title = cyan
 main_menu_subtitle = light_grey
 menu_text = white
 
-player_action = cyan
-enemy_atk = red
+combat_good = green  # player hits
+enemy_die = green
+combat_neutral = white  # player blocks, enemy misses or is blocked
+combat_bad = light_grey  # enemy hits the player, player misses or enemy blocks
 needs_target = yellow
 status_effect_applied = yellow
-descend = sky_blue
-
 player_die = red
-enemy_die = orange
 
 invalid = yellow
 impossible = light_grey

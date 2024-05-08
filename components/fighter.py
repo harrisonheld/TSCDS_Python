@@ -55,9 +55,11 @@ class Fighter(BaseComponent):
         if self.engine.player is self.parent:
             death_message = "Saad, thyn heres been shaken of olde lif. You are dead."
             death_message_color = color.player_die
+            self.engine.message_log.add_message(death_message, death_message_color)
         else:
             death_message = f"The {self.parent.name} dies."
             death_message_color = color.enemy_die
+            self.engine.message_log.add_message(death_message, death_message_color)
 
             self.engine.player.level.add_xp(self.parent.level.xp_given)
 
@@ -67,8 +69,6 @@ class Fighter(BaseComponent):
         self.parent.ai = None
         self.parent.name = f"remains of {self.parent.name}"
         self.parent.render_order = RenderOrder.CORPSE
-
-        self.engine.message_log.add_message(death_message, death_message_color)
 
 
     def heal(self, amount: int) -> int:
