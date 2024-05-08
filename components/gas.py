@@ -4,6 +4,7 @@ import copy
 import random
 
 import color
+import entity_factories
 from components.base_component import BaseComponent
 from components.gas_immune import GasImmune
 
@@ -70,3 +71,6 @@ class Gas(BaseComponent):
                 assert gas_comp is not None
                 gas_comp.density = self.density - 1
                 gas_comp.do_contact_damage()
+
+                if random.random() < (0.1 * self.density):
+                    entity_factories.fire.spawn(self.gamemap, new_x, new_y)

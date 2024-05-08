@@ -94,7 +94,7 @@ fume_knight = Actor(
     fighter=Fighter(hp=50, base_defense=2, base_power=6),
     inventory=Inventory(capacity=0),
     level=Level(xp_given=500),
-    components=[GasImmune()]
+    components=[GasImmune(), FireImmune()]
 )
 
 fire = Entity(
@@ -107,11 +107,11 @@ fire = Entity(
 )
 gas = Entity(
     char="▓",
-    name="gas",
-    description="A cloud of toxic gas.",
+    name="scalding gas",
+    description="A cloud of scalding gas, drawn from deep within the earth. It burns the skin and lungs.",
     color=color.red,
     blocks_movement=False,
-    components=[Gas(density=7, damage=1, spread_chance=0.1)],
+    components=[Gas(density=7, damage=1, spread_chance=0.2)],
 )
 
 indrix_leap_indicator = Entity(
@@ -172,7 +172,7 @@ dagashas_spur = UpgradeDagashasSpur(
     name="Dagasha's Spur",
     description="""This crown of thorns points outward, but its wearer's mind is pierced all the same, drawing in will.
 
-Allows you to swap places with an adjacent enemy.""",
+On use, allows you to swap places with an adjacent enemy.""",
     consumable=SwapConsumable()
 )
 max_health_potion = Item(
@@ -181,7 +181,7 @@ max_health_potion = Item(
     name="max health potion",
     description="""Wysterwort DCXLVIII (reigned 206 - 201): Where his predecessor was known to vanquish anyone who opposed him, King Wysterwort DCXLVIII made no such distinction. For those that survived his fickle bouts of executions, they found themselves subject to strange rules of law. In the year 203, it was mandaded that human babes should be nursed with wine rather than milk. Wysterwort's eccentricities were humored amidst a backdrop of famine and disease. The mad king himself fell victim to blight, and commisioned an alchemist to brew the max health potion. Days before its completion, and for reasons undocumented, the accomplished monarch fell into a deep depression and strangled himself. He was survived by his heir Wysterwort DCXLIX, who abdicated mere minutes later.
 
-Heals you to max health.""",
+On use, heals you to max health.""",
     consumable=consumable.HealingConsumable(amount=sys.maxsize),
 )
 cracked_red_eye_orb = UpgradeCrackedRedEyeOrb(
