@@ -25,7 +25,7 @@ class MeleeAction(ActionWithDirectionBase):
             )
         else:
             miss_color = color.combat_bad if attacker is self.engine.player else color.combat_neutral
-            self.engine.message(
+            self.engine.message_log.add_message(
                 f"{attacker.name.capitalize()} attacks {target.name} but does no damage.", miss_color
             )
 

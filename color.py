@@ -34,12 +34,12 @@ main_menu_subtitle = light_grey
 menu_text = white
 
 combat_good = green  # player hits
-enemy_die = green
+enemy_die = orange
+player_die = red
 combat_neutral = white  # player blocks, enemy misses or is blocked
 combat_bad = light_grey  # enemy hits the player, player misses or enemy blocks
 needs_target = yellow
 status_effect_applied = yellow
-player_die = red
 
 invalid = yellow
 impossible = light_grey

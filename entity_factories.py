@@ -63,7 +63,8 @@ flamewalker = Actor(
     char="f",
     color=color.deep_red,
     name="flamewalker",
-    description="A little spur of fire. Locks of flame dance close behind him as he rolls and tumbles.",
+    description="A little spur of fire. Locks of flame dance close behind him as he rolls and tumbles.\n\n"
+                "The precious creature himself seems harmless, but the flames in his wake are not.",
     ai_cls=FlamewalkerAI,
     equipment=Equipment(),
     fighter=Fighter(hp=3, base_defense=0, base_power=1),

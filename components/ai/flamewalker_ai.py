@@ -13,7 +13,6 @@ from entity import Actor
 
 class FlamewalkerAI(AIBase):
     """Pursue the player and leave a trail of fire. Does not attack otherwise."""
-    # TODO: the fact that the flamewalker has no melee attack should be made more obvious. Playtesters fear the precious creature
     def __init__(self, entity: Actor):
         super().__init__(entity)
         self.path: List[Tuple[int, int]] = []
