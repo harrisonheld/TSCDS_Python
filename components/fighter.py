@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
+import entity_factories
 from components.base_component import BaseComponent
 from render_order import RenderOrder
 import color
@@ -56,20 +57,21 @@ class Fighter(BaseComponent):
             death_message = "Saad, thyn heres been shaken of olde lif. You are dead."
             death_message_color = color.player_die
             self.engine.message_log.add_message(death_message, death_message_color)
+            # make the player itself resemble a corpse
+            self.engine.player.char = "%"
+            self.engine.player.color = color.deep_red
+            self.engine.player.name = f"slain {self.engine.player.name}"
+
         else:
             death_message = f"The {self.parent.name} dies."
             death_message_color = color.enemy_die
             self.engine.message_log.add_message(death_message, death_message_color)
 
+            corpse = entity_factories.corpse.spawn(self.gamemap, self.parent.x, self.parent.y)
+            corpse.name = f"slain {self.parent.name}"
+
             self.engine.player.level.add_xp(self.parent.level.xp_given)
-
-        self.parent.char = "%"
-        self.parent.color = color.deep_red
-        self.parent.blocks_movement = False
-        self.parent.ai = None
-        self.parent.name = f"remains of {self.parent.name}"
-        self.parent.render_order = RenderOrder.CORPSE
-
+            self.gamemap.entities.remove(self.parent)
 
     def heal(self, amount: int) -> int:
         if self.hp == self.max_hp:

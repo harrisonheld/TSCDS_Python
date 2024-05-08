@@ -232,3 +232,11 @@ statue = Entity(
     blocks_movement=True,
     render_order=RenderOrder.ACTOR,
 )
+corpse = Entity(
+    char="%",
+    name="remains",
+    description="The remains of a once living creature.",
+    color=color.deep_red,
+    blocks_movement=False,
+    render_order=RenderOrder.CORPSE,
+)

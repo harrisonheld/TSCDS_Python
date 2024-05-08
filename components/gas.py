@@ -30,9 +30,9 @@ class Gas(BaseComponent):
             actor.fighter.take_damage(self.damage)
 
             if actor is self.engine.player:
-                self.engine.message_log.add_message(f"The gas scalds you for {self.damage} damage.", color.enemy_atk)
+                self.engine.message_log.add_message(f"The gas scalds you for {self.damage} damage.", color.combat_bad)
             else:
-                self.engine.message_log.add_message(f"The gas beneath the {actor.name} scalds for {self.damage} damage.", color.white)
+                self.engine.message_log.add_message(f"The gas beneath the {actor.name} scalds for {self.damage} damage.", color.combat_neutral)
 
     def on_turn(self) -> None:
 

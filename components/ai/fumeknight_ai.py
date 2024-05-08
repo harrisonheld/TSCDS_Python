@@ -34,7 +34,7 @@ class FumeKnightAI(AIBase):
             return
         if self.gas_cooldown < self.gas_duration:
             if self.gas_cooldown == self.gas_duration - 1:
-                self.engine.message_log.add_message("The Fume Knight's sword begins to release toxic gas from the earth.", color.pink)
+                self.engine.message_log.add_message("The Fume Knight's sword begins to release toxic gas from the earth.", color.yellow)
             # else:
             #     self.engine.message_log.add_message("The Fume Knight's sword continues to release residual vapor.", color.yellow)
             if self.gas_cooldown == 0:

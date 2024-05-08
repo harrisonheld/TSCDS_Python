@@ -28,9 +28,9 @@ class Fire(BaseComponent):
             actor.fighter.take_damage(self._damage)
 
             if actor is self.engine.player:
-                self.engine.message_log.add_message(f"The fire beneath you burns for {self._damage} damage.", color.enemy_atk)
+                self.engine.message_log.add_message(f"The fire beneath you burns for {self._damage} damage.", color.combat_bad)
             else:
-                self.engine.message_log.add_message(f"The fire beneath the {actor.name} burns for {self._damage} damage.", color.white)
+                self.engine.message_log.add_message(f"The fire beneath the {actor.name} burns for {self._damage} damage.", color.combat_neutral)
 
 
         # burn down

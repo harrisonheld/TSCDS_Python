@@ -50,7 +50,7 @@ class IndrixAI(AIBase):
                 self.entity.x, self.entity.y = self.leap_indicator.xy
                 self.engine.game_map.entities.remove(self.leap_indicator)
                 self.leap_indicator = None
-                self.engine.message_log.add_message("Indrix slams down his folded carbide hammer!", color.pink)
+                self.engine.message_log.add_message("Indrix slams down his folded carbide hammer!", color.yellow)
                 if self.entity.xy == target.xy:
                     DisplaceAction(target).perform()
                     dx = target.x - self.entity.x
@@ -64,7 +64,9 @@ class IndrixAI(AIBase):
                     for thing in stuff_here:
                         if isinstance(thing, Item) and thing.equippable and thing.equippable.power_bonus > 0:
                             damage = thing.equippable.power_bonus * 5
-                            self.engine.message_log.add_message(f"Indrix hurts himself on the dropped {thing.name} for {damage} damage.")
+                            self.engine.message_log.add_message(
+                                f"Indrix hurts himself on the dropped {thing.name} for {damage} damage.", color.combat_good
+                            )
                             self.entity.fighter.take_damage(damage)
 
             return
