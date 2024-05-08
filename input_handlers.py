@@ -18,6 +18,7 @@ import exceptions
 import strings
 import color
 import keys
+from ui.look_block import LookBlock
 
 if TYPE_CHECKING:
     from engine import Engine
@@ -250,6 +251,10 @@ class InventoryEventHandler(AskUserEventHandler):
 
     TITLE = "<missing title>"
 
+    def __init__(self, engine: Engine):
+        self.curr_selected_idx = 0
+        super().__init__(engine)
+
     def on_render(self, console: tcod.Console) -> None:
         """Render an inventory menu, which displays the items in the inventory, and the letter to select them.
         Will move to a different position based on where the player is located, so the player can always see where
@@ -288,14 +293,6 @@ class InventoryEventHandler(AskUserEventHandler):
             for i, item in enumerate(self.engine.player.inventory.items):
                 item_key = chr(ord("a") + i)
 
-                is_equipped = self.engine.player.equipment.item_is_equipped(item)
-
-                item_string = f"[{item_key}] {item.name}"
-
-                # add equipped marker
-                if is_equipped:
-                    item_string = f"{item_string} (E)"
-
                 # add keybind marker
                 bound_to_key: Optional[tcod.event.KeySym] = None
                 for key, bound_item in self.engine.player.inventory.binds.items():
@@ -303,20 +300,38 @@ class InventoryEventHandler(AskUserEventHandler):
                         bound_to_key = key
                         break
 
-                item_string = f"[{item_key}] {item.name}"
+                item_string = item.name
+                is_equipped = self.engine.player.equipment.item_is_equipped(item)
                 if is_equipped:
                     item_string = f"{item_string} (E)"
                 if bound_to_key is not None:
                     item_string = f"{item_string} (Bound to {bound_to_key.name})"
 
-                console.print(x + 1, y + i + 1, item_string)
+                ordinal_fg, ordinal_bg = color.white, color.black
+                if i == self.curr_selected_idx:
+                    ordinal_fg, ordinal_bg = color.black, color.white
+                console.print(x + 1, y + i + 1, f"[{item_key}]", ordinal_fg, ordinal_bg)
                 console.print(x + 4, y + i + 1, item.char, item.color)
+                console.print(x + 5, y + i + 1, item_string)
 
     def ev_keydown(self, event: tcod.event.KeyDown) -> Optional[ActionOrHandler]:
         player = self.engine.player
         key = event.sym
-        index = key - tcod.event.KeySym.a
 
+        # movement of item selection
+        if key in keys.MENU_NAV_UP:
+            self.curr_selected_idx = (self.curr_selected_idx - 1) % len(player.inventory.items)
+            return None
+        elif key in keys.MENU_NAV_DOWN:
+            self.curr_selected_idx = (self.curr_selected_idx + 1) % len(player.inventory.items)
+            return None
+        # item selection via enter
+        if key in keys.CONFIRM_KEYS:
+            selected_item = player.inventory.items[self.curr_selected_idx]
+            return self.on_item_selected(selected_item)
+
+        # item selection through A-Z keys
+        index = key - tcod.event.KeySym.a
         if 0 <= index <= 26:
             try:
                 selected_item = player.inventory.items[index]
