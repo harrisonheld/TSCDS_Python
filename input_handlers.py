@@ -208,9 +208,9 @@ class LevelUpEventHandler(AskUserEventHandler):
         sub_console.print(x=1, y=1, string="Congratulations! You level up!")
         sub_console.print(x=1, y=2, string="Select an attribute to increase.")
 
-        sub_console.print(x=1, y=4, string=f"a) Constitution (+10 HP, from {self.engine.player.fighter.max_hp})")
+        sub_console.print(x=1, y=4, string=f"a) Vitality (+10 HP, from {self.engine.player.fighter.max_hp})")
         sub_console.print(x=1, y=5, string=f"b) Strength (+1 attack, from {self.engine.player.fighter.power})")
-        sub_console.print(x=1, y=6, string=f"c) Agility (+1 defense, from {self.engine.player.fighter.defense})")
+        sub_console.print(x=1, y=6, string=f"c) Endurance (+1 defense, from {self.engine.player.fighter.defense})")
         sub_console.print(x=1, y=7, string=f"d) Inventory Space (+2 items, from {self.engine.player.inventory.capacity})")
 
         sub_console.blit(console, x, y)
@@ -264,7 +264,7 @@ class InventoryEventHandler(AskUserEventHandler):
         inventory = self.engine.player.inventory
         number_of_items_in_inventory = len(inventory.items)
 
-        height = number_of_items_in_inventory + 3
+        height = number_of_items_in_inventory + 4
 
         if height <= 4:
             height = 4
@@ -288,6 +288,9 @@ class InventoryEventHandler(AskUserEventHandler):
             bg=color.black,
         )
         console.print(x + 1, y, f"┤{self.TITLE} ({number_of_items_in_inventory}/{inventory.capacity} items)├")
+        hint = "┤[l]ook├"
+        console.print(x + width - 1 - len(hint), y + height - 1, hint)
+
 
         if number_of_items_in_inventory > 0:
             for i, item in enumerate(self.engine.player.inventory.items):
@@ -329,6 +332,9 @@ class InventoryEventHandler(AskUserEventHandler):
         if key in keys.CONFIRM_KEYS:
             selected_item = player.inventory.items[self.curr_selected_idx]
             return self.on_item_selected(selected_item)
+        if key == tcod.event.KeySym.l:
+            item = self.engine.player.inventory.items[self.curr_selected_idx]
+            return InspectItemHandler(self.engine, self, item)
 
         # item selection through A-Z keys
         index = key - tcod.event.KeySym.a
@@ -344,6 +350,20 @@ class InventoryEventHandler(AskUserEventHandler):
     def on_item_selected(self, item: Item) -> Optional[ActionOrHandler]:
         """Called when the user selects a valid item."""
         raise NotImplementedError()
+
+
+class InspectItemHandler(EventHandler):
+    def __init__(self, engine: Engine, parent_handler: InventoryEventHandler, item: Item):
+        self.parent_handler = parent_handler
+        self.item = item
+        super().__init__(engine)
+
+    def on_render(self, console: tcod.Console) -> None:
+        self.parent_handler.on_render(console)
+        self.engine.look_block.render_at(console, self.item, *(2, 2))
+
+    def ev_keydown(self, event: tcod.event.KeyDown) -> Optional[ActionOrHandler]:
+        return self.parent_handler
 
 
 class InventoryActivateHandler(InventoryEventHandler):

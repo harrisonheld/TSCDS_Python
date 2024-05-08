@@ -164,7 +164,7 @@ eye_of_belial = UpgradeEyeOfBelial(
     name="Eye of Belial",
     description="""A perfectly smooth sphere carved of red chalcedony.
 
-When in your inventory, allows you to see the detailed stats and health of enemies by looking at them."""
+While in your inventory, allows you to see the detailed stats and health of enemies by looking at them."""
 )
 dagashas_spur = UpgradeDagashasSpur(
     char="Ü",
@@ -190,7 +190,7 @@ cracked_red_eye_orb = UpgradeCrackedRedEyeOrb(
     name="Cracked Red Eye Orb",
     description="""This red gemstone lights a roaring fire in your heart, granting you a tranquil rage. It would only be remiss to leave an enemy unslain.
 
-When in your inventory, increases your attack power by 1.""",
+While in your inventory, increases your attack power by 1.""",
 )
 cracked_blue_eye_orb = UpgradeCrackedBlueEyeOrb(
     char="Θ",
@@ -198,7 +198,7 @@ cracked_blue_eye_orb = UpgradeCrackedBlueEyeOrb(
     name="Cracked Blue Eye Orb",
     description="""This soothing azure gemstone whispers resilience. Cast aside your doubts; they are unworthy of you.
 
-When in your inventory, increases your defense by 1.""",
+While in your inventory, increases your defense by 1.""",
 )
 
 no_loot_note = Item(

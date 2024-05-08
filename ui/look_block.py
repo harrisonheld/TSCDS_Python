@@ -108,3 +108,11 @@ class LookBlock:
                 console.print(right - acc_x, bottom, power)
                 acc_x += 1
                 console.print(right - acc_x, bottom, "♦", color.attack_stat)
+
+    def render_at(self, console: tcod.console.Console, entity: Entity, x: int, y: int) -> None:
+        stored_xy = entity.xy
+        entity.xy = (x-1, y)  # minus 1 because we draw the frame at entity.x + 1
+
+        self.render(console, entity, show_multi_hint=False)
+
+        entity.xy = stored_xy

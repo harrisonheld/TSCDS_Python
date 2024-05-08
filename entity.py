@@ -68,6 +68,11 @@ class Entity:
         """Return the (x, y) coordinates as a tuple."""
         return self.x, self.y
 
+    @xy.setter
+    def xy(self, value: Tuple[int, int]):
+        """Set the (x, y) coordinates."""
+        self.x, self.y = value
+
     def get_component(self, component_type: Type[T]) -> Optional[T]:
         for component in self.components:
             if isinstance(component, component_type):
