@@ -54,5 +54,5 @@ down_stairs = new_tile(
     walkable=True,
     transparent=True,
     dark=(ord(">"), color.floor_dark, color.black),
-    light=(ord(">"), color.black, color.floor_light),
+    light=(ord(">"), color.wall_light, color.floor_light),
 )

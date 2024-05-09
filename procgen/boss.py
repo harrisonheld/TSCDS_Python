@@ -18,8 +18,8 @@ def generate(engine: Engine) -> GameMap:
 
     dungeon.tiles[:] = tile_types.wall
 
-    room_width = random.randint(15, sizes.dungeon_height - 6)
-    room_height = random.randint(15, sizes.dungeon_height - 6)
+    room_width = random.randint(17, sizes.dungeon_height - 6)
+    room_height = random.randint(17, sizes.dungeon_height - 6)
     room_x = (sizes.dungeon_width - room_width) // 2
     room_y = (sizes.dungeon_height - room_height) // 2
     dungeon.tiles[room_x:room_x + room_width, room_y:room_y + room_height] = tile_types.floor

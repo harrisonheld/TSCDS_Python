@@ -28,6 +28,8 @@ class BeamerAI(AIBase):
         self.stored_hp = - 1  # store the hp to know if we got hit while focusing beam
 
     def perform(self) -> None:
+        # TODO: if the beamer dies, his indicator beam won't be removed. solve this issue
+
         target = self.engine.player
         dx = target.x - self.entity.x
         dy = target.y - self.entity.y
@@ -49,7 +51,7 @@ class BeamerAI(AIBase):
                 return
 
             # damage every actor in the beam and remove the indicators
-            self.engine.message_log.add_message("The beamer fires a beam!", color.pink)
+            self.engine.message_log.add_message("The beamer fires a beam!", color.combat_neutral)
             for indicator in self.indicators:
                 for actor in self.engine.game_map.get_actors_at_location(indicator.x, indicator.y):
                     beam_damage = self.entity.fighter.power * 2 - actor.fighter.defense

@@ -192,7 +192,7 @@ class LevelUpEventHandler(AskUserEventHandler):
         super().on_render(console)
 
         width = 42
-        height = 9
+        height = 8
         x = console.width // 2 - width // 2
         y = console.height // 2 - height // 2
 
@@ -205,13 +205,12 @@ class LevelUpEventHandler(AskUserEventHandler):
             alignment=libtcodpy.CENTER
         )
 
-        sub_console.print(x=1, y=1, string="Congratulations! You level up!")
-        sub_console.print(x=1, y=2, string="Select an attribute to increase.")
+        sub_console.print(x=1, y=1, string="Select an attribute to increase.")
 
-        sub_console.print(x=1, y=4, string=f"a) Vitality (+10 HP, from {self.engine.player.fighter.max_hp})")
-        sub_console.print(x=1, y=5, string=f"b) Strength (+1 attack, from {self.engine.player.fighter.power})")
-        sub_console.print(x=1, y=6, string=f"c) Endurance (+1 defense, from {self.engine.player.fighter.defense})")
-        sub_console.print(x=1, y=7, string=f"d) Inventory Space (+2 items, from {self.engine.player.inventory.capacity})")
+        sub_console.print(x=1, y=3, string=f"a) Vitality (+10 HP, from {self.engine.player.fighter.max_hp})")
+        sub_console.print(x=1, y=4, string=f"b) Strength (+1 attack, from {self.engine.player.fighter.power})")
+        sub_console.print(x=1, y=5, string=f"c) Endurance (+1 defense, from {self.engine.player.fighter.defense})")
+        sub_console.print(x=1, y=6, string=f"d) Inventory Space (+2 items, from {self.engine.player.inventory.capacity})")
 
         sub_console.blit(console, x, y)
 
