@@ -15,6 +15,9 @@ class AIBase(Action):
     def perform(self) -> None:
         raise NotImplementedError()
 
+    def on_die(self) -> None:
+        pass
+
     def get_path(self, dest_x: int, dest_y: int) -> List[Tuple[int, int]]:
         """Compute and return a path to the target position.
 

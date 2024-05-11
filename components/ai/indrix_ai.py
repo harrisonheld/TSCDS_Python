@@ -90,3 +90,7 @@ class IndrixAI(AIBase):
             return
 
         WaitAction(self.entity).perform()
+
+    def on_die(self) -> None:
+        if self.leap_indicator is not None:
+            self.engine.game_map.entities.remove(self.leap_indicator)

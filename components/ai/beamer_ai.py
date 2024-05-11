@@ -28,8 +28,6 @@ class BeamerAI(AIBase):
         self.stored_hp = - 1  # store the hp to know if we got hit while focusing beam
 
     def perform(self) -> None:
-        # TODO: if the beamer dies, his indicator beam won't be removed. solve this issue
-
         target = self.engine.player
         dx = target.x - self.entity.x
         dy = target.y - self.entity.y
@@ -100,3 +98,8 @@ class BeamerAI(AIBase):
             ).perform()
 
         WaitAction(self.entity).perform()
+
+    def on_die(self) -> None:
+        for indicator in self.indicators:
+            self.engine.game_map.entities.remove(indicator)
+        self.indicators.clear()
