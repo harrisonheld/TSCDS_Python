@@ -38,7 +38,7 @@ jobs:
           pip install -r requirements.txt  # Install project dependencies
 
       - name: Build project
-        run: pyinstaller build.spec  # Build the project using PyInstaller
+        run: pyinstaller --onefile build.spec  # Build the project using PyInstaller
 
       - name: Archive and Upload
         run: |
