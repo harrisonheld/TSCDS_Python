@@ -166,7 +166,7 @@ class SelectSaveHandler(input_handlers.BaseEventHandler):
                 bg_blend=libtcodpy.BKGND_ALPHA(64),
             )
 
-    def ev_keydown(self, event: tcod.event.KeyDown) -> T | None:
+    def ev_keydown(self, event: tcod.event.KeyDown) -> input_handlers.BaseEventHandler | None:
 
         key = event.sym
         ordinal = key - tcod.event.KeySym.a

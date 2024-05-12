@@ -54,6 +54,7 @@ class Fighter(BaseComponent):
 
     def die(self) -> None:
 
+        assert self.parent.ai is not None
         self.parent.ai.on_die()
 
         if self.engine.player is self.parent:

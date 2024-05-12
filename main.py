@@ -10,10 +10,10 @@ import setup_game
 import sizes
 
 
-def save_game(handler: input_handlers.BaseEventHandler, filename: str) -> None:
+def save_game(handler: input_handlers.BaseEventHandler) -> None:
     """If the current event handler has an active Engine then save it."""
     if isinstance(handler, input_handlers.EventHandler):
-        handler.engine.save_as(filename)
+        handler.engine.save_as(handler.engine.save_path)
         print("Game saved.")
 
 
@@ -41,7 +41,7 @@ def main() -> None:
                         context.convert_event(event)
                         handler = handler.handle_events(event)
                 except exceptions.SaveAndQuitToMainMenu:
-                    save_game(handler, handler.engine.save_path)
+                    save_game(handler)
                     handler = setup_game.MainMenu()
                 except exceptions.QuitToMainMenu:
                     handler = setup_game.MainMenu()
@@ -55,10 +55,10 @@ def main() -> None:
         except exceptions.QuitWithoutSaving:  # Quit to desktop
             raise
         except SystemExit:  # Save and quit to desktop
-            save_game(handler, handler.engine.save_path)
+            save_game(handler)
             raise
         except BaseException:  # Save on any other unexpected exception.
-            save_game(handler, handler.engine.save_path)
+            save_game(handler)
             raise
 
 
