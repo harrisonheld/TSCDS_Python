@@ -177,6 +177,9 @@ class SelectSaveHandler(input_handlers.BaseEventHandler):
                 save: Engine = load_game(save_file_name)
                 return input_handlers.MainGameEventHandler(save)
             except Exception as e:
-                return input_handlers.PopupMessage(self, traceback.format_exc())
+                message = f"─┤Error Loading Save File├─"
+                message += "\n\n" + str(e)
+                message += "\n\n" + "Contact the developer at harrydheld@gmail.com."
+                return input_handlers.PopupMessage(self, message)
 
         return MainMenu()
