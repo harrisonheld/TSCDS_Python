@@ -43,8 +43,8 @@ d drop item
 c view character sheet
 m view detailed message log
 
-b   edit binds
-1-9 use binds
+b   edit key binds
+1-9 use key binds
 """
 
 general_info = r"""To complete a floor, you will want to find the staircase. It looks like this: >

@@ -307,9 +307,9 @@ class InventoryEventHandler(AskUserEventHandler):
                 item_string = item.name
                 is_equipped = self.engine.player.equipment.item_is_equipped(item)
                 if is_equipped:
-                    item_string = f"{item_string} (E)"
+                    item_string = f"{item_string} (equipped)"
                 if bound_to_key is not None:
-                    item_string = f"{item_string} (Bound to {bound_to_key.name})"
+                    item_string = f"{item_string} (bound to {bound_to_key.name})"
 
                 ordinal_fg, ordinal_bg = color.white, color.black
                 if i == self.curr_selected_idx:
