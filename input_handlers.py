@@ -657,8 +657,9 @@ class GameOverEventHandler(EventHandler):
 
     def __init__(self, engine: Engine):
         super().__init__(engine)
-        if os.path.exists("savegame.sav"):
-            os.remove("savegame.sav")  # Deletes the active save file.
+        # Deletes the active save file.
+        if os.path.exists(engine.save_path):
+            os.remove(engine.save_path)
 
     def on_render(self, console: tcod.Console) -> None:
         super().on_render(console)  # Draw the main state as the background.

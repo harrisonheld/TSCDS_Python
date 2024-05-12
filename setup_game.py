@@ -1,6 +1,7 @@
 """Handle the loading and initialization of game sessions."""
 from __future__ import annotations
 
+from datetime import datetime
 from typing import Optional
 import copy
 import lzma
@@ -9,6 +10,8 @@ import traceback
 
 from PIL import Image  # type: ignore
 import tcod
+from tcod.event import T
+
 import strings
 
 from engine import Engine
@@ -60,6 +63,11 @@ def new_game() -> Engine:
 
     player.equipment.toggle_equip(dagger, add_message=False)
     player.equipment.toggle_equip(leather_armor, add_message=False)
+
+    current_time = datetime.now()
+    timestamp = current_time.strftime("%Y-%m-%d_%H-%M-%S")
+    save_file_name = f"save_{timestamp}.sav"
+    engine.save_path = f"saves/{save_file_name}"
 
     return engine
 
@@ -122,14 +130,53 @@ class MainMenu(input_handlers.BaseEventHandler):
         if event.sym == tcod.event.KeySym.q:
             raise SystemExit()
         elif event.sym == tcod.event.KeySym.c:
-            try:
-                return input_handlers.MainGameEventHandler(load_game("savegame.sav"))
-            except FileNotFoundError:
-                return input_handlers.PopupMessage(self, "No saved game to load.")
-            except Exception as exc:
-                traceback.print_exc()  # Print to stderr.
-                return input_handlers.PopupMessage(self, f"Failed to load save:\n{exc}")
+            return SelectSaveHandler()
         elif event.sym == tcod.event.KeySym.n:
             return input_handlers.MainGameEventHandler(new_game())
 
         return None
+
+
+class SelectSaveHandler(input_handlers.BaseEventHandler):
+
+    def __init__(self):
+        import os
+        import glob
+
+        self.save_files = glob.glob("saves/*.sav")
+
+    def on_render(self, console: tcod.Console) -> None:
+        console.print(
+            console.width // 2,
+            console.height // 2 - 5,
+            "Select a save file to load",
+            fg=color.menu_text,
+            bg=color.black,
+            alignment=libtcodpy.CENTER,
+        )
+
+        for i, save_file_name in enumerate(self.save_files):
+            console.print(
+                console.width // 2,
+                console.height // 2 - 4 + i,
+                f"[{chr(tcod.event.KeySym.a + i)}] {save_file_name}",
+                fg=color.menu_text,
+                bg=color.black,
+                alignment=libtcodpy.CENTER,
+                bg_blend=libtcodpy.BKGND_ALPHA(64),
+            )
+
+    def ev_keydown(self, event: tcod.event.KeyDown) -> T | None:
+
+        key = event.sym
+        ordinal = key - tcod.event.KeySym.a
+
+        if 0 <= ordinal < len(self.save_files):
+            try:
+                save_file_name = self.save_files[ordinal]
+                save: Engine = load_game(save_file_name)
+                return input_handlers.MainGameEventHandler(save)
+            except Exception as e:
+                return input_handlers.PopupMessage(self, traceback.format_exc())
+
+        return MainMenu()

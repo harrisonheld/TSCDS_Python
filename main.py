@@ -41,7 +41,7 @@ def main() -> None:
                         context.convert_event(event)
                         handler = handler.handle_events(event)
                 except exceptions.SaveAndQuitToMainMenu:
-                    save_game(handler, "savegame.sav")
+                    save_game(handler, handler.engine.save_path)
                     handler = setup_game.MainMenu()
                 except exceptions.QuitToMainMenu:
                     handler = setup_game.MainMenu()
@@ -55,10 +55,10 @@ def main() -> None:
         except exceptions.QuitWithoutSaving:  # Quit to desktop
             raise
         except SystemExit:  # Save and quit to desktop
-            save_game(handler, "savegame.sav")
+            save_game(handler, handler.engine.save_path)
             raise
         except BaseException:  # Save on any other unexpected exception.
-            save_game(handler, "savegame.sav")
+            save_game(handler, handler.engine.save_path)
             raise
 
 

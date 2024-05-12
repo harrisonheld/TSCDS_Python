@@ -32,6 +32,7 @@ class Engine:
         self.look_block = LookBlock()
         self.mouse_location = (-1, -1)  # off-screen
         self.player = player
+        self.save_path = ""
 
     def handle_enemy_turns(self) -> None:
         for actor in set(self.game_map.actors) - {self.player}:
