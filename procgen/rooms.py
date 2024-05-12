@@ -73,7 +73,7 @@ class TreasureRoom(RoomBase):
             loot = random.choice(pool)
             pool.remove(loot)
         else:
-            loot = entity_factories.no_loot_note
+            loot = entity_factories.default_loot
         loot.spawn(dungeon, *self.center)
 
         dungeon.explored[self.inner_with_rind] = True

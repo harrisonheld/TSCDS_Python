@@ -74,7 +74,7 @@ flamewalker = Actor(
 )
 
 indrix = Actor(
-    char="g",
+    char="G",
     color=color.sky_blue,
     name="teary-eyed Indrix",
     description="Cast from his home twice too many times, the caprine pariah willfully wields the amaranthine prism, seeking to end his own life in a spectacular fashion. The great curling horn slung low about his hip gives him the distinction of being the only warrior to bear his own appendage as a trophy.",
@@ -85,9 +85,9 @@ indrix = Actor(
     level=Level(xp_given=400),
 )
 fume_knight = Actor(
-    char="f",
+    char="F",
     color=color.dark_grey,
-    name="fume knight",
+    name="Fume Knight",
     description="[TODO]",
     ai_cls=FumeKnightAI,
     equipment=Equipment(),
@@ -95,6 +95,17 @@ fume_knight = Actor(
     inventory=Inventory(capacity=0),
     level=Level(xp_given=500),
     components=[GasImmune(), FireImmune()]
+)
+default_boss = Actor(
+    name="Soldier of God",
+    char="R",
+    color=color.green,
+    description="Clad in resplendent green and red armor, adorned with intricate golden filigree, Rick is the G.O.A.T. Essentially, you will have a very hard time defeating Rick.",
+    ai_cls=HostileEnemyAI,
+    equipment=Equipment(),
+    fighter=Fighter(hp=1, base_defense=0, base_power=1),
+    inventory=Inventory(capacity=0),
+    level=Level(xp_given=10),
 )
 
 fire = Entity(
@@ -200,8 +211,7 @@ cracked_blue_eye_orb = UpgradeCrackedBlueEyeOrb(
 
 While in your inventory, increases your defense by 1.""",
 )
-
-no_loot_note = Item(
+default_loot = Item(
     color=color.white,
     char='~',
     name="scrap of paper",

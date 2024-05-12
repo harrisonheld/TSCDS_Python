@@ -30,9 +30,13 @@ def generate(engine: Engine) -> GameMap:
     # Place player
     player.place(sizes.dungeon_width // 2, sizes.dungeon_height // 2 + 6, gamemap=dungeon)
     # Place boss
-    chosen = random.choice(engine.game_world.boss_pool)
-    engine.game_world.boss_pool.remove(chosen)
-    chosen.spawn(dungeon, sizes.dungeon_width // 2, sizes.dungeon_height // 2)
+    boss_pos = (sizes.dungeon_width // 2, sizes.dungeon_height // 2)
+    if engine.game_world.boss_pool == []:
+        entity_factories.default_boss.spawn(dungeon, *boss_pos)
+    else:
+        chosen = random.choice(engine.game_world.boss_pool)
+        engine.game_world.boss_pool.remove(chosen)
+        chosen.spawn(dungeon, sizes.dungeon_width // 2, sizes.dungeon_height // 2)
     # place braziers in corners
     entity_factories.brazier.spawn(dungeon, room_x + 1, room_y + 1)
     entity_factories.brazier.spawn(dungeon, room_x + room_width - 2, room_y + 1)
