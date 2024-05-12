@@ -1,3 +1,6 @@
+# This workflow will install Python dependencies and run some static tests.
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
+
 name: Deploy
 
 on: [push, pull_request]
@@ -21,12 +24,12 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2.4.3  # Updated to use Node.js 20
+        uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v5
         with:
-          python-version: 3.8  # Use Python 3.8
+          python-version: 3.8
 
       - name: Install dependencies
         run: |
@@ -62,7 +65,7 @@ jobs:
         if: success()  # Only execute this step if the build was successful
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: tscds-${{ github.run_id }}-${{ matrix.os }}  # Name the artifact
           path: ${{ github.run_number }}-${{ matrix.os }}.*  # Upload the generated artifact file
