@@ -1,4 +1,5 @@
 """Handle the loading and initialization of game sessions."""
+
 from __future__ import annotations
 
 from datetime import datetime
@@ -6,25 +7,21 @@ from typing import Optional
 import copy
 import lzma
 import pickle
+import random
 import traceback
 
 from PIL import Image  # type: ignore
-import tcod
+from tcod import libtcodpy
 from tcod.event import T
-
-import strings
+import tcod
 
 from engine import Engine
 from game_map import GameWorld
+from ui.starfield import Starfield
 import color
 import entity_factories
 import input_handlers
-
-from tcod import libtcodpy
-
-import random
-
-from ui.starfield import Starfield
+import strings
 
 # Load the background image.  Pillow returns an object convertable into a NumPy array.
 background_image = Image.open("data/menu_background.png")
@@ -45,14 +42,13 @@ def new_game() -> Engine:
         entity_factories.cracked_red_eye_orb,
         entity_factories.cracked_blue_eye_orb,
     ]
-    engine.game_world.boss_pool = [
-        entity_factories.indrix,
-        entity_factories.fume_knight
-    ]
+    engine.game_world.boss_pool = [entity_factories.indrix, entity_factories.fume_knight]
     engine.game_world.generate_floor()
     engine.update_visibility()
 
-    engine.message_log.add_message("Artow a Saad of olde Salum, and nou stonden thu at the heigh gate to Brightsheol. Fight or die.")
+    engine.message_log.add_message(
+        "Artow a Saad of olde Salum, and nou stonden thu at the heigh gate to Brightsheol. Fight or die."
+    )
     engine.message_log.add_message("Press '?' for help.", color.welcome_text)
 
     dagger = copy.deepcopy(entity_factories.dagger)
@@ -82,6 +78,7 @@ def load_game(filename: str) -> Engine:
 
 class MainMenu(input_handlers.BaseEventHandler):
     """Handle the main menu rendering and input."""
+
     musing = random.choice(strings.musings)
     starfield = Starfield()
 
@@ -140,8 +137,8 @@ class MainMenu(input_handlers.BaseEventHandler):
 class SelectSaveHandler(input_handlers.BaseEventHandler):
 
     def __init__(self):
-        import os
         import glob
+        import os
 
         self.save_files = glob.glob("saves/*.sav")
 

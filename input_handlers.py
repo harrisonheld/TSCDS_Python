@@ -1,29 +1,27 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Callable, Optional, Tuple, Union, Type
+from typing import TYPE_CHECKING, Callable, Optional, Tuple, Type, Union
 import os
 
-import tcod
 from tcod import libtcodpy
+import tcod
 
-import actions.take_stairs_action
 from actions.action import Action
 from actions.bump_action import BumpAction
+from actions.drop_item_action import DropItemAction
+from actions.equip_action import EquipAction
 from actions.pickup_action import PickupAction
 from actions.wait_action import WaitAction
-from actions.equip_action import EquipAction
-from actions.drop_item_action import DropItemAction
+from ui.look_block import LookBlock
+import actions.take_stairs_action
 import color
 import exceptions
-import strings
-import color
 import keys
-from ui.look_block import LookBlock
+import strings
 
 if TYPE_CHECKING:
     from engine import Engine
     from entity import Item
-
 
 
 ActionOrHandler = Union[Action, "BaseEventHandler"]
@@ -167,14 +165,7 @@ class CharacterScreenEventHandler(AskUserEventHandler):
         width = len(self.TITLE) + 4
 
         console.draw_frame(
-            x=x,
-            y=y,
-            width=width,
-            height=7,
-            title=self.TITLE,
-            clear=True,
-            fg=(255, 255, 255),
-            bg=color.black
+            x=x, y=y, width=width, height=7, title=self.TITLE, clear=True, fg=(255, 255, 255), bg=color.black
         )
 
         console.print(x=x + 1, y=y + 1, string=f"Level: {self.engine.player.level.current_level}")
@@ -200,19 +191,16 @@ class LevelUpEventHandler(AskUserEventHandler):
 
         sub_console = tcod.console.Console(width, height)
         sub_console.draw_frame(0, 0, width, height, bg=color.black, fg=color.white)
-        sub_console.print(
-            x=width // 2,
-            y=0,
-            string="┤Level Up├",
-            alignment=libtcodpy.CENTER
-        )
+        sub_console.print(x=width // 2, y=0, string="┤Level Up├", alignment=libtcodpy.CENTER)
 
         sub_console.print(x=1, y=1, string="Select an attribute to increase.")
 
         sub_console.print(x=1, y=3, string=f"a) Vitality (+10 HP, from {self.engine.player.fighter.max_hp})")
         sub_console.print(x=1, y=4, string=f"b) Strength (+1 attack, from {self.engine.player.fighter.power})")
         sub_console.print(x=1, y=5, string=f"c) Endurance (+1 defense, from {self.engine.player.fighter.defense})")
-        sub_console.print(x=1, y=6, string=f"d) Inventory Space (+2 items, from {self.engine.player.inventory.capacity})")
+        sub_console.print(
+            x=1, y=6, string=f"d) Inventory Space (+2 items, from {self.engine.player.inventory.capacity})"
+        )
 
         sub_console.blit(console, x, y)
 
@@ -291,7 +279,6 @@ class InventoryEventHandler(AskUserEventHandler):
         console.print(x + 1, y, f"┤{self.TITLE} ({number_of_items_in_inventory}/{inventory.capacity} items)├")
         hint = "┤[l]ook├"
         console.print(x + width - 1 - len(hint), y + height - 1, hint)
-
 
         if number_of_items_in_inventory > 0:
             for i, item in enumerate(self.engine.player.inventory.items):
@@ -428,6 +415,7 @@ class InventoryDropHandler(InventoryEventHandler):
 
 class SelectAdjacentHandler(AskUserEventHandler):
     """Handles asking the user for one of 8 directions."""
+
     def __init__(self, engine: Engine, callback: Callable[[Tuple[int, int]], Optional[Action]]):
         super().__init__(engine)
         self.callback = callback
@@ -508,6 +496,7 @@ class SelectIndexHandler(AskUserEventHandler):
 
 class LookHandler(SelectIndexHandler):
     """Lets the player look around using the keyboard."""
+
     def __init__(self, engine: Engine):
         super().__init__(engine)
         self.look_index = 0
@@ -593,8 +582,8 @@ class AreaRangedAttackHandler(SelectIndexHandler):
         console.draw_frame(
             x=x - self.radius - 1,
             y=y - self.radius - 1,
-            width=self.radius ** 2,
-            height=self.radius ** 2,
+            width=self.radius**2,
+            height=self.radius**2,
             fg=color.red,
             clear=False,
         )
@@ -671,10 +660,10 @@ class GameOverEventHandler(EventHandler):
         sub_console = tcod.console.Console(width, height)
         sub_console.draw_frame(0, 0, width, height, bg=color.black, fg=color.white)
         sub_console.print(width // 2, 0, "┤You Died├", alignment=tcod.constants.CENTER)
-        sub_console.print(1,       1, "[n] new game")
+        sub_console.print(1, 1, "[n] new game")
         sub_console.print(width // 2, 2, "save and quit", alignment=tcod.constants.CENTER)
-        sub_console.print(1,       3, "[q] to main menu")
-        sub_console.print(1,       4, "[Q] to desktop")
+        sub_console.print(1, 3, "[q] to main menu")
+        sub_console.print(1, 4, "[Q] to desktop")
 
         x = console.width // 2 - sub_console.width // 2
         y = console.height // 2 - sub_console.height // 2
@@ -748,6 +737,7 @@ class HistoryViewer(EventHandler):
 
 class HelpViewer(EventHandler):
     """Print the controls."""
+
     titles = ["Controls", "General Info", "About"]
     texts = [strings.controls, strings.general_info, strings.about]
 
@@ -766,7 +756,9 @@ class HelpViewer(EventHandler):
         text = HelpViewer.texts[self.curr_page]
 
         # frame
-        this_here_console.draw_frame(0, 0, this_here_console.width, this_here_console.height, bg=color.black, fg=color.white)
+        this_here_console.draw_frame(
+            0, 0, this_here_console.width, this_here_console.height, bg=color.black, fg=color.white
+        )
         # contents
         this_here_console.print_box(1, 1, width - 2, height - 2, text)
         # controls in bottom right
@@ -780,10 +772,10 @@ class HelpViewer(EventHandler):
                 col = color.welcome_text
 
             if i == self.curr_page:
-                this_here_console.print(acc_x-1, 0, "┤")
+                this_here_console.print(acc_x - 1, 0, "┤")
             this_here_console.print(acc_x, 0, title, col)
             if i == self.curr_page:
-                this_here_console.print(acc_x+len(title), 0, "├")
+                this_here_console.print(acc_x + len(title), 0, "├")
             acc_x += len(title) + 3
 
         this_here_console.blit(console, 3, 3)

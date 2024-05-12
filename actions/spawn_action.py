@@ -1,9 +1,9 @@
 from __future__ import annotations
 
+from actions.action import Action
+from entity import Actor, Entity
 import color
 import exceptions
-from actions.action import Action
-from entity import Entity, Actor
 
 
 class SpawnAction(Action):

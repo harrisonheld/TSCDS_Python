@@ -1,14 +1,13 @@
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
 import copy
 import random
 
-import color
-import entity_factories
 from components.base_component import BaseComponent
 from components.gas_immune import GasImmune
-
-from typing import TYPE_CHECKING
+import color
+import entity_factories
 
 if TYPE_CHECKING:
     from engine import Engine
@@ -33,7 +32,9 @@ class Gas(BaseComponent):
             if actor is self.engine.player:
                 self.engine.message_log.add_message(f"The gas scalds you for {self.damage} damage.", color.combat_bad)
             else:
-                self.engine.message_log.add_message(f"The gas beneath the {actor.name} scalds for {self.damage} damage.", color.combat_neutral)
+                self.engine.message_log.add_message(
+                    f"The gas beneath the {actor.name} scalds for {self.damage} damage.", color.combat_neutral
+                )
 
     def on_turn(self) -> None:
 
@@ -62,7 +63,11 @@ class Gas(BaseComponent):
                 if self.spread_chance < random.random():
                     continue
                 # if there's already gas there, don't spread
-                if any(entity for entity in self.gamemap.get_entities_at_location(new_x, new_y) if entity.has_component(Gas)):
+                if any(
+                    entity
+                    for entity in self.gamemap.get_entities_at_location(new_x, new_y)
+                    if entity.has_component(Gas)
+                ):
                     continue
 
                 new_gas = copy.deepcopy(self.parent)

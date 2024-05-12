@@ -2,14 +2,14 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Optional
 
-import actions.item_action
-import components.ai.confused_ai
-from components.base_component import BaseComponent
-from exceptions import Impossible
-from input_handlers import ActionOrHandler, AreaRangedAttackHandler, SingleRangedAttackHandler, SelectAdjacentHandler
 from actions.swap_action import SwapAction
-import color
+from components.base_component import BaseComponent
 from components.inventory import Inventory
+from exceptions import Impossible
+from input_handlers import ActionOrHandler, AreaRangedAttackHandler, SelectAdjacentHandler, SingleRangedAttackHandler
+import actions.item_action
+import color
+import components.ai.confused_ai
 
 if TYPE_CHECKING:
     from entity import Actor, Item
@@ -153,7 +153,9 @@ class LightningDamageConsumable(Consumable):
 class SwapConsumable(Consumable):
     def get_action(self, consumer: Actor) -> SelectAdjacentHandler:
         self.engine.message_log.add_message("Select a target to swap with.", color.needs_target)
-        return SelectAdjacentHandler(self.engine, callback=lambda xy: actions.item_action.ItemAction(consumer, self.parent, xy))
+        return SelectAdjacentHandler(
+            self.engine, callback=lambda xy: actions.item_action.ItemAction(consumer, self.parent, xy)
+        )
 
     def activate(self, action: actions.item_action.ItemAction) -> None:
         dx = action.target_xy[0] - action.entity.x

@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-import exceptions
 from actions.action_with_direction_base import ActionWithDirectionBase
+import exceptions
 
 
 class MovementAction(ActionWithDirectionBase):

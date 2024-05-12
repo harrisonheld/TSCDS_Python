@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Optional, Tuple, Type, TypeVar, Union, List
+from typing import TYPE_CHECKING, List, Optional, Tuple, Type, TypeVar, Union
 import copy
 import math
 
@@ -129,7 +129,7 @@ class Actor(Entity):
         fighter: Fighter,
         inventory: Inventory,
         level: Level,
-        components: List[BaseComponent] = []
+        components: List[BaseComponent] = [],
     ):
         super().__init__(
             x=x,
@@ -175,7 +175,7 @@ class Item(Entity):
         description: str = "<No Description>",
         consumable: Optional[Consumable] = None,
         equippable: Optional[Equippable] = None,
-        components: List[BaseComponent] = []
+        components: List[BaseComponent] = [],
     ):
         super().__init__(
             x=x,

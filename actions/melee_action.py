@@ -1,9 +1,9 @@
 from __future__ import annotations
 
+from actions.action_with_direction_base import ActionWithDirectionBase
 import color
 import exceptions
 import strings
-from actions.action_with_direction_base import ActionWithDirectionBase
 
 
 class MeleeAction(ActionWithDirectionBase):

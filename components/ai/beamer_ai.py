@@ -1,11 +1,8 @@
 from __future__ import annotations
 
-import random
 from typing import List, Tuple
+import random
 
-import color
-import entity_factories
-import tile_types
 from actions.bump_action import BumpAction
 from actions.melee_action import MeleeAction
 from actions.movement_action import MovementAction
@@ -13,6 +10,9 @@ from actions.wait_action import WaitAction
 from components.ai.ai_base import AIBase
 from entity import Actor, Entity
 from shape.ray import Ray
+import color
+import entity_factories
+import tile_types
 
 
 class BeamerAI(AIBase):
@@ -25,7 +25,7 @@ class BeamerAI(AIBase):
         self.ray_cooldown_curr = random.randint(3, self.ray_cooldown)  # inclusive-inclusive
         self.beam_endpoint: Tuple[int, int] = (-1, -1)
         self.indicators: List[Entity] = []
-        self.stored_hp = - 1  # store the hp to know if we got hit while focusing beam
+        self.stored_hp = -1  # store the hp to know if we got hit while focusing beam
 
     def perform(self) -> None:
         target = self.engine.player
@@ -55,10 +55,14 @@ class BeamerAI(AIBase):
                     beam_damage = self.entity.fighter.power * 2 - actor.fighter.defense
                     if beam_damage > 0:
                         atk_color = color.combat_bad if actor is self.engine.player else color.combat_neutral
-                        self.engine.message_log.add_message(f"The beam hits the {actor.name} for {beam_damage} damage.", atk_color)
+                        self.engine.message_log.add_message(
+                            f"The beam hits the {actor.name} for {beam_damage} damage.", atk_color
+                        )
                         actor.fighter.take_damage(beam_damage)
                     else:
-                        self.engine.message_log.add_message(f"The beam hits the {actor.name} but does no damage.", color.combat_neutral)
+                        self.engine.message_log.add_message(
+                            f"The beam hits the {actor.name} but does no damage.", color.combat_neutral
+                        )
                 self.engine.game_map.entities.remove(indicator)
             self.indicators.clear()
             self.beam_endpoint = (-1, -1)
@@ -71,7 +75,7 @@ class BeamerAI(AIBase):
             ray = Ray(self.entity.x, self.entity.y, target.x, target.y)
             self.stored_hp = self.entity.fighter.hp
             first = True
-            for (x, y) in ray:
+            for x, y in ray:
                 if first:
                     first = False
                     continue

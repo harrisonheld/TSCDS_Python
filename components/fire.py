@@ -1,17 +1,17 @@
 from __future__ import annotations
 
-import color
-from components.base_component import BaseComponent
-
 from typing import TYPE_CHECKING
 
+from components.base_component import BaseComponent
 from components.fire_immune import FireImmune
 from components.illumination import Illumination
+import color
 
 if TYPE_CHECKING:
     from engine import Engine
     from entity import Entity
     from game_map import GameMap
+
 
 class Fire(BaseComponent):
     def __init__(self, lifetime: int, damage: int):
@@ -28,10 +28,13 @@ class Fire(BaseComponent):
             actor.fighter.take_damage(self._damage)
 
             if actor is self.engine.player:
-                self.engine.message_log.add_message(f"The fire beneath you burns for {self._damage} damage.", color.combat_bad)
+                self.engine.message_log.add_message(
+                    f"The fire beneath you burns for {self._damage} damage.", color.combat_bad
+                )
             else:
-                self.engine.message_log.add_message(f"The fire beneath the {actor.name} burns for {self._damage} damage.", color.combat_neutral)
-
+                self.engine.message_log.add_message(
+                    f"The fire beneath the {actor.name} burns for {self._damage} damage.", color.combat_neutral
+                )
 
         # burn down
         self._life_remaining -= 1
@@ -43,4 +46,3 @@ class Fire(BaseComponent):
         if self._life_remaining <= 0:
             self.gamemap.entities.remove(self.parent)
             self.engine.message_log.add_message("The fire burns out.", color.white)
-

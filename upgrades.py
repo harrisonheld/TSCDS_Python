@@ -1,7 +1,7 @@
 from typing import Tuple
 
 from engine import Engine
-from entity import Item, Actor
+from entity import Actor, Item
 from ui.look_block import LookBlock
 
 

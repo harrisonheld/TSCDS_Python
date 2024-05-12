@@ -1,12 +1,13 @@
 from __future__ import annotations
 
+from actions.action_with_direction_base import ActionWithDirectionBase
 import color
 import exceptions
-from actions.action_with_direction_base import ActionWithDirectionBase
 
 
 class SwapAction(ActionWithDirectionBase):
     """Swap positions with an entity."""
+
     def perform(self) -> None:
         target = self.target_entity
         if target is None:

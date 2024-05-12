@@ -2,17 +2,18 @@ from __future__ import annotations
 
 from typing import List, Tuple
 
-import entity_factories
 from actions.movement_action import MovementAction
 from actions.oggle_action import OggleAction
 from actions.spawn_action import SpawnAction
 from actions.wait_action import WaitAction
 from components.ai.ai_base import AIBase
 from entity import Actor
+import entity_factories
 
 
 class FlamewalkerAI(AIBase):
     """Pursue the player and leave a trail of fire. Does not attack otherwise."""
+
     def __init__(self, entity: Actor):
         super().__init__(entity)
         self.path: List[Tuple[int, int]] = []

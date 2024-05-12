@@ -1,10 +1,9 @@
 from __future__ import annotations
 
-import entity_factories
-from procgen.helpers import *
-
-import sizes
 from game_map import GameMap
+from procgen.helpers import *
+import entity_factories
+import sizes
 import tile_types
 
 if TYPE_CHECKING:
@@ -22,7 +21,7 @@ def generate(engine: Engine) -> GameMap:
     room_height = random.randint(17, sizes.dungeon_height - 6)
     room_x = (sizes.dungeon_width - room_width) // 2
     room_y = (sizes.dungeon_height - room_height) // 2
-    dungeon.tiles[room_x:room_x + room_width, room_y:room_y + room_height] = tile_types.floor
+    dungeon.tiles[room_x : room_x + room_width, room_y : room_y + room_height] = tile_types.floor
 
     # Place stairs
     dungeon.tiles[sizes.dungeon_width // 2, sizes.dungeon_height // 2] = tile_types.down_stairs
@@ -48,9 +47,7 @@ def generate(engine: Engine) -> GameMap:
     entity_factories.statue.spawn(dungeon, room_x + 1, sizes.dungeon_height // 2)
     entity_factories.statue.spawn(dungeon, room_x + room_width - 2, sizes.dungeon_height // 2)
 
-
-
     # make room visible
-    dungeon.explored[room_x-1:room_x + room_width+1, room_y-1:room_y + room_height+1] = True
+    dungeon.explored[room_x - 1 : room_x + room_width + 1, room_y - 1 : room_y + room_height + 1] = True
 
     return dungeon

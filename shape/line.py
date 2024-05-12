@@ -1,4 +1,5 @@
 from typing import Iterable, Tuple
+
 from shape.base_shape import BaseShape
 
 

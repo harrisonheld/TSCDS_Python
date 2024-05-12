@@ -1,13 +1,13 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, List, Dict, Optional
+from typing import TYPE_CHECKING, Dict, List, Optional
 
 import tcod.event
 
-import color
-import exceptions
 from components.base_component import BaseComponent
 from keys import BINDABLE_KEYS
+import color
+import exceptions
 
 if TYPE_CHECKING:
     from entity import Actor, Item
@@ -76,17 +76,17 @@ class Inventory(BaseComponent):
             self.engine.message_log.add_message(f"Bound {item.name} to [{key.name}].")
 
     def unbind(self, item: Item, add_message: bool = True) -> Optional[tcod.event.KeySym]:
-            """
-            Unbinds an item from its current key, if any, and returns the key it was bound to.
-            Returns None if the item was not bound to any key.
-            """
-            for key, bound_item in list(self.binds.items()):
-                if bound_item == item:
-                    del self.binds[key]
-                    if add_message:
-                        self.engine.message_log.add_message(f"Unbound {item.name} from [{key.name}].")
-                    return key
+        """
+        Unbinds an item from its current key, if any, and returns the key it was bound to.
+        Returns None if the item was not bound to any key.
+        """
+        for key, bound_item in list(self.binds.items()):
+            if bound_item == item:
+                del self.binds[key]
+                if add_message:
+                    self.engine.message_log.add_message(f"Unbound {item.name} from [{key.name}].")
+                return key
 
-            if add_message:
-                self.engine.message_log.add_message(f"Cannot unbind {item.name}, it isn't bound.", color.impossible)
-            return None
+        if add_message:
+            self.engine.message_log.add_message(f"Cannot unbind {item.name}, it isn't bound.", color.impossible)
+        return None

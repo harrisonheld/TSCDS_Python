@@ -1,8 +1,8 @@
 from __future__ import annotations
 
+from actions.action import Action
 import color
 import exceptions
-from actions.action import Action
 
 
 class TakeStairsAction(Action):

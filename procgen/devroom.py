@@ -1,12 +1,12 @@
 from __future__ import annotations
 
-import entity_factories
-from procgen.helpers import *
-from typing import List, TYPE_CHECKING
-from entity import Entity, Actor
+from typing import TYPE_CHECKING, List
 
-import sizes
+from entity import Actor, Entity
 from game_map import GameMap
+from procgen.helpers import *
+import entity_factories
+import sizes
 import tile_types
 
 if TYPE_CHECKING:

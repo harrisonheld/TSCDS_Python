@@ -1,9 +1,9 @@
 from __future__ import annotations
 
-import exceptions
 from actions.action import Action
 from entity import Actor
 from upgrades import Upgrade
+import exceptions
 
 
 class PickupAction(Action):

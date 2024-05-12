@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Tuple, Optional
+from typing import Optional, Tuple
 
 from actions.action import Action
 from entity import Actor, Entity

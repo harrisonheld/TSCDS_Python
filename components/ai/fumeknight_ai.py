@@ -2,8 +2,6 @@ from __future__ import annotations
 
 from typing import List, Tuple
 
-import color
-import entity_factories
 from actions.bump_action import BumpAction
 from actions.melee_action import MeleeAction
 from actions.movement_action import MovementAction
@@ -11,6 +9,8 @@ from actions.spawn_action import SpawnAction
 from actions.wait_action import WaitAction
 from components.ai.ai_base import AIBase
 from entity import Actor
+import color
+import entity_factories
 
 
 class FumeKnightAI(AIBase):
@@ -29,12 +29,16 @@ class FumeKnightAI(AIBase):
 
         self.gas_cooldown -= 1
         if self.gas_duration == self.gas_cooldown:
-            self.engine.message_log.add_message("The Fume Knight impales his ventilated sword into the ground.", color.yellow)
+            self.engine.message_log.add_message(
+                "The Fume Knight impales his ventilated sword into the ground.", color.yellow
+            )
             WaitAction(self.entity).perform()
             return
         if self.gas_cooldown < self.gas_duration:
             if self.gas_cooldown == self.gas_duration - 1:
-                self.engine.message_log.add_message("The Fume Knight's sword begins to release toxic gas from the earth.", color.yellow)
+                self.engine.message_log.add_message(
+                    "The Fume Knight's sword begins to release toxic gas from the earth.", color.yellow
+                )
             # else:
             #     self.engine.message_log.add_message("The Fume Knight's sword continues to release residual vapor.", color.yellow)
             if self.gas_cooldown == 0:

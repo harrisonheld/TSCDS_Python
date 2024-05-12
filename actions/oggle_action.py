@@ -11,7 +11,9 @@ class OggleAction(WaitAction):
 
     def perform(self) -> None:
         if self.entity is self.engine.player:
-            self.engine.message_log.add_message(f"You oggle the {self.to_oggle_at.name} lovingly.",)
+            self.engine.message_log.add_message(
+                f"You oggle the {self.to_oggle_at.name} lovingly.",
+            )
         elif self.to_oggle_at is self.engine.player:
             self.engine.message_log.add_message(f"The {self.entity.name} oggles you lovingly.")
         else:

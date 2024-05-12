@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-import color
 from actions.action import Action
+import color
 
 
 class WaitAction(Action):

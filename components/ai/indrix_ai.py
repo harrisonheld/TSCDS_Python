@@ -1,9 +1,7 @@
 from __future__ import annotations
 
-from typing import List, Tuple, Optional
+from typing import List, Optional, Tuple
 
-import color
-import entity_factories
 from actions.bump_action import BumpAction
 from actions.displace_action import DisplaceAction
 from actions.melee_action import MeleeAction
@@ -11,6 +9,8 @@ from actions.movement_action import MovementAction
 from actions.wait_action import WaitAction
 from components.ai.ai_base import AIBase
 from entity import Actor, Entity, Item
+import color
+import entity_factories
 
 
 class IndrixAI(AIBase):
@@ -65,7 +65,8 @@ class IndrixAI(AIBase):
                         if isinstance(thing, Item) and thing.equippable and thing.equippable.power_bonus > 0:
                             damage = thing.equippable.power_bonus * 5
                             self.engine.message_log.add_message(
-                                f"Indrix hurts himself on the dropped {thing.name} for {damage} damage.", color.combat_good
+                                f"Indrix hurts himself on the dropped {thing.name} for {damage} damage.",
+                                color.combat_good,
                             )
                             self.entity.fighter.take_damage(damage)
 

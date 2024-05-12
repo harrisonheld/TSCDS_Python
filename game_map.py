@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Iterable, Iterator, Optional, List
+from typing import TYPE_CHECKING, Iterable, Iterator, List, Optional
 
 from tcod.console import Console
 import numpy as np
@@ -53,18 +53,13 @@ class GameMap:
 
         # Sort entities based on render_order.value
         # Ensure Player is returned first if it occurs
-        entities_at_location.sort(
-            key=lambda e: (
-                e.render_order.value
-            )
-        )
+        entities_at_location.sort(key=lambda e: (e.render_order.value))
         # items which get rendered first should be put at beggining of list
         entities_at_location.reverse()
         return entities_at_location
 
     def get_actors_at_location(self, x: int, y: int) -> List[Actor]:
         return [entity for entity in self.get_entities_at_location(x, y) if isinstance(entity, Actor)]
-
 
     def get_blocking_entity_at_location(
         self,
@@ -91,7 +86,6 @@ class GameMap:
                 return entity
         return None
 
-
     def in_bounds(self, x: int, y: int) -> bool:
         """Return True if x and y are inside the bounds of this map."""
         return 0 <= x < self.width and 0 <= y < self.height
@@ -104,7 +98,7 @@ class GameMap:
         If it isn't, but it's in the "explored" array, then draw it with the "dark" colors.
         Otherwise, the default is "SHROUD".
         """
-        console.rgb[0: self.width, 0: self.height] = np.select(
+        console.rgb[0 : self.width, 0 : self.height] = np.select(
             condlist=[self.visible, self.explored],
             choicelist=[self.tiles["light"], self.tiles["dark"]],
             default=tile_types.SHROUD,
@@ -133,8 +127,8 @@ class GameWorld:
         self.boss_pool: List[Entity] = []
 
     def generate_floor(self) -> None:
-        import procgen.rooms
         import procgen.boss
+        import procgen.rooms
 
         self.current_floor += 1
         if self.current_floor in [2, 4, 6]:

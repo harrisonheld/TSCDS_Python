@@ -2,10 +2,10 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-import entity_factories
 from components.base_component import BaseComponent
 from render_order import RenderOrder
 import color
+import entity_factories
 
 if TYPE_CHECKING:
     from entity import Actor

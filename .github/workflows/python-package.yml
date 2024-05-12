@@ -12,7 +12,7 @@ defaults:
 env:
   python-version: "3.8"
   pyinstaller-version: "4.3"
-  project-name: roguelike-tutorial
+  project-name: the-stars-came-down-screaming
 
 jobs:
   package:

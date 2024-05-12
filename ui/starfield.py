@@ -22,8 +22,8 @@ class Starfield:
     def render(self, console, width, height):
         # draw stars
         for star in self.stars:
-            hor_dist_from_center = abs(star.x-0.5)
-            star.x += 0.005*(math.cos(math.pi * (hor_dist_from_center-1))+1) + 0.005
+            hor_dist_from_center = abs(star.x - 0.5)
+            star.x += 0.005 * (math.cos(math.pi * (hor_dist_from_center - 1)) + 1) + 0.005
             star.x %= 1
 
             x = int(star.x * width)

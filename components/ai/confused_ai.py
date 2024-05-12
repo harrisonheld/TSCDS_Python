@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-import random
 from typing import Optional
+import random
 
 from actions.bump_action import BumpAction
 from components.ai.ai_base import AIBase

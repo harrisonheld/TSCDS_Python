@@ -2,13 +2,14 @@ from __future__ import annotations
 
 import random
 
-import exceptions
 from actions.action import Action
 from entity import Actor
+import exceptions
 
 
 class DisplaceAction(Action):
     """Displace an entity in a random direction - usually with the intention of un-intersecting it."""
+
     def __init__(self, entity: Actor):
         super().__init__(entity)
 

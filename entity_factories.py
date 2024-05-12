@@ -1,6 +1,5 @@
 import sys
 
-import color
 from components import consumable, equippable
 from components.ai import *
 from components.ai.beamer_ai import BeamerAI
@@ -9,8 +8,8 @@ from components.ai.fumeknight_ai import FumeKnightAI
 from components.ai.hostile_enemy_ai import HostileEnemyAI
 from components.ai.indrix_ai import IndrixAI
 from components.consumable import SwapConsumable
-from components.equippable import Equippable
 from components.equipment import Equipment
+from components.equippable import Equippable
 from components.fighter import Fighter
 from components.fire import Fire
 from components.fire_immune import FireImmune
@@ -22,6 +21,7 @@ from components.level import Level
 from entity import *
 from equipment_types import EquipmentType
 from upgrades import *
+import color
 
 player = Actor(
     char="@",
@@ -64,7 +64,7 @@ flamewalker = Actor(
     color=color.deep_red,
     name="flamewalker",
     description="A little spur of fire. Locks of flame dance close behind him as he rolls and tumbles.\n\n"
-                "The precious creature himself seems harmless, but the flames in his wake are not.",
+    "The precious creature himself seems harmless, but the flames in his wake are not.",
     ai_cls=FlamewalkerAI,
     equipment=Equipment(),
     fighter=Fighter(hp=3, base_defense=0, base_power=1),
@@ -94,7 +94,7 @@ fume_knight = Actor(
     fighter=Fighter(hp=50, base_defense=2, base_power=6),
     inventory=Inventory(capacity=0),
     level=Level(xp_given=500),
-    components=[GasImmune(), FireImmune()]
+    components=[GasImmune(), FireImmune()],
 )
 default_boss = Actor(
     name="Soldier of God",
@@ -130,14 +130,14 @@ indrix_leap_indicator = Entity(
     name="indicator",
     description="Indrix is about to land!",
     color=color.deep_red,
-    render_order=RenderOrder.EFFECT_TOP
+    render_order=RenderOrder.EFFECT_TOP,
 )
 beamer_ray_indicator = Entity(
     char=".",
     color=color.deep_red,
     name="indicator",
     description="If you're standing here, you shouldn't be.",
-    render_order=RenderOrder.EFFECT_BOTTOM
+    render_order=RenderOrder.EFFECT_BOTTOM,
 )
 
 confusion_scroll = Item(
@@ -175,7 +175,7 @@ eye_of_belial = UpgradeEyeOfBelial(
     name="Eye of Belial",
     description="""A perfectly smooth sphere carved of red chalcedony.
 
-While in your inventory, allows you to see the detailed stats and health of enemies by looking at them."""
+While in your inventory, allows you to see the detailed stats and health of enemies by looking at them.""",
 )
 dagashas_spur = UpgradeDagashasSpur(
     char="Ü",
@@ -184,7 +184,7 @@ dagashas_spur = UpgradeDagashasSpur(
     description="""This crown of thorns points outward, but its wearer's mind is pierced all the same, drawing in will.
 
 On use, allows you to swap places with an adjacent enemy.""",
-    consumable=SwapConsumable()
+    consumable=SwapConsumable(),
 )
 max_health_potion = Item(
     char="&",
@@ -213,17 +213,37 @@ While in your inventory, increases your defense by 1.""",
 )
 default_loot = Item(
     color=color.white,
-    char='~',
+    char="~",
     name="scrap of paper",
-    description="A torn piece of paper with a message scrawled on it: 'Sorry adventurer, this dungeon ran out of treasure! Better luck next time!'"
+    description="A torn piece of paper with a message scrawled on it: 'Sorry adventurer, this dungeon ran out of treasure! Better luck next time!'",
 )
 
 
-dagger = Item(char="/", color=color.light_grey, name="dagger", equippable=Equippable(equipment_type=EquipmentType.WEAPON, power_bonus=2))
-sword = Item(char="\\", color=color.light_grey, name="sword", equippable=Equippable(equipment_type=EquipmentType.WEAPON, power_bonus=4))
+dagger = Item(
+    char="/",
+    color=color.light_grey,
+    name="dagger",
+    equippable=Equippable(equipment_type=EquipmentType.WEAPON, power_bonus=2),
+)
+sword = Item(
+    char="\\",
+    color=color.light_grey,
+    name="sword",
+    equippable=Equippable(equipment_type=EquipmentType.WEAPON, power_bonus=4),
+)
 
-leather_armor = Item(char="[", color=color.orange, name="leather armor", equippable=Equippable(equipment_type=EquipmentType.ARMOR, defense_bonus=1))
-chain_mail = Item(char="[", color=color.light_grey, name="chain mail", equippable=Equippable(equipment_type=EquipmentType.ARMOR, defense_bonus=3))
+leather_armor = Item(
+    char="[",
+    color=color.orange,
+    name="leather armor",
+    equippable=Equippable(equipment_type=EquipmentType.ARMOR, defense_bonus=1),
+)
+chain_mail = Item(
+    char="[",
+    color=color.light_grey,
+    name="chain mail",
+    equippable=Equippable(equipment_type=EquipmentType.ARMOR, defense_bonus=3),
+)
 
 brazier = Entity(
     char="O",

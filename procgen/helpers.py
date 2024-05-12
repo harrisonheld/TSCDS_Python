@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Dict, List, Tuple
 import random
+
 import entity_factories
 
 if TYPE_CHECKING:
@@ -28,8 +29,9 @@ item_chances: Dict[int, List[Tuple[Entity, int]]] = {
 
 enemy_chances: Dict[int, List[Tuple[Entity, int]]] = {
     0: [(entity_factories.frog_warden, 50), (entity_factories.flamewalker, 20)],
-    3: [(entity_factories.beamer, 100)]
+    3: [(entity_factories.beamer, 100)],
 }
+
 
 def get_max_value_for_floor(max_value_by_floor: List[Tuple[int, int]], floor: int) -> int:
     current_value = 0

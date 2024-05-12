@@ -1,10 +1,10 @@
 from typing import Tuple
 
 import tcod
+
+from entity import Actor, Entity
 import color
 import sizes
-from entity import Entity
-from entity import Actor
 
 
 class LookBlock:
@@ -88,7 +88,7 @@ class LookBlock:
             if status_str != "Dead":
                 status_str = "♥" + status_str
 
-            bottom = y+height-1
+            bottom = y + height - 1
             console.print(x + 1, bottom, status_str, status_color)
 
             if self.show_full_detail:
@@ -111,7 +111,7 @@ class LookBlock:
 
     def render_at(self, console: tcod.console.Console, entity: Entity, x: int, y: int) -> None:
         stored_xy = entity.xy
-        entity.xy = (x-1, y)  # minus 1 because we draw the frame at entity.x + 1
+        entity.xy = (x - 1, y)  # minus 1 because we draw the frame at entity.x + 1
 
         self.render(console, entity, show_multi_hint=False)
 

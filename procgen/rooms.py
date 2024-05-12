@@ -5,16 +5,16 @@ import random
 
 import tcod
 
-from procgen.helpers import *
-
-import sizes
 from game_map import GameMap
+from procgen.helpers import *
 import entity_factories
+import sizes
 import tile_types
 
 if TYPE_CHECKING:
     from engine import Engine
     from entity import Entity
+
 
 class RoomBase:
     def __init__(self, x: int, y: int, width: int, height: int, floor_number: int):
@@ -35,10 +35,11 @@ class RoomBase:
     def inner(self) -> Tuple[slice, slice]:
         """Return the inner area of this room as a 2D array index."""
         return slice(self.x1 + 1, self.x2), slice(self.y1 + 1, self.y2)
+
     @property
     def inner_with_rind(self) -> Tuple[slice, slice]:
         """Return the area of this room, including the walls, as a 2D array index."""
-        return slice(self.x1, self.x2+1), slice(self.y1, self.y2+1)
+        return slice(self.x1, self.x2 + 1), slice(self.y1, self.y2 + 1)
 
     def intersects(self, other: RoomBase) -> bool:
         """Return True if this room overlaps with another RectangularRoom."""
