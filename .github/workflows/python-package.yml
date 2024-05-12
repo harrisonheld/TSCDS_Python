@@ -48,17 +48,20 @@ jobs:
             case ${{ matrix.os }} in
               'windows-latest')
                 zip -r ../${{ github.run_number }}-windows.zip .
+                artifact_name=${{ github.run_number }}-windows.zip
                 ;;
               'macos-latest')
                 zip -r ../${{ github.run_number }}-macos.zip .
+                artifact_name=${{ github.run_number }}-macos.zip
                 ;;
               'ubuntu-latest')
                 tar -czvf ../${{ github.run_number }}-linux.tar.gz .
+                artifact_name=${{ github.run_number }}-linux.tar.gz
                 ;;
             esac
 
             cd ..  # Go back to the root directory
-            echo "Created artifact for ${{ matrix.os }}."
+            echo "Created artifact $artifact_name for ${{ matrix.os }}."
           else
             echo "No distribution files found for ${{ matrix.os }}."
           fi
