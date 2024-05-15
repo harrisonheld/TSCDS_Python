@@ -45,17 +45,13 @@ jobs:
           if [ -d "dist/the_stars_came_down_screaming" ]; then
             cd dist/the_stars_came_down_screaming
 
-            case ${{ matrix.os }} in
-              'windows-latest')
-                zip -r ../../${{ github.run_number }}-${{ matrix.os }}.zip .
-                ;;
-              'macos-latest')
-                zip -r ../../${{ github.run_number }}-${{ matrix.os }}.zip .
-                ;;
-              'ubuntu-latest')
-                tar -czvf ../../${{ github.run_number }}-${{ matrix.os }}.tar.gz .
-                ;;
-            esac
+            if [ "${{ matrix.os }}" == "windows-latest" ]; then
+              Compress-Archive -Path . -DestinationPath "..\..\${{ github.run_number }}-${{ matrix.os }}.zip"
+            elif [ "${{ matrix.os }}" == "macos-latest" ]; then
+              zip -r ../../${{ github.run_number }}-${{ matrix.os }}.zip .
+            elif [ "${{ matrix.os }}" == "ubuntu-latest" ]; then
+              tar -czvf ../../${{ github.run_number }}-${{ matrix.os }}.tar.gz .
+            fi
 
             cd ..  # Go back to the root directory
             echo "Created artifact for ${{ matrix.os }}."
