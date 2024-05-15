@@ -12,7 +12,7 @@ defaults:
 env:
   python-version: "3.11"
   pyinstaller-version: "6.6"
-  project-name: TheStarsCameDownScreaming.exe
+  project-name: the-stars-came-down-screaming
 
 jobs:
   build:
