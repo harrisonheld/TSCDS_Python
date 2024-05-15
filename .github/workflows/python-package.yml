@@ -12,7 +12,7 @@ defaults:
 env:
   python-version: "3.11"
   pyinstaller-version: "6.6"
-  project-name: the-stars-came-down-screaming
+  project-name: the_stars_came_down_screaming
 
 jobs:
   build:
@@ -42,8 +42,8 @@ jobs:
 
       - name: Archive and Upload
         run: |
-          if [ -d "dist" ]; then  # Check if dist directory exists
-            cd dist  # Navigate to the distribution directory
+          if [ -d "dist/the_stars_came_down_screaming" ]; then
+            cd dist/the_stars_came_down_screaming
 
             case ${{ matrix.os }} in
               'windows-latest')
@@ -67,5 +67,5 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: tscds-${{ github.run_id }}-${{ matrix.os }}  # Name the artifact
+          name: TSCDS-${{ github.run_id }}-${{ matrix.os }}  # Name the artifact
           path: ${{ github.run_number }}-${{ matrix.os }}.*  # Upload the generated artifact file
