@@ -42,28 +42,8 @@ jobs:
       - name: Build project
         run: pyinstaller build.spec
 
-      - name: Archive and Upload
-        run: |
-          if [ -d "dist/the_stars_came_down_screaming" ]; then
-            cd dist/the_stars_came_down_screaming
-
-            if [ "${{ matrix.os }}" == "windows-latest" ]; then
-              7z a -r "../../${{ github.run_number }}-${{ matrix.os }}.zip" .
-            elif [ "${{ matrix.os }}" == "macos-latest" ]; then
-              zip -r ../../${{ github.run_number }}-${{ matrix.os }}.zip .
-            elif [ "${{ matrix.os }}" == "ubuntu-latest" ]; then
-              tar -czvf ../../${{ github.run_number }}-${{ matrix.os }}.tar.gz .
-            fi
-
-            cd ..  # Go back to the root directory
-            echo "Created artifact for ${{ matrix.os }}."
-          else
-            echo "No distribution files found for ${{ matrix.os }}."
-          fi
-        if: success()  # Only execute this step if the build was successful
-
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: TSCDS-${{ github.run_id }}-${{ matrix.os }}  # Name the artifact
-          path: ${{ github.run_number }}-${{ matrix.os }}.*  # Upload the generated artifact file
+          name: TSCDS-${{ github.run_number }}${{ github.run_id }}-${{ matrix.os }}  # Name the artifact
+          path: dist/the_stars_came_down_screaming/
