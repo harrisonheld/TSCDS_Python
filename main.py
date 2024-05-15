@@ -3,6 +3,7 @@ import traceback
 
 import tcod
 
+from helpers import resource_path
 import color
 import exceptions
 import input_handlers
@@ -18,7 +19,8 @@ def save_game(handler: input_handlers.BaseEventHandler) -> None:
 
 
 def main() -> None:
-    tileset = tcod.tileset.load_tilesheet("data/cheepicus12x12.png", 16, 16, tcod.tileset.CHARMAP_CP437)
+    font_path = resource_path("data/cheepicus12x12.png")
+    tileset = tcod.tileset.load_tilesheet(font_path, 16, 16, tcod.tileset.CHARMAP_CP437)
 
     handler: input_handlers.BaseEventHandler = setup_game.MainMenu()
 

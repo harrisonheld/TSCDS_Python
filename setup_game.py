@@ -8,15 +8,13 @@ import copy
 import lzma
 import pickle
 import random
-import traceback
 
-from PIL import Image  # type: ignore
 from tcod import libtcodpy
-from tcod.event import T
 import tcod
 
 from engine import Engine
 from game_map import GameWorld
+from helpers import resource_path
 from ui.starfield import Starfield
 import color
 import entity_factories
@@ -60,7 +58,7 @@ def new_game() -> Engine:
     current_time = datetime.now()
     timestamp = current_time.strftime("%Y-%m-%d_%H-%M-%S")
     save_file_name = f"save_{timestamp}.sav"
-    engine.save_path = f"saves/{save_file_name}"
+    engine.save_path = resource_path(f"saves/{save_file_name}")
 
     return engine
 
@@ -135,9 +133,9 @@ class SelectSaveHandler(input_handlers.BaseEventHandler):
 
     def __init__(self):
         import glob
-        import os
 
-        self.save_files = glob.glob("saves/*.sav")
+        path = resource_path("saves")
+        self.save_files = glob.glob(f"{path}/*.sav")
 
     def on_render(self, console: tcod.Console) -> None:
         console.print(

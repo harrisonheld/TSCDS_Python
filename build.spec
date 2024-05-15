@@ -6,7 +6,10 @@ PROJECT_NAME = "the_stars_came_down_screaming"
 a = Analysis(
     ["main.py"],
     binaries=[],
-    datas=[("data", "data")],  # Include all files in the 'data' directory.
+    datas=[
+        ("data", "data"),
+        ("saves", "saves")
+    ],
     hiddenimports=[],
     hookspath=[],
     runtime_hooks=[],
