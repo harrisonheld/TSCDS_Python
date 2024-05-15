@@ -6,7 +6,10 @@ PROJECT_NAME = "the_stars_came_down_screaming"
 a = Analysis(
     ["main.py"],
     binaries=[],
-    datas=[("data", "data")],  # Include all files in the 'data' directory.
+    datas=[
+        ("data", "data"),
+        ("saves", "saves")
+    ],
     hiddenimports=[],
     hookspath=[],
     runtime_hooks=[],
@@ -27,8 +30,9 @@ exe = EXE(
     bootloader_ignore_signals=False,
     strip=False,
     upx=True,
-    console=True,  # Set to False to disable the Windows terminal.
+    console=False,  # Set to False to disable the Windows terminal.
     icon="icon.ico",  # Windows icon file.
+    onefile=True,
 )
 coll = COLLECT(
     exe,
