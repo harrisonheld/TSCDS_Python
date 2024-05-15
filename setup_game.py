@@ -12,6 +12,7 @@ import random
 from tcod import libtcodpy
 import tcod
 
+import keys
 from engine import Engine
 from game_map import GameWorld
 from helpers import resource_path
@@ -77,7 +78,7 @@ class MainMenu(input_handlers.BaseEventHandler):
     musing = random.choice(strings.musings)
     starfield = Starfield()
 
-    def on_render(self, console: tcod.Console) -> None:
+    def on_render(self, console: tcod.console.Console) -> None:
         """Render the main menu."""
         self.starfield.render(console, console.width, console.height)
 
@@ -137,25 +138,25 @@ class SelectSaveHandler(input_handlers.BaseEventHandler):
         path = resource_path("saves")
         self.save_files = glob.glob(f"{path}/*.sav")
 
-    def on_render(self, console: tcod.Console) -> None:
+    def on_render(self, console: tcod.console.Console) -> None:
         console.print(
             console.width // 2,
             console.height // 2 - 5,
-            "Select a save file to load",
+            "Select a save file to load:",
             fg=color.menu_text,
             bg=color.black,
             alignment=libtcodpy.CENTER,
         )
 
-        for i, save_file_name in enumerate(self.save_files):
+        for i, save_file_path in enumerate(self.save_files):
+
+            save_file_name = save_file_path.split("\\")[-1]  # extract just the file name
+            save_file_name = save_file_name[:-4]  # remove the .sav extension
+            letter = chr(ord('a') + i)
             console.print(
-                console.width // 2,
-                console.height // 2 - 4 + i,
-                f"[{chr(tcod.event.KeySym.a + i)}] {save_file_name}",
-                fg=color.menu_text,
-                bg=color.black,
-                alignment=libtcodpy.CENTER,
-                bg_blend=libtcodpy.BKGND_ALPHA(64),
+                x=console.width // 4,
+                y=console.height // 2 - 3 + i,
+                string=f"[{letter}] {save_file_name}",
             )
 
     def ev_keydown(self, event: tcod.event.KeyDown) -> input_handlers.BaseEventHandler | None:
@@ -164,8 +165,50 @@ class SelectSaveHandler(input_handlers.BaseEventHandler):
         ordinal = key - tcod.event.KeySym.a
 
         if 0 <= ordinal < len(self.save_files):
+            return SaveOptionsHandler(self.save_files[ordinal])
+
+        return MainMenu()
+
+
+class SaveOptionsHandler(input_handlers.BaseEventHandler):
+
+    def __init__(self, save_path: str):
+        self.save_path = save_path
+
+    def on_render(self, console: tcod.console.Console) -> None:
+        # options are:
+        # load the save or delete the save
+        console.print(
+            console.width // 2,
+            console.height // 2 - 5,
+            "Save Options",
+            fg=color.menu_text,
+            bg=color.black,
+            alignment=libtcodpy.CENTER,
+        )
+        console.print(
+            console.width // 2,
+            console.height // 2 - 3,
+            "[enter] load",
+            fg=color.menu_text,
+            bg=color.black,
+            alignment=libtcodpy.CENTER,
+        )
+        console.print(
+            console.width // 2,
+            console.height // 2 - 2,
+            "[shift+D] delete",
+            fg=color.menu_text,
+            bg=color.black,
+            alignment=libtcodpy.CENTER,
+        )
+
+    def ev_keydown(self, event: tcod.event.KeyDown) -> input_handlers.BaseEventHandler | None:
+        key = event.sym
+        # load the save
+        if key in keys.CONFIRM_KEYS:
             try:
-                save_file_name = self.save_files[ordinal]
+                save_file_name = self.save_path
                 save: Engine = load_game(save_file_name)
                 return input_handlers.MainGameEventHandler(save)
             except Exception as e:
@@ -173,5 +216,14 @@ class SelectSaveHandler(input_handlers.BaseEventHandler):
                 message += "\n\n" + str(e)
                 message += "\n\n" + "Contact the developer at harrydheld@gmail.com."
                 return input_handlers.PopupMessage(self, message)
+        # delete the save
+        elif key == tcod.event.KeySym.d and event.mod & (tcod.event.KMOD_RSHIFT | tcod.event.KMOD_LSHIFT):
+            import os
+            os.remove(self.save_path)
+            return SelectSaveHandler()
 
-        return MainMenu()
+        elif key not in keys.MODIFIER_KEYS:
+            return SelectSaveHandler()
+
+        return None
+

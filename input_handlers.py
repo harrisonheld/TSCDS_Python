@@ -42,7 +42,7 @@ class BaseEventHandler(tcod.event.EventDispatch[ActionOrHandler]):
         assert not isinstance(state, Action), f"{self!r} can not handle actions."
         return self
 
-    def on_render(self, console: tcod.Console) -> None:
+    def on_render(self, console: tcod.console.Console) -> None:
         raise NotImplementedError()
 
     def ev_quit(self, event: tcod.event.Quit) -> Optional[Action]:
@@ -124,7 +124,7 @@ class EventHandler(BaseEventHandler):
         if self.engine.game_map.in_bounds(event.tile.x, event.tile.y):
             self.engine.mouse_location = event.tile.x, event.tile.y
 
-    def on_render(self, console: tcod.Console) -> None:
+    def on_render(self, console: tcod.console.Console) -> None:
         self.engine.render(console)
 
 
@@ -152,7 +152,7 @@ class AskUserEventHandler(EventHandler):
 class CharacterScreenEventHandler(AskUserEventHandler):
     TITLE = "Character Information"
 
-    def on_render(self, console: tcod.Console) -> None:
+    def on_render(self, console: tcod.console.Console) -> None:
         super().on_render(console)
 
         if self.engine.player.x <= 30:
@@ -181,7 +181,7 @@ class CharacterScreenEventHandler(AskUserEventHandler):
 
 
 class LevelUpEventHandler(AskUserEventHandler):
-    def on_render(self, console: tcod.Console) -> None:
+    def on_render(self, console: tcod.console.Console) -> None:
         super().on_render(console)
 
         width = 42
@@ -244,7 +244,7 @@ class InventoryEventHandler(AskUserEventHandler):
         self.curr_selected_idx = 0
         super().__init__(engine)
 
-    def on_render(self, console: tcod.Console) -> None:
+    def on_render(self, console: tcod.console.Console) -> None:
         """Render an inventory menu, which displays the items in the inventory, and the letter to select them.
         Will move to a different position based on where the player is located, so the player can always see where
         they are.
@@ -346,7 +346,7 @@ class InspectItemHandler(EventHandler):
         self.item = item
         super().__init__(engine)
 
-    def on_render(self, console: tcod.Console) -> None:
+    def on_render(self, console: tcod.console.Console) -> None:
         self.parent_handler.on_render(console)
         self.engine.look_block.render_at(console, self.item, *(2, 2))
 
@@ -388,7 +388,7 @@ class PickBindHandler(AskUserEventHandler):
         self.parent_handler: InventoryBindsHandler = parent_handler
         self.consumable_to_bind: Item = consumable_to_bind
 
-    def on_render(self, console: tcod.Console) -> None:
+    def on_render(self, console: tcod.console.Console) -> None:
         super().on_render(console)
         # render the inventory too
         # self.parent_handler.on_render(console)
@@ -420,7 +420,7 @@ class SelectAdjacentHandler(AskUserEventHandler):
         super().__init__(engine)
         self.callback = callback
 
-    def on_render(self, console: tcod.Console) -> None:
+    def on_render(self, console: tcod.console.Console) -> None:
         super().on_render(console)
         console.print(0, 0, "Select a direction:")
 
@@ -445,7 +445,7 @@ class SelectIndexHandler(AskUserEventHandler):
         player = self.engine.player
         engine.mouse_location = player.x, player.y
 
-    def on_render(self, console: tcod.Console) -> None:
+    def on_render(self, console: tcod.console.Console) -> None:
         """Highlight the tile under the cursor."""
         super().on_render(console)
 
@@ -510,7 +510,7 @@ class LookHandler(SelectIndexHandler):
         self.engine.mouse_location = (-1, -1)
         return super().on_exit()
 
-    def on_render(self, console: tcod.Console) -> None:
+    def on_render(self, console: tcod.console.Console) -> None:
         """Draw a Look Block for the entity the cursor is on."""
         super().on_render(console)
 
@@ -572,7 +572,7 @@ class AreaRangedAttackHandler(SelectIndexHandler):
         self.radius = radius
         self.callback = callback
 
-    def on_render(self, console: tcod.Console) -> None:
+    def on_render(self, console: tcod.console.Console) -> None:
         """Highlight the tile under the cursor."""
         super().on_render(console)
 
@@ -652,7 +652,7 @@ class GameOverEventHandler(EventHandler):
         if os.path.exists(engine.save_path):
             os.remove(engine.save_path)
 
-    def on_render(self, console: tcod.Console) -> None:
+    def on_render(self, console: tcod.console.Console) -> None:
         super().on_render(console)  # Draw the main state as the background.
 
         width = 19
@@ -690,7 +690,7 @@ class HistoryViewer(EventHandler):
         self.log_length = len(engine.message_log.messages)
         self.cursor = self.log_length - 1
 
-    def on_render(self, console: tcod.Console) -> None:
+    def on_render(self, console: tcod.console.Console) -> None:
         super().on_render(console)  # Draw the main state as the background.
 
         log_console = tcod.console.Console(console.width - 6, console.height - 6)
@@ -745,7 +745,7 @@ class HelpViewer(EventHandler):
         super().__init__(engine)
         self.curr_page = 0
 
-    def on_render(self, console: tcod.Console) -> None:
+    def on_render(self, console: tcod.console.Console) -> None:
         super().on_render(console)  # Draw the main state as the background.
 
         width = console.width - 6
