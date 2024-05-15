@@ -12,7 +12,6 @@ import random
 from tcod import libtcodpy
 import tcod
 
-import keys
 from engine import Engine
 from game_map import GameWorld
 from helpers import resource_path
@@ -20,6 +19,7 @@ from ui.starfield import Starfield
 import color
 import entity_factories
 import input_handlers
+import keys
 import strings
 
 
@@ -152,7 +152,7 @@ class SelectSaveHandler(input_handlers.BaseEventHandler):
 
             save_file_name = save_file_path.split("\\")[-1]  # extract just the file name
             save_file_name = save_file_name[:-4]  # remove the .sav extension
-            letter = chr(ord('a') + i)
+            letter = chr(ord("a") + i)
             console.print(
                 x=console.width // 4,
                 y=console.height // 2 - 3 + i,
@@ -219,6 +219,7 @@ class SaveOptionsHandler(input_handlers.BaseEventHandler):
         # delete the save
         elif key == tcod.event.KeySym.d and event.mod & (tcod.event.KMOD_RSHIFT | tcod.event.KMOD_LSHIFT):
             import os
+
             os.remove(self.save_path)
             return SelectSaveHandler()
 
@@ -226,4 +227,3 @@ class SaveOptionsHandler(input_handlers.BaseEventHandler):
             return SelectSaveHandler()
 
         return None
-
