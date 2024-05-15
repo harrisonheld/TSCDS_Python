@@ -42,18 +42,18 @@ jobs:
 
       - name: Archive and Upload
         run: |
-          if [ -d "dist" ]; then
-            cd dist
+          if [ -d "dist/the_stars_came_down_screaming" ]; then
+            cd dist/the_stars_came_down_screaming
 
             case ${{ matrix.os }} in
               'windows-latest')
-                zip -r ../${{ github.run_number }}-windows-latest.zip .
+                zip -r ../../${{ github.run_number }}-${{ matrix.os }}.zip .
                 ;;
               'macos-latest')
-                zip -r ../${{ github.run_number }}-macos-latest.zip .
+                zip -r ../../${{ github.run_number }}-${{ matrix.os }}.zip .
                 ;;
               'ubuntu-latest')
-                tar -czvf ../${{ github.run_number }}-ubuntu-latest.tar.gz .
+                tar -czvf ../../${{ github.run_number }}-${{ matrix.os }}.tar.gz .
                 ;;
             esac
 
