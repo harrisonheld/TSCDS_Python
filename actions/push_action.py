@@ -27,5 +27,5 @@ class PushAction(ActionWithDirectionBase):
         target.move(self.dx, self.dy)
         self.entity.move(self.dx, self.dy)
         self.engine.message_log.add_message(
-            f"{strings.preserve_capitalize(self.entity.name)} pushes the {target.name}."
+            f"The {self.entity.name} pushes the {target.name}."
         )

@@ -8,6 +8,7 @@ from actions.melee_action import MeleeAction
 from actions.movement_action import MovementAction
 from actions.wait_action import WaitAction
 from components.ai.ai_base import AIBase
+from components.pushable import Pushable
 from entity import Actor, Entity, Item
 import color
 import entity_factories
@@ -18,6 +19,7 @@ class IndrixAI(AIBase):
         super().__init__(entity)
         self.path: List[Tuple[int, int]] = []
         self.leap_period = 7
+        self.air_time = 3  # how many turns after leaping before landing
         self.leap_cooldown = 4
         self.leaping = 0
         self.leap_indicator: Optional[Entity] = None
@@ -32,7 +34,7 @@ class IndrixAI(AIBase):
         if self.leap_cooldown <= 0 and distance > 1:
             self.engine.message_log.add_message("Indrix leaps into the air!", color.yellow)
             self.leap_cooldown = self.leap_period
-            self.leaping = 2
+            self.leaping = self.air_time
             self.entity.x, self.entity.y = (-1, -1)
             self.leap_indicator = entity_factories.indrix_leap_indicator.spawn(self.entity.gamemap, target.x, target.y)
             turns = "turns" if self.leaping > 1 else "turn"
@@ -63,12 +65,20 @@ class IndrixAI(AIBase):
                     # find Equippable() in stuff_here
                     for thing in stuff_here:
                         if isinstance(thing, Item) and thing.equippable and thing.equippable.power_bonus > 0:
-                            damage = thing.equippable.power_bonus * 5
+                            damage = thing.equippable.power_bonus * 2
                             self.engine.message_log.add_message(
                                 f"Indrix hurts himself on the dropped {thing.name} for {damage} damage.",
                                 color.combat_good,
                             )
                             self.entity.fighter.take_damage(damage)
+                        if thing.has_component(Pushable):
+                            #  indrix hurts himself on the statue's horns
+                            self.engine.message_log.add_message(
+                                f"Indrix breaks the {thing.name} on landing! He takes 5 damage.",
+                                color.combat_good
+                            )
+                            self.entity.fighter.take_damage(5)
+                            self.engine.game_map.entities.remove(thing)
 
             return
 

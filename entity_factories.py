@@ -257,8 +257,10 @@ brazier = Entity(
 )
 statue = Entity(
     char="Ω",
-    name="statue",
-    description="An ivory statue depicting an extremely large Greek letter Omega.",
+    name="statue of Indirx",
+    description=r"""A black ivory statue depicting the horned goatman Indrix. A curling horn from the statue's head is broken off, while the other winds and pierces sharply the air above.
+
+It is a heavy, solid thing, but it could be moved if you used your whole bodyweight.""",
     color=color.dark_grey,
     blocks_movement=True,
     render_order=RenderOrder.ACTOR,
