@@ -70,7 +70,7 @@ class Entity:
 
     @xy.setter
     def xy(self, value: Tuple[int, int]):
-        """Set the (x, y) coordinates."""
+        """Set the (x, y) coordinates. WARNING: This will NOT call before_move or after_move methods of any components."""
         self.x, self.y = value
 
     def get_component(self, component_type: Type[T]) -> Optional[T]:
@@ -110,8 +110,17 @@ class Entity:
 
     def move(self, dx: int, dy: int) -> None:
         # Move the entity by a given amount
+        for component in self.components:
+            component.before_move()
         self.x += dx
         self.y += dy
+
+    def move_to(self, x: int, y: int) -> None:
+        # Move the entity to a new location
+        for component in self.components:
+            component.before_move()
+        self.x = x
+        self.y = y
 
 
 class Actor(Entity):

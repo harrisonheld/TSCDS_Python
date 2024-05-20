@@ -5,7 +5,6 @@ from typing import List, Tuple
 from actions.bump_action import BumpAction
 from actions.melee_action import MeleeAction
 from actions.movement_action import MovementAction
-from actions.spawn_action import SpawnAction
 from actions.wait_action import WaitAction
 from components.ai.ai_base import AIBase
 from entity import Actor
@@ -43,7 +42,7 @@ class FumeKnightAI(AIBase):
             #     self.engine.message_log.add_message("The Fume Knight's sword continues to release residual vapor.", color.yellow)
             if self.gas_cooldown == 0:
                 self.gas_cooldown = self.gas_period
-            SpawnAction(self.entity, entity_factories.gas, self.entity.x, self.entity.y).perform()
+            entity_factories.gas.spawn(self.entity.gamemap, *self.entity.xy)
 
         if self.can_see(self.entity, target):
             if distance <= 1:

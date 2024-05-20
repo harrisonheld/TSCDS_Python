@@ -26,6 +26,4 @@ class PushAction(ActionWithDirectionBase):
 
         target.move(self.dx, self.dy)
         self.entity.move(self.dx, self.dy)
-        self.engine.message_log.add_message(
-            f"The {self.entity.name} pushes the {target.name}."
-        )
+        self.engine.message_log.add_message(f"The {self.entity.name} pushes the {target.name}.")

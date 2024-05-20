@@ -22,3 +22,11 @@ class BaseComponent:
     def on_turn(self) -> None:
         """Called every turn by the engine."""
         pass
+
+    def before_move(self) -> None:
+        """Called when this entity moves, before the entity's xy is updated."""
+        pass
+
+    def after_move(self) -> None:
+        """Called when this entity moves, after the entity's xy is updated."""
+        pass

@@ -53,7 +53,7 @@ class GameMap:
 
         # Sort entities based on render_order.value
         # Ensure Player is returned first if it occurs
-        entities_at_location.sort(key=lambda e: (e.render_order.value))
+        entities_at_location.sort(key=lambda e: e.render_order.value)
         # items which get rendered first should be put at beggining of list
         entities_at_location.reverse()
         return entities_at_location

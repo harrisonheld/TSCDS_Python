@@ -79,3 +79,5 @@ class Gas(BaseComponent):
 
                 if random.random() < (0.1 * self.density):
                     entity_factories.fire.spawn(self.gamemap, new_x, new_y)
+                if random.random() < (0.005 * self.density):
+                    entity_factories.flameprowler.spawn(self.gamemap, new_x, new_y)

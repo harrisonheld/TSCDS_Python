@@ -74,8 +74,7 @@ class IndrixAI(AIBase):
                         if thing.has_component(Pushable):
                             #  indrix hurts himself on the statue's horns
                             self.engine.message_log.add_message(
-                                f"Indrix breaks the {thing.name} on landing! He takes 5 damage.",
-                                color.combat_good
+                                f"Indrix breaks the {thing.name} on landing! He takes 5 damage.", color.combat_good
                             )
                             self.entity.fighter.take_damage(5)
                             self.engine.game_map.entities.remove(thing)

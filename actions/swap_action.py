@@ -13,10 +13,7 @@ class SwapAction(ActionWithDirectionBase):
         if target is None:
             raise exceptions.Impossible("There is nothing there to swap with.")
 
-        temp_x = target.x
-        temp_y = target.y
-        target.x = self.entity.x
-        target.y = self.entity.y
-        self.entity.x = temp_x
-        self.entity.y = temp_y
+        temp_xy = target.xy
+        target.move_to(*self.entity.xy)
+        self.entity.move_to(*temp_xy)
         self.engine.message_log.add_message(f"The {self.entity.name} swaps places with the {target.name}!", color.white)

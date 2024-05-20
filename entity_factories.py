@@ -3,7 +3,7 @@ import sys
 from components import consumable, equippable
 from components.ai import *
 from components.ai.beamer_ai import BeamerAI
-from components.ai.flamewalker_ai import FlamewalkerAI
+from components.ai.flamewalker_ai import OgglerAI
 from components.ai.fumeknight_ai import FumeKnightAI
 from components.ai.hostile_enemy_ai import HostileEnemyAI
 from components.ai.indrix_ai import IndrixAI
@@ -19,6 +19,7 @@ from components.illumination import Illumination
 from components.inventory import Inventory
 from components.level import Level
 from components.pushable import Pushable
+from components.trail_leaver import TrailLeaver
 from entity import *
 from equipment_types import EquipmentType
 from upgrades import *
@@ -34,6 +35,23 @@ player = Actor(
     fighter=Fighter(hp=30, base_defense=0, base_power=2),
     inventory=Inventory(capacity=4),
     level=Level(level_up_base=200),
+)
+
+fire = Entity(
+    char="‼",
+    name="fire",
+    description="A roaring fire.",
+    color=color.red,
+    blocks_movement=False,
+    components=[Fire(lifetime=6, damage=1), Illumination(light_radius=4)],
+)
+gas = Entity(
+    char="▓",
+    name="scalding gas",
+    description="A cloud of scalding gas, drawn from deep within the earth. It burns the skin and lungs.",
+    color=color.red,
+    blocks_movement=False,
+    components=[Gas(density=7, damage=1, spread_chance=0.2)],
 )
 
 frog_warden = Actor(
@@ -66,19 +84,31 @@ flamewalker = Actor(
     name="flamewalker",
     description="A little spur of fire. Locks of flame dance close behind him as he rolls and tumbles.\n\n"
     "The precious creature himself seems harmless, but the flames in his wake are not.",
-    ai_cls=FlamewalkerAI,
+    ai_cls=OgglerAI,
     equipment=Equipment(),
     fighter=Fighter(hp=3, base_defense=0, base_power=1),
     inventory=Inventory(capacity=0),
     level=Level(xp_given=20),
-    components=[FireImmune()],
+    components=[TrailLeaver(fire), FireImmune()],
+)
+flameprowler = Actor(
+    char="F",
+    color=color.deep_red,
+    name="flame prowler",
+    description="A rolling storm of fire spawned of acridity and heat. Tendrils of wicked flame lash the air in its wake.",
+    ai_cls=HostileEnemyAI,
+    equipment=Equipment(),
+    fighter=Fighter(hp=10, base_defense=0, base_power=3),
+    inventory=Inventory(capacity=0),
+    level=Level(xp_given=100),
+    components=[TrailLeaver(fire), FireImmune(), GasImmune()],
 )
 
 indrix = Actor(
     char="G",
     color=color.sky_blue,
     name="teary-eyed Indrix",
-    description="Cast from his home twice too many times, the caprine pariah willfully wields the amaranthine prism, seeking to end his own life in a spectacular fashion. The great curling horn slung low about his hip gives him the distinction of being the only warrior to bear his own appendage as a trophy.",
+    description="Cast from his home twice too many times, the caprine pariah wields the amaranthine prism, seeking to end his own life in a spectacular fashion. The great curling horn slung low about his hip gives him the distinction of being the only warrior to bear his own appendage as a trophy.",
     ai_cls=IndrixAI,
     equipment=Equipment(),
     fighter=Fighter(hp=30, base_defense=1, base_power=4),
@@ -107,23 +137,6 @@ default_boss = Actor(
     fighter=Fighter(hp=1, base_defense=0, base_power=1),
     inventory=Inventory(capacity=0),
     level=Level(xp_given=10),
-)
-
-fire = Entity(
-    char="‼",
-    name="fire",
-    description="A roaring fire.",
-    color=color.red,
-    blocks_movement=False,
-    components=[Fire(lifetime=6, damage=1), Illumination(light_radius=4)],
-)
-gas = Entity(
-    char="▓",
-    name="scalding gas",
-    description="A cloud of scalding gas, drawn from deep within the earth. It burns the skin and lungs.",
-    color=color.red,
-    blocks_movement=False,
-    components=[Gas(density=7, damage=1, spread_chance=0.2)],
 )
 
 indrix_leap_indicator = Entity(
@@ -257,14 +270,14 @@ brazier = Entity(
 )
 statue = Entity(
     char="Ω",
-    name="statue of Indirx",
-    description=r"""A black ivory statue depicting the horned goatman Indrix. A curling horn from the statue's head is broken off, while the other winds and pierces sharply the air above.
+    name="statue of Indrix",
+    description=r"""A black ivory statue depicting the goatman-turned-shaman Indrix. A curling horn from the statue's head is broken off, while the other winds and pierces sharply the air above.
 
 It is a heavy, solid thing, but it could be moved if you used your whole bodyweight.""",
     color=color.dark_grey,
     blocks_movement=True,
     render_order=RenderOrder.ACTOR,
-    components=[Pushable()]
+    components=[Pushable()],
 )
 corpse = Entity(
     char="%",
