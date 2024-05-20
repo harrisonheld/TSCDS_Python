@@ -18,6 +18,7 @@ from components.gas_immune import GasImmune
 from components.illumination import Illumination
 from components.inventory import Inventory
 from components.level import Level
+from components.pushable import Pushable
 from entity import *
 from equipment_types import EquipmentType
 from upgrades import *
@@ -261,6 +262,7 @@ statue = Entity(
     color=color.dark_grey,
     blocks_movement=True,
     render_order=RenderOrder.ACTOR,
+    components=[Pushable()]
 )
 corpse = Entity(
     char="%",
