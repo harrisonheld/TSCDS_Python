@@ -222,7 +222,7 @@ class SaveOptionsHandler(input_handlers.BaseEventHandler):
 
             os.remove(self.save_path)
             return SelectSaveHandler()
-
+        # cancel
         elif key not in keys.MODIFIER_KEYS:
             return SelectSaveHandler()
 

@@ -12,7 +12,6 @@ from actions.drop_item_action import DropItemAction
 from actions.equip_action import EquipAction
 from actions.pickup_action import PickupAction
 from actions.wait_action import WaitAction
-from ui.look_block import LookBlock
 import actions.take_stairs_action
 import color
 import exceptions
@@ -657,11 +656,12 @@ class GameOverEventHandler(EventHandler):
 
         width = 19
         height = 19
+        title = "┤You Died├" if not self.engine.player.is_alive else "┤You Won├"
         sub_console = tcod.console.Console(width, height)
         sub_console.draw_frame(0, 0, width, height, bg=color.black, fg=color.white)
-        sub_console.print(width // 2, 0, "┤You Died├", alignment=tcod.constants.CENTER)
+        sub_console.print(width // 2, 0, title, alignment=tcod.constants.CENTER)
         sub_console.print(1, 1, "[n] new game")
-        sub_console.print(width // 2, 2, "save and quit", alignment=tcod.constants.CENTER)
+        sub_console.print(width // 2, 2, "quit", alignment=tcod.constants.CENTER)
         sub_console.print(1, 3, "[q] to main menu")
         sub_console.print(1, 4, "[Q] to desktop")
 
@@ -676,14 +676,14 @@ class GameOverEventHandler(EventHandler):
             raise exceptions.StartNewGame()
         if key == tcod.event.KeySym.q:
             if event.mod & (tcod.event.KMOD_LSHIFT | tcod.event.KMOD_RSHIFT):
-                raise exceptions.QuitWithoutSaving()
+                raise exceptions.QuitWithoutSaving()  # to desktop
             raise exceptions.QuitToMainMenu()
 
         return None
 
 
 class HistoryViewer(EventHandler):
-    """Print the history on a larger window which can be navigated."""
+    """Print the message log on a larger window which can be navigated."""
 
     def __init__(self, engine: Engine):
         super().__init__(engine)

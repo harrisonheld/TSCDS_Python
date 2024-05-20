@@ -48,8 +48,6 @@ b   edit key binds
 """
 
 general_info = r"""To complete a floor, you will want to find the staircase. It looks like this: >
-
-Being a work of fiction, the notions of 'AD' and 'BC' have no meaning in The Stars Came Down Screaming. Therefore, all dates are rendered according to their chronological distance from an event of paramount historical significance - the publication of this game. Consequently, a higher year number means the date occurred farther in the past.
 """
 
 about = r"""
