@@ -16,6 +16,7 @@ class InfoBlock:
         console.print(
             x, y + 3, string=f"XP {self.actor.level.current_xp} / {self.actor.level.experience_to_next_level}"
         )
+        console.print(x, y + 4, string=f"FLOOR {self.actor.gamemap.engine.game_world.current_floor}")
 
         # print bound items
         if len(self.actor.inventory.binds) > 0:
