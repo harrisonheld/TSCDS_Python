@@ -60,24 +60,24 @@ class IndrixAI(AIBase):
                     self.entity.fighter.base_power += 4
                     MeleeAction(self.entity, dx, dy).perform()
                     self.entity.fighter.base_power -= 4
-                else:
-                    stuff_here = self.engine.game_map.get_entities_at_location(self.entity.x, self.entity.y)
-                    # find Equippable() in stuff_here
-                    for thing in stuff_here:
-                        if isinstance(thing, Item) and thing.equippable and thing.equippable.power_bonus > 0:
-                            damage = thing.equippable.power_bonus * 2
-                            self.engine.message_log.add_message(
-                                f"Indrix hurts himself on the dropped {thing.name} for {damage} damage.",
-                                color.combat_good,
-                            )
-                            self.entity.fighter.take_damage(damage)
-                        if thing.has_component(Pushable):
-                            #  indrix hurts himself on the statue's horns
-                            self.engine.message_log.add_message(
-                                f"Indrix breaks the {thing.name} on landing! He takes 5 damage.", color.combat_good
-                            )
-                            self.entity.fighter.take_damage(5)
-                            self.engine.game_map.entities.remove(thing)
+
+                stuff_here = self.engine.game_map.get_entities_at_location(self.entity.x, self.entity.y)
+                # find Equippable() in stuff_here
+                for thing in stuff_here:
+                    if isinstance(thing, Item) and thing.equippable and thing.equippable.power_bonus > 0:
+                        damage = thing.equippable.power_bonus * 2
+                        self.engine.message_log.add_message(
+                            f"Indrix hurts himself on the dropped {thing.name} for {damage} damage.",
+                            color.combat_good,
+                        )
+                        self.entity.fighter.take_damage(damage)
+                    if thing.has_component(Pushable):
+                        #  indrix hurts himself on the statue's horns
+                        self.engine.message_log.add_message(
+                            f"Indrix breaks the {thing.name} on landing! He takes 5 damage.", color.combat_good
+                        )
+                        self.entity.fighter.take_damage(5)
+                        self.engine.game_map.entities.remove(thing)
 
             return
 
