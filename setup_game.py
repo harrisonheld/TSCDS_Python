@@ -139,10 +139,15 @@ class SelectSaveHandler(input_handlers.BaseEventHandler):
         self.save_files = glob.glob(f"{path}/*.sav")
 
     def on_render(self, console: tcod.console.Console) -> None:
+
+        text = "Select a save file to load."
+        if not self.save_files:
+            text = "You don't have any saves."
+
         console.print(
-            console.width // 2,
-            console.height // 2 - 5,
-            "Select a save file to load:",
+            x=console.width // 2,
+            y=console.height // 2 - 5,
+            string=text,
             fg=color.menu_text,
             bg=color.black,
             alignment=libtcodpy.CENTER,
@@ -150,14 +155,24 @@ class SelectSaveHandler(input_handlers.BaseEventHandler):
 
         for i, save_file_path in enumerate(self.save_files):
 
-            save_file_name = save_file_path.split("\\")[-1]  # extract just the file name
+            save_file_name = save_file_path.split("/")[-1]  # extract just the file name
             save_file_name = save_file_name[:-4]  # remove the .sav extension
             letter = chr(ord("a") + i)
             console.print(
-                x=console.width // 4,
+                x=console.width // 2,
                 y=console.height // 2 - 3 + i,
                 string=f"[{letter}] {save_file_name}",
+                alignment=libtcodpy.CENTER,
             )
+
+        console.print(
+            x=console.width // 2,
+            y=console.height - 2,
+            string=f"Saves are stored at {resource_path('saves') + '/'}.",
+            fg=color.light_grey,
+            bg=color.black,
+            alignment=libtcodpy.CENTER,
+        )
 
     def ev_keydown(self, event: tcod.event.KeyDown) -> input_handlers.BaseEventHandler | None:
 
