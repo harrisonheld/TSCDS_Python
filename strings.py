@@ -50,8 +50,7 @@ b   edit key binds
 general_info = r"""To complete a floor, you will want to find the staircase. It looks like this: >
 """
 
-about = r"""
-Thank you for playing The Stars Came Down Screaming! Or as my girlfriend lovingly calls it, TSCDS.
+about = r"""Thank you for playing The Stars Came Down Screaming! Or as some lovingly call it, TSCDS.
 """
 
 eye_art = r"""*{##<^<><[}<))))())))))))))(]]](}]]}{}[(]{[]{}}[[}{[#{[(([[]]][(]<]{#@@{[][[}}{]([{-~<<(*:-..........--.........(...........................................:~^###%%#
