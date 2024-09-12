@@ -10,7 +10,7 @@ defaults:
     shell: bash
 
 env:
-  python-version: "3.11"
+  python-version: "3.12"
   pyinstaller-version: "6.6"
   project-name: the-stars-came-down-screaming
 
@@ -36,7 +36,6 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install PyInstaller==6.6
           pip install -r requirements.txt  # Install project dependencies
 
       - name: Build project
