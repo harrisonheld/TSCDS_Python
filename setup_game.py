@@ -46,6 +46,7 @@ def new_game() -> Engine:
         "Artow a Saad of olde Salum, and nou stonden thu at the heigh gate to Brightsheol. Fight or die."
     )
     engine.message_log.add_message("Press '?' for help.", color.welcome_text)
+    engine.message_log.add_message("Not sure what you're looking at? Press 'L' to look around.", color.welcome_text)
 
     dagger = copy.deepcopy(entity_factories.dagger)
     leather_armor = copy.deepcopy(entity_factories.leather_armor)
