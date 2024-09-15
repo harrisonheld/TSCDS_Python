@@ -696,7 +696,7 @@ class HistoryViewer(EventHandler):
         log_console = tcod.console.Console(console.width - 6, console.height - 6)
 
         # Draw a frame with a custom banner title.
-        log_console.draw_frame(0, 0, log_console.width, log_console.height)
+        log_console.draw_frame(0, 0, log_console.width, log_console.height, bg=color.black)
         log_console.print_box(0, 0, log_console.width, 1, "┤Message history├", alignment=libtcodpy.CENTER)
 
         # Render the message log using the cursor parameter.

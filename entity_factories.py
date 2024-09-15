@@ -55,11 +55,24 @@ gas = Entity(
     components=[Gas(density=7, damage=1, spread_chance=0.2)],
 )
 
+dessicated_vassal = Actor(
+    char="v",
+    color=color.dark_grey,
+    name="dessicated vassal", # dessicated means dry, but it also means "lacking vitality or interest"
+    description="His body crumbles with every step. Dry, cracked skin hangs from his bones. A testament to time's cruelty.",
+    ai_cls=HostileEnemyAI,
+    equipment=Equipment(),
+    fighter=Fighter(hp=12, base_defense=1, base_power=3),
+    inventory=Inventory(capacity=0),
+    level=Level(xp_given=20),
+)
+
+
 frog_warden = Actor(
-    char="w",
+    char="f",
     color=color.green,
     name="frog warden",
-    description="A creature in the shape of a man, wrought of decayed sinews and oozing ichors. The xanthous eyes belie an animated disposition. Through the mire, its skeletal fingers grasp fervently at amphibious creatures with undisputed affection; for what ghastly purpose, no one knows.",
+    description="A creature in the shape of a man, wrought of decayed sinews and oozing ichors. Its xanthous eyes belie an animated disposition. Through the mire, its skeletal fingers grasp fervently at amphibious creatures with undisputed affection; for what ghastly purpose, no one knows.",
     ai_cls=FrogWardenAI,
     equipment=Equipment(),
     fighter=Fighter(hp=10, base_defense=0, base_power=3),
@@ -212,15 +225,15 @@ On use, heals you to max health.""",
 cracked_red_eye_orb = UpgradeCrackedRedEyeOrb(
     char="Φ",
     color=color.red,
-    name="Cracked Red Eye Orb",
-    description="""This red gemstone lights a roaring fire in your heart, granting you a tranquil rage. It would only be remiss to leave an enemy unslain.
+    name="Vertical-Slitted Eye",
+    description="""This red gemstone whispers great strength. It would only be remiss to leave an enemy unslain.
 
 While in your inventory, increases your attack power by 1.""",
 )
 cracked_blue_eye_orb = UpgradeCrackedBlueEyeOrb(
     char="Θ",
     color=color.red,
-    name="Cracked Blue Eye Orb",
+    name="Square-Pupiled Eye",
     description="""This soothing azure gemstone whispers resilience. Cast aside your doubts; they are unworthy of you.
 
 While in your inventory, increases your defense by 1.""",
@@ -278,6 +291,15 @@ It is a heavy, solid thing, but it could be moved if you used your whole bodywei
     blocks_movement=True,
     render_order=RenderOrder.ACTOR,
     components=[Pushable()],
+)
+barrel = Entity(
+    char="O",
+    name="barrel",
+    description="A wooden barrel.",
+    color=color.orange,
+    blocks_movement=True,
+    render_order=RenderOrder.ACTOR,
+    components=[Pushable()]
 )
 corpse = Entity(
     char="%",

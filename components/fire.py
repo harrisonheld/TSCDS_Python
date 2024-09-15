@@ -25,8 +25,6 @@ class Fire(BaseComponent):
             if actor.has_component(FireImmune):
                 continue
 
-            actor.fighter.take_damage(self._damage)
-
             if actor is self.engine.player:
                 self.engine.message_log.add_message(
                     f"The fire beneath you burns for {self._damage} damage.", color.combat_bad
@@ -35,6 +33,9 @@ class Fire(BaseComponent):
                 self.engine.message_log.add_message(
                     f"The fire beneath the {actor.name} burns for {self._damage} damage.", color.combat_neutral
                 )
+
+            # this ignores defense
+            actor.fighter.take_damage(self._damage)
 
         # burn down
         self._life_remaining -= 1

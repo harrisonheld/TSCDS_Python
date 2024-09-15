@@ -68,6 +68,7 @@ class RegularRoom(RoomBase):
 class TreasureRoom(RoomBase):
     def populate(self, dungeon: GameMap) -> None:
 
+        # spawn loot
         loot: Entity
         pool: List[Entity] = dungeon.engine.game_world.treasure_pool
         if len(pool) > 0:
@@ -77,6 +78,16 @@ class TreasureRoom(RoomBase):
             loot = entity_factories.default_loot
         loot.spawn(dungeon, *self.center)
 
+        # spawn a few barrels
+        barrels = random.randint(1, 3)
+        for _ in range(barrels):
+            x = random.randint(self.x1 + 1, self.x2 - 1)
+            y = random.randint(self.y1 + 1, self.y2 - 1)
+
+            if len(dungeon.get_entities_at_location(x, y)) == 0 and not dungeon.tiles[x, y] == tile_types.down_stairs:
+                entity_factories.barrel.spawn(dungeon, x, y)
+
+        # TODO: remove this, it makes it so you can see the treasure room from the start
         dungeon.explored[self.inner_with_rind] = True
 
 
