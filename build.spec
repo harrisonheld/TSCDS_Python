@@ -7,8 +7,8 @@ a = Analysis(
     ["main.py"],
     binaries=[],
     datas=[
-        ("data", "data"),
-        ("saves", "saves")
+        ("data", "."),
+        ("saves", ".")
     ],
     hiddenimports=[],
     hookspath=[],
