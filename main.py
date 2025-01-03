@@ -6,14 +6,16 @@ import tcod
 from helpers import resource_path
 import color
 import exceptions
-import input_handlers
+import handlers.base_event_handler as input_handlers
+import handlers.event_handler
+import handlers.main_game_event_handler
 import setup_game
 import sizes
 
 
 def save_game(handler: input_handlers.BaseEventHandler) -> None:
     """If the current event handler has an active Engine then save it."""
-    if isinstance(handler, input_handlers.EventHandler):
+    if isinstance(handler, handlers.event_handler.EventHandler):
         handler.engine.save_as(handler.engine.save_path)
         print("Game saved.")
 
@@ -48,11 +50,11 @@ def main() -> None:
                 except exceptions.QuitToMainMenu:
                     handler = setup_game.MainMenu()
                 except exceptions.StartNewGame:
-                    handler = input_handlers.MainGameEventHandler(setup_game.new_game())
+                    handler = handlers.main_game_event_handler.MainGameEventHandler(setup_game.new_game())
                 except Exception:  # Handle exceptions in game.
                     traceback.print_exc()  # Print error to stderr.
                     # Then print the error to the message log.
-                    if isinstance(handler, input_handlers.EventHandler):
+                    if isinstance(handler, handlers.event_handler.EventHandler):
                         handler.engine.message_log.add_message(traceback.format_exc(), color.error)
         except exceptions.QuitWithoutSaving:  # Quit to desktop
             raise

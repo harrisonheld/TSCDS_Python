@@ -128,10 +128,14 @@ class GameWorld:
 
     def generate_floor(self) -> None:
         import procgen.boss
+        import procgen.devroom
         import procgen.rooms
 
         self.current_floor += 1
-        if self.current_floor in [2, 4, 6]:
+        if self.current_floor == 1:
+            self.engine.game_map = procgen.devroom.generate(self.engine)
+            return
+        elif self.current_floor in [2, 4, 6]:
             self.engine.game_map = procgen.boss.generate(self.engine)
             return
         elif self.current_floor == 7:

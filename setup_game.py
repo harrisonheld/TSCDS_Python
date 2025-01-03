@@ -18,7 +18,9 @@ from helpers import resource_path
 from ui.starfield import Starfield
 import color
 import entity_factories
-import input_handlers
+import handlers.base_event_handler as input_handlers
+import handlers.main_game_event_handler
+import handlers.popup_message
 import keys
 import strings
 
@@ -126,7 +128,7 @@ class MainMenu(input_handlers.BaseEventHandler):
         elif event.sym == tcod.event.KeySym.c:
             return SelectSaveHandler()
         elif event.sym == tcod.event.KeySym.n:
-            return input_handlers.MainGameEventHandler(new_game())
+            return handlers.main_game_event_handler.MainGameEventHandler(new_game())
 
         return None
 
@@ -226,12 +228,12 @@ class SaveOptionsHandler(input_handlers.BaseEventHandler):
             try:
                 save_file_name = self.save_path
                 save: Engine = load_game(save_file_name)
-                return input_handlers.MainGameEventHandler(save)
+                return handlers.main_game_event_handler.MainGameEventHandler(save)
             except Exception as e:
                 message = f"─┤Error Loading Save File├─"
                 message += "\n\n" + str(e)
                 message += "\n\n" + "Contact the developer at harrydheld@gmail.com."
-                return input_handlers.PopupMessage(self, message)
+                return handlers.popup_message.PopupMessage(self, message)
         # delete the save
         elif key == tcod.event.KeySym.d and event.mod & (tcod.event.KMOD_RSHIFT | tcod.event.KMOD_LSHIFT):
             import os
