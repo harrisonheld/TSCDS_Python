@@ -1,10 +1,10 @@
-import keys
-from handlers.event_handler import EventHandler
-from handlers.action_or_handler import ActionOrHandler
 from typing import Optional
 
-
 import tcod
+
+from handlers.action_or_handler import ActionOrHandler
+from handlers.event_handler import EventHandler
+import keys
 
 
 class AskUserEventHandler(EventHandler):
@@ -26,4 +26,5 @@ class AskUserEventHandler(EventHandler):
         By default this returns to the main event handler.
         """
         from handlers.main_game_event_handler import MainGameEventHandler
+
         return MainGameEventHandler(self.engine)

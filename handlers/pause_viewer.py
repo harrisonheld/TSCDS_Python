@@ -1,12 +1,12 @@
-import color
-import exceptions
-from handlers.main_game_event_handler import MainGameEventHandler
-import keys
-from handlers.event_handler import EventHandler
 from typing import Optional
 
-
 import tcod
+
+from handlers.event_handler import EventHandler
+from handlers.main_game_event_handler import MainGameEventHandler
+import color
+import exceptions
+import keys
 
 
 class PauseViewer(EventHandler):

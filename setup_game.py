@@ -14,13 +14,13 @@ import tcod
 
 from engine import Engine
 from game_map import GameWorld
-import handlers.main_game_event_handler
-import handlers.popup_message
 from helpers import resource_path
 from ui.starfield import Starfield
 import color
 import entity_factories
 import handlers.base_event_handler as input_handlers
+import handlers.main_game_event_handler
+import handlers.popup_message
 import keys
 import strings
 

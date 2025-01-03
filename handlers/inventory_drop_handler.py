@@ -1,8 +1,9 @@
+from typing import Optional
+
 from actions.drop_item_action import DropItemAction
 from entity import Item
-from handlers.inventory_event_handler import InventoryEventHandler
 from handlers.action_or_handler import ActionOrHandler
-from typing import Optional
+from handlers.inventory_event_handler import InventoryEventHandler
 
 
 class InventoryDropHandler(InventoryEventHandler):

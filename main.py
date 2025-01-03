@@ -3,12 +3,12 @@ import traceback
 
 import tcod
 
-import handlers.event_handler
-import handlers.main_game_event_handler
 from helpers import resource_path
 import color
 import exceptions
 import handlers.base_event_handler as input_handlers
+import handlers.event_handler
+import handlers.main_game_event_handler
 import setup_game
 import sizes
 

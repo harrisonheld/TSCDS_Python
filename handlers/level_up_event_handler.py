@@ -1,11 +1,11 @@
-import color
-from handlers.ask_user_event_handler import AskUserEventHandler
-from handlers.action_or_handler import ActionOrHandler
 from typing import Optional
 
-
-import tcod
 from tcod import libtcodpy
+import tcod
+
+from handlers.action_or_handler import ActionOrHandler
+from handlers.ask_user_event_handler import AskUserEventHandler
+import color
 
 
 class LevelUpEventHandler(AskUserEventHandler):

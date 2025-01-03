@@ -1,8 +1,7 @@
-import color
-from handlers.ask_user_event_handler import AskUserEventHandler
-
-
 import tcod
+
+from handlers.ask_user_event_handler import AskUserEventHandler
+import color
 
 
 class CharacterScreenEventHandler(AskUserEventHandler):

@@ -1,10 +1,10 @@
 from typing import Optional
-import color
-from handlers.base_event_handler import BaseEventHandler
 
-
-import tcod
 from tcod import libtcodpy
+import tcod
+
+from handlers.base_event_handler import BaseEventHandler
+import color
 
 
 class PopupMessage(BaseEventHandler):

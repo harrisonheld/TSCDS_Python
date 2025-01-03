@@ -1,13 +1,13 @@
 from typing import Optional
-import color
-from handlers.main_game_event_handler import MainGameEventHandler
-import keys
+
+from tcod import libtcodpy
+import tcod
+
 from engine import Engine
 from handlers.event_handler import EventHandler
-
-
-import tcod
-from tcod import libtcodpy
+from handlers.main_game_event_handler import MainGameEventHandler
+import color
+import keys
 
 
 class HistoryViewer(EventHandler):

@@ -1,14 +1,11 @@
-import color
-from actions.action import Action
-from engine import Engine
-from handlers.select_index_handler import SelectIndexHandler
-from typing import Optional
-
+from typing import Callable, Optional, Tuple
 
 import tcod
 
-
-from typing import Callable, Tuple
+from actions.action import Action
+from engine import Engine
+from handlers.select_index_handler import SelectIndexHandler
+import color
 
 
 class AreaRangedAttackHandler(SelectIndexHandler):
@@ -35,8 +32,8 @@ class AreaRangedAttackHandler(SelectIndexHandler):
         console.draw_frame(
             x=x - self.radius,
             y=y - self.radius,
-            width= self.radius*2 + 1,
-            height=self.radius*2 + 1,
+            width=self.radius * 2 + 1,
+            height=self.radius * 2 + 1,
             fg=color.red,
             clear=False,
         )

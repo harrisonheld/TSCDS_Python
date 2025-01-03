@@ -1,15 +1,12 @@
-import keys
-from actions.action import Action
-from engine import Engine
-from handlers.ask_user_event_handler import AskUserEventHandler
-from typing import Optional
-from handlers.action_or_handler import ActionOrHandler
-
+from typing import Callable, Optional, Tuple
 
 import tcod
 
-
-from typing import Callable, Tuple
+from actions.action import Action
+from engine import Engine
+from handlers.action_or_handler import ActionOrHandler
+from handlers.ask_user_event_handler import AskUserEventHandler
+import keys
 
 
 class SelectAdjacentHandler(AskUserEventHandler):

@@ -128,8 +128,8 @@ class GameWorld:
 
     def generate_floor(self) -> None:
         import procgen.boss
-        import procgen.rooms
         import procgen.devroom
+        import procgen.rooms
 
         self.current_floor += 1
         if self.current_floor == 1:

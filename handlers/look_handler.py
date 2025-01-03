@@ -1,12 +1,12 @@
 from typing import Optional
-from handlers.select_index_handler import SelectIndexHandler
-import keys
-from engine import Engine
-from handlers.main_game_event_handler import MainGameEventHandler
-from handlers.action_or_handler import ActionOrHandler
-
 
 import tcod
+
+from engine import Engine
+from handlers.action_or_handler import ActionOrHandler
+from handlers.main_game_event_handler import MainGameEventHandler
+from handlers.select_index_handler import SelectIndexHandler
+import keys
 
 
 class LookHandler(SelectIndexHandler):

@@ -1,12 +1,12 @@
-import color
-import keys
-from engine import Engine
-from handlers.ask_user_event_handler import AskUserEventHandler
-from handlers.action_or_handler import ActionOrHandler
 from typing import Optional
 
-
 import tcod
+
+from engine import Engine
+from handlers.action_or_handler import ActionOrHandler
+from handlers.ask_user_event_handler import AskUserEventHandler
+import color
+import keys
 
 
 class SelectIndexHandler(AskUserEventHandler):

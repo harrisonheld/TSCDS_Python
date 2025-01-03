@@ -1,10 +1,8 @@
+from typing import Callable, Optional, Tuple
+
 from actions.action import Action
 from engine import Engine
 from handlers.select_index_handler import SelectIndexHandler
-from typing import Optional
-
-
-from typing import Callable, Tuple
 
 
 class SingleRangedAttackHandler(SelectIndexHandler):

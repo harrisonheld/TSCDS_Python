@@ -1,15 +1,15 @@
-import actions.take_stairs_action
-import color
-import keys
+from typing import Optional
+
+import tcod
+
 from actions.bump_action import BumpAction
 from actions.pickup_action import PickupAction
 from actions.wait_action import WaitAction
-from handlers.event_handler import EventHandler
 from handlers.action_or_handler import ActionOrHandler
-from typing import Optional
-
-
-import tcod
+from handlers.event_handler import EventHandler
+import actions.take_stairs_action
+import color
+import keys
 
 
 class MainGameEventHandler(EventHandler):
@@ -41,30 +41,38 @@ class MainGameEventHandler(EventHandler):
 
         elif key == tcod.event.KeySym.ESCAPE:
             from handlers.pause_viewer import PauseViewer
+
             return PauseViewer(self.engine)
         elif key == tcod.event.KeySym.m:
             from handlers.history_viewer import HistoryViewer
+
             return HistoryViewer(self.engine)
         elif key == tcod.event.KeySym.SLASH:
             from handlers.help_viewer import HelpViewer
+
             return HelpViewer(self.engine)
 
         elif key == tcod.event.KeySym.g:
             return PickupAction(player)
         elif key == tcod.event.KeySym.i:
             from handlers.inventory_activate_handler import InventoryActivateHandler
+
             return InventoryActivateHandler(self.engine)
         elif key == tcod.event.KeySym.b:
             from handlers.inventory_binds_handler import InventoryBindsHandler
+
             return InventoryBindsHandler(self.engine)
         elif key == tcod.event.KeySym.d:
             from handlers.inventory_drop_handler import InventoryDropHandler
+
             return InventoryDropHandler(self.engine)
         elif key == tcod.event.KeySym.c:
             from handlers.character_screen_event_handler import CharacterScreenEventHandler
+
             return CharacterScreenEventHandler(self.engine)
         elif key == tcod.event.KeySym.l:
             from handlers.look_handler import LookHandler
+
             return LookHandler(self.engine)
 
         # No valid key was pressed

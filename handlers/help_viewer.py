@@ -1,13 +1,13 @@
-import color
-from handlers.main_game_event_handler import MainGameEventHandler
-import keys
-import strings
-from engine import Engine
-from handlers.event_handler import EventHandler
 from typing import Optional
 
-
 import tcod
+
+from engine import Engine
+from handlers.event_handler import EventHandler
+from handlers.main_game_event_handler import MainGameEventHandler
+import color
+import keys
+import strings
 
 
 class HelpViewer(EventHandler):

@@ -1,12 +1,12 @@
-import color
-import exceptions
+from typing import Optional
+
+import tcod
+
 from actions.action import Action
 from engine import Engine
 from handlers.base_event_handler import BaseEventHandler
-from typing import Optional
-
-
-import tcod
+import color
+import exceptions
 
 
 class EventHandler(BaseEventHandler):
@@ -23,12 +23,15 @@ class EventHandler(BaseEventHandler):
             if not self.engine.player.is_alive:
                 # The player was killed sometime during or after the action.
                 from handlers.game_over_event_handler import GameOverEventHandler
+
                 return GameOverEventHandler(self.engine)
             elif self.engine.player.level.requires_level_up:
                 from handlers.level_up_event_handler import LevelUpEventHandler
+
                 return LevelUpEventHandler(self.engine)
 
             from handlers.main_game_event_handler import MainGameEventHandler
+
             return MainGameEventHandler(self.engine)  # Return to the main handler.
         return self
 

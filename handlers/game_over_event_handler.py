@@ -1,14 +1,12 @@
-import color
-import exceptions
-from engine import Engine
-from handlers.event_handler import EventHandler
 from typing import Optional
-
+import os
 
 import tcod
 
-
-import os
+from engine import Engine
+from handlers.event_handler import EventHandler
+import color
+import exceptions
 
 
 class GameOverEventHandler(EventHandler):

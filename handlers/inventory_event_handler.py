@@ -1,12 +1,13 @@
-import color
-import keys
-from engine import Engine
-from entity import Item
-from handlers.ask_user_event_handler import AskUserEventHandler
-from handlers.action_or_handler import ActionOrHandler
 from typing import Optional
 
 import tcod
+
+from engine import Engine
+from entity import Item
+from handlers.action_or_handler import ActionOrHandler
+from handlers.ask_user_event_handler import AskUserEventHandler
+import color
+import keys
 
 
 class InventoryEventHandler(AskUserEventHandler):
@@ -100,6 +101,7 @@ class InventoryEventHandler(AskUserEventHandler):
         if key == tcod.event.KeySym.l:
             item = self.engine.player.inventory.items[self.curr_selected_idx]
             from handlers.inspect_item_handler import InspectItemHandler
+
             return InspectItemHandler(self.engine, self, item)
 
         # item selection through A-Z keys
