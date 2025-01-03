@@ -1,5 +1,5 @@
 import color
-from handlers.input_handlers import AskUserEventHandler
+from handlers.ask_user_event_handler import AskUserEventHandler
 
 
 import tcod

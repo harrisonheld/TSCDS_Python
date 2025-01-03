@@ -1,7 +1,7 @@
 import keys
 from actions.action import Action
 from engine import Engine
-from handlers.input_handlers import AskUserEventHandler
+from handlers.ask_user_event_handler import AskUserEventHandler
 from typing import Optional
 from handlers.input_handlers import ActionOrHandler
 
