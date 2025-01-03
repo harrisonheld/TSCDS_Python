@@ -1,5 +1,5 @@
 import keys
-from handlers.input_handlers import EventHandler
+from handlers.event_handler import EventHandler
 from handlers.input_handlers import ActionOrHandler
 from typing import Optional
 

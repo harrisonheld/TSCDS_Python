@@ -3,7 +3,7 @@ import color
 from handlers.main_game_event_handler import MainGameEventHandler
 import keys
 from engine import Engine
-from handlers.input_handlers import EventHandler
+from handlers.event_handler import EventHandler
 
 
 import tcod
