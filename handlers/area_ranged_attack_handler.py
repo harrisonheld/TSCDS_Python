@@ -1,7 +1,7 @@
 import color
 from actions.action import Action
 from engine import Engine
-from handlers.input_handlers import SelectIndexHandler
+from handlers.select_index_handler import SelectIndexHandler
 from typing import Optional
 
 

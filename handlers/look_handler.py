@@ -1,7 +1,8 @@
 from typing import Optional
+from handlers.select_index_handler import SelectIndexHandler
 import keys
 from engine import Engine
-from handlers.input_handlers import MainGameEventHandler, SelectIndexHandler
+from handlers.input_handlers import MainGameEventHandler
 from handlers.input_handlers import ActionOrHandler
 
 
