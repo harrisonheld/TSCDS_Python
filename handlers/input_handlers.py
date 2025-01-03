@@ -209,6 +209,7 @@ class InventoryEventHandler(AskUserEventHandler):
             return self.on_item_selected(selected_item)
         if key == tcod.event.KeySym.l:
             item = self.engine.player.inventory.items[self.curr_selected_idx]
+            from handlers.inspect_item_handler import InspectItemHandler
             return InspectItemHandler(self.engine, self, item)
 
         # item selection through A-Z keys
@@ -225,20 +226,6 @@ class InventoryEventHandler(AskUserEventHandler):
     def on_item_selected(self, item: Item) -> Optional[ActionOrHandler]:
         """Called when the user selects a valid item."""
         raise NotImplementedError()
-
-
-class InspectItemHandler(EventHandler):
-    def __init__(self, engine: Engine, parent_handler: InventoryEventHandler, item: Item):
-        self.parent_handler = parent_handler
-        self.item = item
-        super().__init__(engine)
-
-    def on_render(self, console: tcod.console.Console) -> None:
-        self.parent_handler.on_render(console)
-        self.engine.look_block.render_at(console, self.item, *(2, 2))
-
-    def ev_keydown(self, event: tcod.event.KeyDown) -> Optional[ActionOrHandler]:
-        return self.parent_handler
 
 
 class InventoryActivateHandler(InventoryEventHandler):
