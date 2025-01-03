@@ -58,7 +58,7 @@ gas = Entity(
 dessicated_vassal = Actor(
     char="v",
     color=color.dark_grey,
-    name="dessicated vassal", # dessicated means dry, but it also means "lacking vitality or interest"
+    name="dessicated vassal",  # dessicated means dry, but it also means "lacking vitality or interest"
     description="His body crumbles with every step. Dry, cracked skin hangs from his bones. A testament to time's cruelty.",
     ai_cls=HostileEnemyAI,
     equipment=Equipment(),
@@ -299,7 +299,7 @@ barrel = Entity(
     color=color.orange,
     blocks_movement=True,
     render_order=RenderOrder.ACTOR,
-    components=[Pushable()]
+    components=[Pushable()],
 )
 corpse = Entity(
     char="%",
