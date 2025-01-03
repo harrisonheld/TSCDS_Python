@@ -8,7 +8,6 @@ import tcod
 from actions.action import Action
 from actions.bump_action import BumpAction
 from actions.drop_item_action import DropItemAction
-from actions.equip_action import EquipAction
 from actions.pickup_action import PickupAction
 from actions.wait_action import WaitAction
 import actions.take_stairs_action
@@ -225,21 +224,6 @@ class InventoryEventHandler(AskUserEventHandler):
     def on_item_selected(self, item: Item) -> Optional[ActionOrHandler]:
         """Called when the user selects a valid item."""
         raise NotImplementedError()
-
-
-class InventoryActivateHandler(InventoryEventHandler):
-    """Handle using an inventory item."""
-
-    TITLE = "Select an item to use"
-
-    def on_item_selected(self, item: Item) -> Optional[ActionOrHandler]:
-        if item.consumable:
-            return item.consumable.get_action(self.engine.player)
-        elif item.equippable:
-            return EquipAction(self.engine.player, item)
-        else:
-            self.engine.message_log.add_message("That item has no uses.", color.impossible)
-            return None
 
 
 class InventoryDropHandler(InventoryEventHandler):
@@ -470,6 +454,7 @@ class MainGameEventHandler(EventHandler):
         elif key == tcod.event.KeySym.g:
             return PickupAction(player)
         elif key == tcod.event.KeySym.i:
+            from handlers.inventory_activate_handler import InventoryActivateHandler
             return InventoryActivateHandler(self.engine)
         elif key == tcod.event.KeySym.b:
             from handlers.inventory_binds_handler import InventoryBindsHandler
