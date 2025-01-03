@@ -1,8 +1,9 @@
 import color
+from handlers.main_game_event_handler import MainGameEventHandler
 import keys
 import strings
 from engine import Engine
-from handlers.input_handlers import EventHandler, MainGameEventHandler
+from handlers.input_handlers import EventHandler
 from typing import Optional
 
 

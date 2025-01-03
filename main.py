@@ -3,6 +3,7 @@ import traceback
 
 import tcod
 
+import handlers.main_game_event_handler
 from helpers import resource_path
 import color
 import exceptions
@@ -48,7 +49,7 @@ def main() -> None:
                 except exceptions.QuitToMainMenu:
                     handler = setup_game.MainMenu()
                 except exceptions.StartNewGame:
-                    handler = input_handlers.MainGameEventHandler(setup_game.new_game())
+                    handler = handlers.main_game_event_handler.MainGameEventHandler(setup_game.new_game())
                 except Exception:  # Handle exceptions in game.
                     traceback.print_exc()  # Print error to stderr.
                     # Then print the error to the message log.

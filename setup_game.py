@@ -14,6 +14,7 @@ import tcod
 
 from engine import Engine
 from game_map import GameWorld
+import handlers.main_game_event_handler
 import handlers.popup_message
 from helpers import resource_path
 from ui.starfield import Starfield
@@ -127,7 +128,7 @@ class MainMenu(input_handlers.BaseEventHandler):
         elif event.sym == tcod.event.KeySym.c:
             return SelectSaveHandler()
         elif event.sym == tcod.event.KeySym.n:
-            return input_handlers.MainGameEventHandler(new_game())
+            return handlers.main_game_event_handler.MainGameEventHandler(new_game())
 
         return None
 
@@ -227,7 +228,7 @@ class SaveOptionsHandler(input_handlers.BaseEventHandler):
             try:
                 save_file_name = self.save_path
                 save: Engine = load_game(save_file_name)
-                return input_handlers.MainGameEventHandler(save)
+                return handlers.main_game_event_handler.MainGameEventHandler(save)
             except Exception as e:
                 message = f"─┤Error Loading Save File├─"
                 message += "\n\n" + str(e)

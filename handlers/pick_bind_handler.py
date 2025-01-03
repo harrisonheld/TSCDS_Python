@@ -1,7 +1,8 @@
+from handlers.main_game_event_handler import MainGameEventHandler
 import keys
 from engine import Engine
 from entity import Item
-from handlers.input_handlers import AskUserEventHandler, MainGameEventHandler
+from handlers.input_handlers import AskUserEventHandler
 from handlers.inventory_binds_handler import InventoryBindsHandler
 from handlers.input_handlers import ActionOrHandler
 from typing import Optional
