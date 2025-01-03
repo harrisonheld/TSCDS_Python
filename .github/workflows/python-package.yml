@@ -45,4 +45,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: TSCDS-${{ github.run_number }}-${{ matrix.os }}  # Name the artifact
-          path: dist/the_stars_came_down_screaming/
+          path: dist/
