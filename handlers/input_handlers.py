@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Callable, Optional, Tuple, Type, Union
+from typing import TYPE_CHECKING, Optional, Type, Union
 
 import tcod
 
@@ -113,29 +113,6 @@ class AskUserEventHandler(EventHandler):
         By default this returns to the main event handler.
         """
         return MainGameEventHandler(self.engine)
-
-
-class SelectAdjacentHandler(AskUserEventHandler):
-    """Handles asking the user for one of 8 directions."""
-
-    def __init__(self, engine: Engine, callback: Callable[[Tuple[int, int]], Optional[Action]]):
-        super().__init__(engine)
-        self.callback = callback
-
-    def on_render(self, console: tcod.console.Console) -> None:
-        super().on_render(console)
-        console.print(0, 0, "Select a direction:")
-
-    def ev_keydown(self, event: tcod.event.KeyDown) -> Optional[ActionOrHandler]:
-        """Fire callback if directional key was pressed."""
-        key = event.sym
-        if key in keys.MOVE_KEYS:
-            dx, dy = keys.MOVE_KEYS[key]
-            return self.on_index_selected(self.engine.player.x + dx, self.engine.player.y + dy)
-        return super().ev_keydown(event)
-
-    def on_index_selected(self, x: int, y: int) -> Optional[Action]:
-        return self.callback((x, y))
 
 
 class SelectIndexHandler(AskUserEventHandler):
