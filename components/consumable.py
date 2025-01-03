@@ -6,7 +6,7 @@ from actions.swap_action import SwapAction
 from components.base_component import BaseComponent
 from components.inventory import Inventory
 from exceptions import Impossible
-from input_handlers import ActionOrHandler, AreaRangedAttackHandler, SelectAdjacentHandler, SingleRangedAttackHandler
+from handlers.input_handlers import ActionOrHandler, AreaRangedAttackHandler, SelectAdjacentHandler, SingleRangedAttackHandler
 import actions.item_action
 import color
 import components.ai.confused_ai

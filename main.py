@@ -6,7 +6,7 @@ import tcod
 from helpers import resource_path
 import color
 import exceptions
-import input_handlers
+import handlers.input_handlers as input_handlers
 import setup_game
 import sizes
 

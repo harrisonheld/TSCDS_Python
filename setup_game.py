@@ -18,7 +18,7 @@ from helpers import resource_path
 from ui.starfield import Starfield
 import color
 import entity_factories
-import input_handlers
+import handlers.input_handlers as input_handlers
 import keys
 import strings
 
