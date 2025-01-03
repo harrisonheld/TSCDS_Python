@@ -1,7 +1,7 @@
 import color
 from actions.equip_action import EquipAction
 from entity import Item
-from handlers.input_handlers import InventoryEventHandler
+from handlers.inventory_event_handler import InventoryEventHandler
 from handlers.input_handlers import ActionOrHandler
 from typing import Optional
 
