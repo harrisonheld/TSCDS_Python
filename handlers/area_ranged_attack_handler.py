@@ -33,13 +33,14 @@ class AreaRangedAttackHandler(SelectIndexHandler):
 
         # Draw a rectangle around the targeted area, so the player can see the affected tiles.
         console.draw_frame(
-            x=x - self.radius - 1,
-            y=y - self.radius - 1,
-            width=self.radius*2,
-            height=self.radius*2,
+            x=x - self.radius,
+            y=y - self.radius,
+            width= self.radius*2 + 1,
+            height=self.radius*2 + 1,
             fg=color.red,
             clear=False,
         )
+        print(self.radius)
 
     def on_index_selected(self, x: int, y: int) -> Optional[Action]:
         return self.callback((x, y))
