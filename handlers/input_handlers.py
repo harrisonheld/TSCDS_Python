@@ -243,40 +243,6 @@ class InventoryActivateHandler(InventoryEventHandler):
             return None
 
 
-class InventoryBindsHandler(InventoryEventHandler):
-    """Handle binding an inventory item."""
-
-    TITLE = "Select an item to bind"
-
-    def on_item_selected(self, item: Item) -> Optional[ActionOrHandler]:
-        if item.consumable:
-            return PickBindHandler(self.engine, self, item)
-        else:
-            self.engine.message_log.add_message("That item is not bindable.", color.impossible)
-            return None
-
-
-class PickBindHandler(AskUserEventHandler):
-    def __init__(self, engine: Engine, parent_handler: InventoryBindsHandler, consumable_to_bind: Item):
-        super().__init__(engine)
-        self.parent_handler: InventoryBindsHandler = parent_handler
-        self.consumable_to_bind: Item = consumable_to_bind
-
-    def on_render(self, console: tcod.console.Console) -> None:
-        super().on_render(console)
-        # render the inventory too
-        # self.parent_handler.on_render(console)
-        console.print(0, 0, f"Pick a key to bind {self.consumable_to_bind.name} to (1-9):")
-
-    def ev_keydown(self, event: tcod.event.KeyDown) -> Optional[ActionOrHandler]:
-        key = event.sym
-        if key in keys.BINDABLE_KEYS:
-            self.engine.player.inventory.bind(self.consumable_to_bind, key)
-            return MainGameEventHandler(self.engine)
-        else:
-            return self.parent_handler
-
-
 class InventoryDropHandler(InventoryEventHandler):
     """Handle dropping an inventory item."""
 
@@ -506,6 +472,7 @@ class MainGameEventHandler(EventHandler):
         elif key == tcod.event.KeySym.i:
             return InventoryActivateHandler(self.engine)
         elif key == tcod.event.KeySym.b:
+            from handlers.inventory_binds_handler import InventoryBindsHandler
             return InventoryBindsHandler(self.engine)
         elif key == tcod.event.KeySym.d:
             return InventoryDropHandler(self.engine)
