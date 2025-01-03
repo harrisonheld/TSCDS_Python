@@ -1,6 +1,6 @@
 from typing import Optional
 import color
-from handlers.input_handlers import BaseEventHandler
+from handlers.base_event_handler import BaseEventHandler
 
 
 import tcod

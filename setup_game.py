@@ -20,7 +20,7 @@ from helpers import resource_path
 from ui.starfield import Starfield
 import color
 import entity_factories
-import handlers.input_handlers as input_handlers
+import handlers.base_event_handler as input_handlers
 import keys
 import strings
 

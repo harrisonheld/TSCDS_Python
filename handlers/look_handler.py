@@ -3,7 +3,7 @@ from handlers.select_index_handler import SelectIndexHandler
 import keys
 from engine import Engine
 from handlers.main_game_event_handler import MainGameEventHandler
-from handlers.input_handlers import ActionOrHandler
+from handlers.action_or_handler import ActionOrHandler
 
 
 import tcod

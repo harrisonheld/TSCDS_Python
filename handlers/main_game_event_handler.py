@@ -5,7 +5,7 @@ from actions.bump_action import BumpAction
 from actions.pickup_action import PickupAction
 from actions.wait_action import WaitAction
 from handlers.event_handler import EventHandler
-from handlers.input_handlers import ActionOrHandler
+from handlers.action_or_handler import ActionOrHandler
 from typing import Optional
 
 

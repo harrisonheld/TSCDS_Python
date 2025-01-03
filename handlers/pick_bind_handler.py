@@ -4,7 +4,7 @@ from engine import Engine
 from entity import Item
 from handlers.ask_user_event_handler import AskUserEventHandler
 from handlers.inventory_binds_handler import InventoryBindsHandler
-from handlers.input_handlers import ActionOrHandler
+from handlers.action_or_handler import ActionOrHandler
 from typing import Optional
 
 

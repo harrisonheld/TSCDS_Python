@@ -8,7 +8,7 @@ import handlers.main_game_event_handler
 from helpers import resource_path
 import color
 import exceptions
-import handlers.input_handlers as input_handlers
+import handlers.base_event_handler as input_handlers
 import setup_game
 import sizes
 

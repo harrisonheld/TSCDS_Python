@@ -2,7 +2,7 @@ import color
 import exceptions
 from actions.action import Action
 from engine import Engine
-from handlers.input_handlers import BaseEventHandler
+from handlers.base_event_handler import BaseEventHandler
 from typing import Optional
 
 
