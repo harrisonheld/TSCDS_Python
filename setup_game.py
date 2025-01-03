@@ -14,6 +14,7 @@ import tcod
 
 from engine import Engine
 from game_map import GameWorld
+import handlers.popup_message
 from helpers import resource_path
 from ui.starfield import Starfield
 import color
@@ -231,7 +232,7 @@ class SaveOptionsHandler(input_handlers.BaseEventHandler):
                 message = f"─┤Error Loading Save File├─"
                 message += "\n\n" + str(e)
                 message += "\n\n" + "Contact the developer at harrydheld@gmail.com."
-                return input_handlers.PopupMessage(self, message)
+                return handlers.popup_message.PopupMessage(self, message)
         # delete the save
         elif key == tcod.event.KeySym.d and event.mod & (tcod.event.KMOD_RSHIFT | tcod.event.KMOD_LSHIFT):
             import os
