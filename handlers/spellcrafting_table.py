@@ -17,6 +17,7 @@ class SpellcraftingTable(EventHandler):
 
         self.crafting_width = 10
         self.crafting_height = 5
+        self.total_time = 0
 
     def on_render(self, console: tcod.console.Console, delta_time: float) -> None:
         super().on_render(console, delta_time)  # Draw the main state as the background.
@@ -26,10 +27,10 @@ class SpellcraftingTable(EventHandler):
         sub_console = tcod.console.Console(width, height)
         sub_console.draw_frame(0, 0, width, height, bg=color.black, fg=color.white)
         sub_console.print(width // 2, 0, "┤Spellcrafting├", alignment=tcod.constants.CENTER)
-        
+
         for y in range(self.crafting_height):
             for x in range(self.crafting_width):
-                sub_console.print(1 + x, 1 + y, ".", fg=color.white)
+                sub_console.print(1 + x, 1 + y, ".")
 
         x = console.width // 2 - sub_console.width // 2
         y = console.height // 2 - sub_console.height // 2

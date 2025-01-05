@@ -16,7 +16,7 @@ class InspectItemHandler(EventHandler):
         super().__init__(engine)
 
     def on_render(self, console: tcod.console.Console, delta_time: float) -> None:
-        self.parent_handler.on_render(console)
+        self.parent_handler.on_render(console, delta_time)
         self.engine.look_block.render_at(console, self.item, *(2, 2))
 
     def ev_keydown(self, event: tcod.event.KeyDown) -> Optional[ActionOrHandler]:
