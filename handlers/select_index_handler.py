@@ -18,9 +18,9 @@ class SelectIndexHandler(AskUserEventHandler):
         player = self.engine.player
         engine.mouse_location = player.x, player.y
 
-    def on_render(self, console: tcod.console.Console) -> None:
+    def on_render(self, console: tcod.console.Console, delta_time: float) -> None:
         """Highlight the tile under the cursor."""
-        super().on_render(console)
+        super().on_render(console, delta_time)
 
         x, y = self.engine.mouse_location
         console.rgb["bg"][x, y] = color.white

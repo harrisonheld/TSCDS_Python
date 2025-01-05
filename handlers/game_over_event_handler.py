@@ -18,8 +18,8 @@ class GameOverEventHandler(EventHandler):
         if os.path.exists(engine.save_path):
             os.remove(engine.save_path)
 
-    def on_render(self, console: tcod.console.Console) -> None:
-        super().on_render(console)  # Draw the main state as the background.
+    def on_render(self, console: tcod.console.Console, delta_time: float) -> None:
+        super().on_render(console, delta_time)  # Draw the main state as the background.
 
         width = 19
         height = 19

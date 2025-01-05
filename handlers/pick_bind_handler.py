@@ -17,8 +17,8 @@ class PickBindHandler(AskUserEventHandler):
         self.parent_handler: InventoryBindsHandler = parent_handler
         self.consumable_to_bind: Item = consumable_to_bind
 
-    def on_render(self, console: tcod.console.Console) -> None:
-        super().on_render(console)
+    def on_render(self, console: tcod.console.Console, delta_time: float) -> None:
+        super().on_render(console, delta_time)
         # render the inventory too
         # self.parent_handler.on_render(console)
         console.print(0, 0, f"Pick a key to bind {self.consumable_to_bind.name} to (1-9):")

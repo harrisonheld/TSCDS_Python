@@ -15,7 +15,7 @@ class InspectItemHandler(EventHandler):
         self.item = item
         super().__init__(engine)
 
-    def on_render(self, console: tcod.console.Console) -> None:
+    def on_render(self, console: tcod.console.Console, delta_time: float) -> None:
         self.parent_handler.on_render(console)
         self.engine.look_block.render_at(console, self.item, *(2, 2))
 

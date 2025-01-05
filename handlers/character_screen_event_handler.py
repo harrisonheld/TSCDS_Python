@@ -7,8 +7,8 @@ import color
 class CharacterScreenEventHandler(AskUserEventHandler):
     TITLE = "Character Information"
 
-    def on_render(self, console: tcod.console.Console) -> None:
-        super().on_render(console)
+    def on_render(self, console: tcod.console.Console, delta_time: float) -> None:
+        super().on_render(console, delta_time)
 
         if self.engine.player.x <= 30:
             x = 40

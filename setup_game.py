@@ -81,8 +81,9 @@ class MainMenu(input_handlers.BaseEventHandler):
     musing = random.choice(strings.musings)
     starfield = Starfield()
 
-    def on_render(self, console: tcod.console.Console) -> None:
+    def on_render(self, console: tcod.console.Console, delta_time: float) -> None:
         """Render the main menu."""
+        self.starfield.add_rot(delta_time / 10)
         self.starfield.render(console, console.width, console.height)
 
         console.print(
@@ -141,7 +142,7 @@ class SelectSaveHandler(input_handlers.BaseEventHandler):
         path = resource_path("saves")
         self.save_files = glob.glob(f"{path}/*.sav")
 
-    def on_render(self, console: tcod.console.Console) -> None:
+    def on_render(self, console: tcod.console.Console, delta_time: float) -> None:
 
         text = "Select a save file to load."
         if not self.save_files:
@@ -193,7 +194,7 @@ class SaveOptionsHandler(input_handlers.BaseEventHandler):
     def __init__(self, save_path: str):
         self.save_path = save_path
 
-    def on_render(self, console: tcod.console.Console) -> None:
+    def on_render(self, console: tcod.console.Console, delta_time: float) -> None:
         # options are:
         # load the save or delete the save
         console.print(

@@ -25,9 +25,9 @@ class LookHandler(SelectIndexHandler):
         self.engine.mouse_location = (-1, -1)
         return super().on_exit()
 
-    def on_render(self, console: tcod.console.Console) -> None:
+    def on_render(self, console: tcod.console.Console, delta_time: float) -> None:
         """Draw a Look Block for the entity the cursor is on."""
-        super().on_render(console)
+        super().on_render(console, delta_time)
 
         x, y = self.engine.mouse_location
 

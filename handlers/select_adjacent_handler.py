@@ -16,8 +16,8 @@ class SelectAdjacentHandler(AskUserEventHandler):
         super().__init__(engine)
         self.callback = callback
 
-    def on_render(self, console: tcod.console.Console) -> None:
-        super().on_render(console)
+    def on_render(self, console: tcod.console.Console, delta_time: float) -> None:
+        super().on_render(console, delta_time)
         console.print(0, 0, "Select a direction:")
 
     def ev_keydown(self, event: tcod.event.KeyDown) -> Optional[ActionOrHandler]:

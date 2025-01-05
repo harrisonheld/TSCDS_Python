@@ -11,6 +11,7 @@ import handlers.event_handler
 import handlers.main_game_event_handler
 import setup_game
 import sizes
+import time
 
 
 def save_game(handler: input_handlers.BaseEventHandler) -> None:
@@ -24,6 +25,10 @@ def main() -> None:
     font_path = resource_path("data/dwarffortress64x64.png")
     tileset = tcod.tileset.load_tilesheet(font_path, 16, 16, tcod.tileset.CHARMAP_CP437)
 
+    target_fps = 60
+    target_delta_time = 1 / target_fps
+    delta_time = 0
+
     handler: input_handlers.BaseEventHandler = setup_game.MainMenu()
 
     with tcod.context.new(
@@ -36,12 +41,14 @@ def main() -> None:
         root_console = tcod.console.Console(sizes.screen_width, sizes.screen_height, order="F")
         try:
             while True:
+                frame_time_start = time.perf_counter()
+                
                 root_console.clear(bg=color.black)
-                handler.on_render(console=root_console)
+                handler.on_render(console=root_console, delta_time=delta_time)
                 context.present(root_console)
 
                 try:
-                    for event in tcod.event.wait():
+                    for event in tcod.event.get():
                         context.convert_event(event)
                         handler = handler.handle_events(event)
                 except exceptions.SaveAndQuitToMainMenu:
@@ -56,6 +63,13 @@ def main() -> None:
                     # Then print the error to the message log.
                     if isinstance(handler, handlers.event_handler.EventHandler):
                         handler.engine.message_log.add_message(traceback.format_exc(), color.error)
+
+                frame_time_end = time.perf_counter()
+                delta_time = frame_time_start - frame_time_end
+                if delta_time < target_delta_time:
+                    time.sleep(target_delta_time - delta_time)
+                    delta_time = target_delta_time
+
         except exceptions.QuitWithoutSaving:  # Quit to desktop
             raise
         except SystemExit:  # Save and quit to desktop
