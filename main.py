@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import time
 import traceback
 
 import tcod
@@ -11,7 +12,6 @@ import handlers.event_handler
 import handlers.main_game_event_handler
 import setup_game
 import sizes
-import time
 
 
 def save_game(handler: input_handlers.BaseEventHandler) -> None:
@@ -42,7 +42,7 @@ def main() -> None:
         try:
             while True:
                 frame_time_start = time.perf_counter()
-                
+
                 root_console.clear(bg=color.black)
                 handler.on_render(console=root_console, delta_time=delta_time)
                 context.present(root_console)
