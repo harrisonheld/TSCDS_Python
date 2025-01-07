@@ -50,15 +50,6 @@ def new_game() -> Engine:
     engine.message_log.add_message("Press '?' for help.", color.welcome_text)
     engine.message_log.add_message("Not sure what you're looking at? Press 'l' to look around.", color.welcome_text)
 
-    dagger = copy.deepcopy(entity_factories.dagger)
-    leather_armor = copy.deepcopy(entity_factories.leather_armor)
-
-    player.inventory.add(dagger, add_message=False)
-    player.inventory.add(leather_armor, add_message=False)
-
-    player.equipment.toggle_equip(dagger, add_message=False)
-    player.equipment.toggle_equip(leather_armor, add_message=False)
-
     current_time = datetime.now()
     timestamp = current_time.strftime("%Y-%m-%d_%H-%M-%S")
     save_file_name = f"save_{timestamp}.sav"

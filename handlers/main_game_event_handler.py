@@ -74,5 +74,6 @@ class MainGameEventHandler(EventHandler):
             from handlers.look_handler import LookHandler
 
             return LookHandler(self.engine)
+        
         # No valid key was pressed
         return None
