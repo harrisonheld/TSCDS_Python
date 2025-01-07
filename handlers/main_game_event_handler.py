@@ -74,10 +74,5 @@ class MainGameEventHandler(EventHandler):
             from handlers.look_handler import LookHandler
 
             return LookHandler(self.engine)
-        elif key == tcod.event.KeySym.e:
-            from handlers.spellcrafting_table import SpellcraftingTable
-            
-            return SpellcraftingTable(self.engine)
-
         # No valid key was pressed
         return None
