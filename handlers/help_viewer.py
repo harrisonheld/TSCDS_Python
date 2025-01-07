@@ -20,8 +20,8 @@ class HelpViewer(EventHandler):
         super().__init__(engine)
         self.curr_page = 0
 
-    def on_render(self, console: tcod.console.Console) -> None:
-        super().on_render(console)  # Draw the main state as the background.
+    def on_render(self, console: tcod.console.Console, delta_time: float) -> None:
+        super().on_render(console, delta_time)  # Draw the main state as the background.
 
         width = console.width - 6
         height = console.height - 6

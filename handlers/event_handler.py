@@ -62,5 +62,5 @@ class EventHandler(BaseEventHandler):
         if self.engine.game_map.in_bounds(event.tile.x, event.tile.y):
             self.engine.mouse_location = event.tile.x, event.tile.y
 
-    def on_render(self, console: tcod.console.Console) -> None:
+    def on_render(self, console: tcod.console.Console, delta_time: float) -> None:
         self.engine.render(console)

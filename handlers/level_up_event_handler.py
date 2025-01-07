@@ -9,8 +9,8 @@ import color
 
 
 class LevelUpEventHandler(AskUserEventHandler):
-    def on_render(self, console: tcod.console.Console) -> None:
-        super().on_render(console)
+    def on_render(self, console: tcod.console.Console, delta_time: float) -> None:
+        super().on_render(console, delta_time)
 
         width = 42
         height = 8

@@ -10,8 +10,8 @@ import keys
 
 
 class PauseViewer(EventHandler):
-    def on_render(self, console: tcod.console.Console) -> None:
-        super().on_render(console)  # Draw the main state as the background.
+    def on_render(self, console: tcod.console.Console, delta_time: float) -> None:
+        super().on_render(console, delta_time)  # Draw the main state as the background.
 
         width = 19
         height = 19

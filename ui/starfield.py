@@ -11,6 +11,7 @@ class Starfield:
 
         star_count = 100
         self.stars = []
+        self.delta = 0
 
         for _ in range(star_count):
             x = random.uniform(0, 1)
@@ -22,10 +23,6 @@ class Starfield:
     def render(self, console, width, height):
         # draw stars
         for star in self.stars:
-            hor_dist_from_center = abs(star.x - 0.5)
-            star.x += 0.005 * (math.cos(math.pi * (hor_dist_from_center - 1)) + 1) + 0.005
-            star.x %= 1
-
             x = int(star.x * width)
             y = int(star.y * height)
 
@@ -35,6 +32,14 @@ class Starfield:
                 glyphs = ".,*~"
                 g = int(t * (len(glyphs) - 1))
                 console.print(x, y, glyphs[g], c)
+
+    def add_rot(self, amount):
+        # animate
+        for star in self.stars:
+            hor_dist_from_center = abs(star.x - 0.5)
+            # this formula was derived purely by trial and error
+            star.x += amount * (math.cos(math.pi * (hor_dist_from_center - 1)) + 1) + amount
+            star.x %= 1
 
 
 class Star:

@@ -22,12 +22,12 @@ class InventoryEventHandler(AskUserEventHandler):
         self.curr_selected_idx = 0
         super().__init__(engine)
 
-    def on_render(self, console: tcod.console.Console) -> None:
+    def on_render(self, console: tcod.console.Console, delta_time: float) -> None:
         """Render an inventory menu, which displays the items in the inventory, and the letter to select them.
         Will move to a different position based on where the player is located, so the player can always see where
         they are.
         """
-        super().on_render(console)
+        super().on_render(console, delta_time)
         inventory = self.engine.player.inventory
         number_of_items_in_inventory = len(inventory.items)
 
