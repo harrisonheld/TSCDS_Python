@@ -9,7 +9,7 @@ from components.ai.fumeknight_ai import FumeKnightAI
 from components.ai.hostile_enemy_ai import HostileEnemyAI
 from components.ai.indrix_ai import IndrixAI
 from components.consumable import SwapConsumable
-from components.equipment import Equipment
+from components.equipment import Equipment, SlotType
 from components.equippable import Equippable
 from components.fighter import Fighter
 from components.fire import Fire
@@ -22,9 +22,17 @@ from components.level import Level
 from components.pushable import Pushable
 from components.trail_leaver import TrailLeaver
 from entity import *
-from equipment_types import EquipmentType
 from upgrades import *
 import color
+
+humanoid_equipment = Equipment()
+humanoid_equipment.add_slot(SlotType.HAND)
+humanoid_equipment.add_slot(SlotType.HAND)
+humanoid_equipment.add_slot(SlotType.HEAD)
+humanoid_equipment.add_slot(SlotType.BODY)
+humanoid_equipment.add_slot(SlotType.HANDS)
+humanoid_equipment.add_slot(SlotType.LEGS)
+humanoid_equipment.add_slot(SlotType.FEET)
 
 player = Actor(
     char="@",
@@ -32,7 +40,7 @@ player = Actor(
     name="Player",
     description="It's you.",
     ai_cls=HostileEnemyAI,
-    equipment=Equipment(),
+    equipment=copy.deepcopy(humanoid_equipment),
     fighter=Fighter(hp=30, base_defense=0, base_power=2),
     inventory=Inventory(capacity=4),
     level=Level(level_up_base=200),
@@ -250,26 +258,32 @@ dagger = Item(
     char="/",
     color=color.light_grey,
     name="dagger",
-    equippable=Equippable(equipment_type=EquipmentType.WEAPON, power_bonus=2),
+    equippable=Equippable(slot_type=SlotType.HAND, power_bonus=2),
 )
 sword = Item(
     char="\\",
     color=color.light_grey,
     name="sword",
-    equippable=Equippable(equipment_type=EquipmentType.WEAPON, power_bonus=4),
+    equippable=Equippable(slot_type=SlotType.HAND, power_bonus=4),
+)
+knife = Item(
+    char="f",
+    color=color.light_grey,
+    name="knife",
+    equippable=Equippable(slot_type=SlotType.HAND, power_bonus=3),
 )
 
 leather_armor = Item(
     char="[",
     color=color.orange,
     name="leather armor",
-    equippable=Equippable(equipment_type=EquipmentType.ARMOR, defense_bonus=1),
+    equippable=Equippable(slot_type=SlotType.BODY, defense_bonus=1),
 )
 chain_mail = Item(
     char="[",
     color=color.light_grey,
     name="chain mail",
-    equippable=Equippable(equipment_type=EquipmentType.ARMOR, defense_bonus=3),
+    equippable=Equippable(slot_type=SlotType.BODY, defense_bonus=3),
 )
 
 brazier = Entity(

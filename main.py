@@ -27,7 +27,7 @@ def main() -> None:
 
     target_fps = 60
     target_delta_time = 1 / target_fps
-    delta_time = 0
+    delta_time = 0.0
 
     handler: input_handlers.BaseEventHandler = setup_game.MainMenu()
 

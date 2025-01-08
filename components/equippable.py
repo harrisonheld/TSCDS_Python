@@ -3,7 +3,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from components.base_component import BaseComponent
-from equipment_types import EquipmentType
+from components.equipment import SlotType
 
 if TYPE_CHECKING:
     from entity import Item
@@ -14,11 +14,11 @@ class Equippable(BaseComponent):
 
     def __init__(
         self,
-        equipment_type: EquipmentType,
+        slot_type: SlotType,
         power_bonus: int = 0,
         defense_bonus: int = 0,
     ):
-        self.equipment_type = equipment_type
+        self.slot_type = slot_type
 
         self.power_bonus = power_bonus
         self.defense_bonus = defense_bonus

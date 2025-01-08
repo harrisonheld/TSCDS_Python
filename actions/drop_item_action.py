@@ -7,7 +7,7 @@ from upgrades import Upgrade
 class DropItemAction(ItemAction):
     def perform(self) -> None:
         if self.entity.equipment.item_is_equipped(self.item):
-            self.entity.equipment.toggle_equip(self.item)
+            self.entity.equipment.unequip(self.item)
 
         self.entity.inventory.drop(self.item)
 
