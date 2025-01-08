@@ -39,9 +39,10 @@ class EquipmentScreen(EventHandler):
             item_name = slot.item.name if slot.item is not None else "-"
             item_char = slot.item.char if slot.item is not None else " "
             item_color = slot.item.color if slot.item is not None else color.white
+            ordinal = '(' + chr(ord('a') - 1 + y) + ')'
 
             sub_console.print(1,                     y, slot_name)  # slot name
-            sub_console.print(longest_slot_name + 2, y, '(a)')  # key prompt
+            sub_console.print(longest_slot_name + 2, y, ordinal)  # key prompt
             sub_console.print(longest_slot_name + 5, y, item_char, fg=item_color)
             sub_console.print(longest_slot_name + 6, y, item_name)
 
