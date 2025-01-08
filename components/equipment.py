@@ -18,19 +18,20 @@ class SlotType(Enum):
     FEET = auto()
 
 
-class Equipment(BaseComponent):
+class EquipmentSlot:
+    def __init__(self, slot_type: SlotType, item: Optional[Item] = None):
+        self.slot_type = slot_type
+        self.item: Optional[Item] = item
 
-    class EquipmentSlot:
-        def __init__(self, slot_type: SlotType, item: Optional[Item] = None):
-            self.slot_type = slot_type
-            self.item: Optional[Item] = item
+
+class Equipment(BaseComponent):
 
     def __init__(self):
         self.parent: Actor = None
-        self.slots: List[self.EquipmentSlot] = []
+        self.slots: List[EquipmentSlot] = []
 
     def add_slot(self, slotType: SlotType) -> None:
-        newSlot = self.EquipmentSlot(slotType)
+        newSlot = EquipmentSlot(slotType)
         self.slots.append(newSlot)
 
     @property
@@ -39,6 +40,7 @@ class Equipment(BaseComponent):
 
         for slot in self.slots:
             if item := slot.item:
+                assert item.equippable is not None
                 bonus += item.equippable.defense_bonus
 
         return bonus
@@ -49,6 +51,7 @@ class Equipment(BaseComponent):
 
         for slot in self.slots:
             if item := slot.item:
+                assert item.equippable is not None
                 bonus += item.equippable.power_bonus
 
         return bonus
