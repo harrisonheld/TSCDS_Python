@@ -55,8 +55,8 @@ class ItemPicker(AskUserEventHandler):
             bg=color.black,
         )
         console.print(x + 1, y, f"┤{self.TITLE}├")
-        # hint = "┤[l]ook├"
-        # console.print(x + width - 1 - len(hint), y + height - 1, hint)
+        hint = "┤[l]ook├"
+        console.print(x + width - 1 - len(hint), y + height - 1, hint)
 
         if num_items > 0:
             for i, item in enumerate(self.items):

@@ -9,9 +9,9 @@ from components.equipment import Equipment, EquipmentSlot, SlotType
 from engine import Engine
 from entity import Item
 from handlers.action_or_handler import ActionOrHandler
-from handlers.armor_equip_picker import ArmorEquipPicker, ItemPicker
 from handlers.event_handler import EventHandler
 from handlers.main_game_event_handler import MainGameEventHandler
+from handlers.picker_armor_equip import ArmorEquipPicker, ItemPicker
 import color
 import exceptions
 import keys
