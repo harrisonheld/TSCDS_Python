@@ -3,11 +3,11 @@ from typing import Optional
 from actions.equip_to_first_possible_slot_action import EquipToFirstPossibleSlotAction
 from entity import Item
 from handlers.action_or_handler import ActionOrHandler
-from handlers.inventory_event_handler import InventoryEventHandler
+from handlers.item_picker import ItemPicker
 import color
 
 
-class InventoryActivateHandler(InventoryEventHandler):
+class InventoryActivateHandler(ItemPicker):
     """Handle using an inventory item."""
 
     TITLE = "Select an item to use"

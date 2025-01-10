@@ -2,12 +2,14 @@ from typing import Optional
 
 import tcod
 
+from actions.action import Action
 from actions.equip_action import EquipAction
 from actions.unequip_action import UnequipAction
 from components.equipment import Equipment, EquipmentSlot, SlotType
 from engine import Engine
 from entity import Item
 from handlers.action_or_handler import ActionOrHandler
+from handlers.armor_equip_picker import ArmorEquipPicker, ItemPicker
 from handlers.event_handler import EventHandler
 from handlers.main_game_event_handler import MainGameEventHandler
 import color
@@ -47,11 +49,14 @@ class EquipmentScreen(EventHandler):
             item_char = slot.item.char if slot.item is not None else " "
             item_color = slot.item.color if slot.item is not None else color.white
             ordinal = "(" + chr(ord("a") - 1 + y) + ")"
+            ordinal_fg = color.white
+            ordinal_bg = color.black
             do_highlight = idx == self.curr_selected_idx
-            bg_color = color.yellow if do_highlight else color.black
+            if do_highlight:
+                ordinal_fg, ordinal_bg = ordinal_bg, ordinal_fg  # swap colors
 
             sub_console.print(1, y, slot_name)  # slot name
-            sub_console.print(longest_slot_name + 2, y, ordinal, bg=bg_color)  # key prompt
+            sub_console.print(longest_slot_name + 2, y, ordinal, fg=ordinal_fg, bg=ordinal_bg)  # key prompt
             sub_console.print(longest_slot_name + 5, y, item_char, fg=item_color)
             sub_console.print(longest_slot_name + 6, y, item_name)
 
@@ -97,7 +102,14 @@ class EquipmentScreen(EventHandler):
     def on_slot_selected(self, slot: EquipmentSlot) -> Optional[ActionOrHandler]:
         """Called when the user selects a slot."""
         if slot.item is None:
-            raise NotImplementedError("Sorry, haven't gotten around to implementing this yet.")
+
+            def criteria(item: Item) -> bool:
+                return item.equippable is not None and item.equippable.slot_type == slot.slot_type
+
+            def callback(item: Item) -> Action:
+                return EquipAction(self.engine.player, item, slot)
+
+            return ArmorEquipPicker(self.engine, slot_type=slot.slot_type)
 
         assert slot.item is not None
         player = self.engine.player
