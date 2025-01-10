@@ -70,9 +70,6 @@ class InventoryEventHandler(AskUserEventHandler):
                         break
 
                 item_string = item.name
-                is_equipped = self.engine.player.equipment.item_is_equipped(item)
-                if is_equipped:
-                    item_string = f"{item_string} (equipped)"
                 if bound_to_key is not None:
                     item_string = f"{item_string} (bound to {bound_to_key.name})"
 
