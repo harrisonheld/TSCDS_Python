@@ -50,10 +50,10 @@ class EquipmentScreen(EventHandler):
             do_highlight = idx == self.curr_selected_idx
             bg_color = color.yellow if do_highlight else color.black
 
-            sub_console.print(1, y, slot_name, bg=bg_color)  # slot name
+            sub_console.print(1, y, slot_name)  # slot name
             sub_console.print(longest_slot_name + 2, y, ordinal, bg=bg_color)  # key prompt
-            sub_console.print(longest_slot_name + 5, y, item_char, fg=item_color, bg=bg_color)
-            sub_console.print(longest_slot_name + 6, y, item_name, bg=bg_color)
+            sub_console.print(longest_slot_name + 5, y, item_char, fg=item_color)
+            sub_console.print(longest_slot_name + 6, y, item_name)
 
             idx += 1
 
@@ -88,6 +88,7 @@ class EquipmentScreen(EventHandler):
         # slot selection through a-z keys
         index = key - tcod.event.KeySym.a
         if 0 <= index < len(player.equipment.slots):
+            self.curr_selected_idx = index
             selected_slot = player.equipment.slots[index]
             return self.on_slot_selected(selected_slot)
 
