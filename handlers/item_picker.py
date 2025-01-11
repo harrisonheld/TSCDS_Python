@@ -72,21 +72,28 @@ class ItemPicker(AskUserEventHandler):
                 console.print(x + 5, y + i + 1, item_string)
 
     def ev_keydown(self, event: tcod.event.KeyDown) -> Optional[ActionOrHandler]:
-        player = self.engine.player
         key = event.sym
 
         # movement of item selection
         if key in keys.MENU_NAV_UP:
+            if len(self.items) == 0:
+                return None
             self.curr_selected_idx = (self.curr_selected_idx - 1) % len(self.items)
             return None
         elif key in keys.MENU_NAV_DOWN:
+            if len(self.items) == 0:
+                return None
             self.curr_selected_idx = (self.curr_selected_idx + 1) % len(self.items)
             return None
         # item selection via enter
         if key in keys.CONFIRM_KEYS:
+            if len(self.items) == 0:
+                return None
             selected_item = self.items[self.curr_selected_idx]
             return self.on_item_selected(selected_item)
         if key == tcod.event.KeySym.l:
+            if len(self.items) == 0:
+                return None
             item = self.items[self.curr_selected_idx]
             from handlers.inspect_item_handler import InspectItemHandler
 
@@ -94,13 +101,10 @@ class ItemPicker(AskUserEventHandler):
 
         # item selection through A-Z keys
         index = key - tcod.event.KeySym.a
-        if 0 <= index <= 26:
-            try:
-                selected_item = self.items[index]
-            except IndexError:
-                self.engine.message_log.add_message("Invalid entry.", color.impossible)
-                return None
+        if 0 <= index < len(self.items):
+            selected_item = self.items[index]
             return self.on_item_selected(selected_item)
+
         return super().ev_keydown(event)
 
     def on_item_selected(self, item: Item) -> Optional[ActionOrHandler]:
