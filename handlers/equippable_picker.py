@@ -15,8 +15,8 @@ import color
 import keys
 
 
-class ArmorEquipPicker(ItemPicker):
-    """Pick an armor of the given slot type."""
+class EquippablePicker(ItemPicker):
+    """Pick an equippable item of the given slot type."""
 
     TITLE = "Pick an armor"
 

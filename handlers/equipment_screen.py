@@ -5,13 +5,13 @@ import tcod
 from actions.action import Action
 from actions.equip_action import EquipAction
 from actions.unequip_action import UnequipAction
-from components.equipment import Equipment, EquipmentSlot, SlotType
+from components.equipment import EquipmentSlot
 from engine import Engine
 from entity import Item
 from handlers.action_or_handler import ActionOrHandler
+from handlers.equippable_picker import EquippablePicker
 from handlers.event_handler import EventHandler
 from handlers.main_game_event_handler import MainGameEventHandler
-from handlers.picker_armor_equip import ArmorEquipPicker, ItemPicker
 import color
 import exceptions
 import keys
@@ -102,14 +102,7 @@ class EquipmentScreen(EventHandler):
     def on_slot_selected(self, slot: EquipmentSlot) -> Optional[ActionOrHandler]:
         """Called when the user selects a slot."""
         if slot.item is None:
-
-            def criteria(item: Item) -> bool:
-                return item.equippable is not None and item.equippable.slot_type == slot.slot_type
-
-            def callback(item: Item) -> Action:
-                return EquipAction(self.engine.player, item, slot)
-
-            return ArmorEquipPicker(self.engine, slot_type=slot.slot_type)
+            return EquippablePicker(self.engine, slot_type=slot.slot_type)
 
         assert slot.item is not None
         player = self.engine.player
