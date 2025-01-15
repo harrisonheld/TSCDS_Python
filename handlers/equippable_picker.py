@@ -43,3 +43,6 @@ class EquippablePicker(ItemPicker):
         action = EquipToFirstPossibleSlotAction(self.engine.player, item)
         action.next_handler = self.parent  # after performing, go back to the equipment screen
         return action
+
+    def on_exit(self) -> Optional[ActionOrHandler]:
+        return self.parent

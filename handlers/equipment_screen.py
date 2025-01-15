@@ -9,14 +9,14 @@ from components.equipment import EquipmentSlot
 from engine import Engine
 from entity import Item
 from handlers.action_or_handler import ActionOrHandler
-from handlers.event_handler import EventHandler
+from handlers.ask_user_event_handler import AskUserEventHandler
 from handlers.main_game_event_handler import MainGameEventHandler
 import color
 import exceptions
 import keys
 
 
-class EquipmentScreen(EventHandler):
+class EquipmentScreen(AskUserEventHandler):
     """View, equip, and unequip equipment."""
 
     def __init__(self, engine: Engine):
@@ -69,6 +69,10 @@ class EquipmentScreen(EventHandler):
         player = self.engine.player
         key = event.sym
 
+        # due to this code, there is no need for length==0 checks
+        if len(player.equipment.slots) == 0:
+            return super().ev_keydown(event)
+
         # movement of item selection
         if key in keys.MENU_NAV_UP:
             self.curr_selected_idx = (self.curr_selected_idx - 1) % len(player.equipment.slots)
@@ -86,8 +90,6 @@ class EquipmentScreen(EventHandler):
 
             if slot.item is not None:
                 return InspectItemHandler(self.engine, self, slot.item)
-        if key == tcod.event.KeySym.ESCAPE:
-            return MainGameEventHandler(self.engine)
 
         # slot selection through a-z keys
         index = key - tcod.event.KeySym.a
@@ -96,7 +98,7 @@ class EquipmentScreen(EventHandler):
             selected_slot = player.equipment.slots[index]
             return self.on_slot_selected(selected_slot)
 
-        return None
+        return super().ev_keydown(event)
 
     def on_slot_selected(self, slot: EquipmentSlot) -> Optional[ActionOrHandler]:
         """Called when the user selects a slot."""
