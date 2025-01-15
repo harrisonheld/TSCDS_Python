@@ -9,7 +9,6 @@ from components.equipment import EquipmentSlot
 from engine import Engine
 from entity import Item
 from handlers.action_or_handler import ActionOrHandler
-from handlers.equippable_picker import EquippablePicker
 from handlers.event_handler import EventHandler
 from handlers.main_game_event_handler import MainGameEventHandler
 import color
@@ -102,7 +101,9 @@ class EquipmentScreen(EventHandler):
     def on_slot_selected(self, slot: EquipmentSlot) -> Optional[ActionOrHandler]:
         """Called when the user selects a slot."""
         if slot.item is None:
-            return EquippablePicker(self.engine, slot_type=slot.slot_type)
+            from handlers.equippable_picker import EquippablePicker
+
+            return EquippablePicker(self.engine, self, slot_type=slot.slot_type)
 
         assert slot.item is not None
         player = self.engine.player

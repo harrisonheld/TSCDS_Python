@@ -12,6 +12,8 @@ import exceptions
 class EventHandler(BaseEventHandler):
     def __init__(self, engine: Engine):
         self.engine = engine
+        self.do_render_engine = True
+        """If true, will render the gamescreen: the playable area and message log."""
 
     def handle_events(self, event: tcod.event.Event) -> BaseEventHandler:
         """Handle events for input handlers with an engine."""
@@ -63,4 +65,5 @@ class EventHandler(BaseEventHandler):
             self.engine.mouse_location = event.tile.x, event.tile.y
 
     def on_render(self, console: tcod.console.Console, delta_time: float) -> None:
-        self.engine.render(console)
+        if self.do_render_engine:
+            self.engine.render(console)

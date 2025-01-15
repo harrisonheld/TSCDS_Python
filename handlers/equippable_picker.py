@@ -9,6 +9,7 @@ from engine import Engine
 from entity import Item
 from handlers.action_or_handler import ActionOrHandler
 from handlers.ask_user_event_handler import AskUserEventHandler
+from handlers.equipment_screen import EquipmentScreen
 from handlers.event_handler import EventHandler
 from handlers.item_picker import ItemPicker
 import color
@@ -20,10 +21,12 @@ class EquippablePicker(ItemPicker):
 
     TITLE = "Pick an armor"
 
-    def __init__(self, engine: Engine, slot_type: SlotType):
+    def __init__(self, engine: Engine, parent: EquipmentScreen, slot_type: SlotType):
         # super init comes after, because it uses the slot_type in its criteria method
         self.slot_type = slot_type
         super().__init__(engine)
+        self.parent = parent
+        self.do_render_engine = False
 
     def criteria(self, item: Item) -> bool:
         if item.equippable is None:
@@ -31,6 +34,10 @@ class EquippablePicker(ItemPicker):
         if item.equippable.slot_type != self.slot_type:
             return False
         return True
+
+    def on_render(self, console, delta_time):
+        self.parent.on_render(console, delta_time)
+        super().on_render(console, delta_time)
 
     def on_item_selected(self, item: Item) -> ActionOrHandler:
         return EquipToFirstPossibleSlotAction(self.engine.player, item)
