@@ -20,7 +20,8 @@ class EventHandler(BaseEventHandler):
         action_or_state = self.dispatch(event)
         if isinstance(action_or_state, BaseEventHandler):
             return action_or_state
-        if self.handle_action(action_or_state):
+        action: Action = action_or_state
+        if self.handle_action(action):
             # A valid action was performed.
             if not self.engine.player.is_alive:
                 # The player was killed sometime during or after the action.
@@ -31,8 +32,8 @@ class EventHandler(BaseEventHandler):
                 from handlers.level_up_event_handler import LevelUpEventHandler
 
                 return LevelUpEventHandler(self.engine)
-            elif action_or_state.next_handler:
-                return action_or_state.next_handler
+            elif action.next_handler:
+                return action.next_handler
             else:
                 from handlers.main_game_event_handler import MainGameEventHandler
 
