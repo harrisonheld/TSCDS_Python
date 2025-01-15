@@ -40,4 +40,6 @@ class EquippablePicker(ItemPicker):
         super().on_render(console, delta_time)
 
     def on_item_selected(self, item: Item) -> ActionOrHandler:
-        return EquipToFirstPossibleSlotAction(self.engine.player, item)
+        action = EquipToFirstPossibleSlotAction(self.engine.player, item)
+        action.next_handler = self.parent  # after performing, go back to the equipment screen
+        return action

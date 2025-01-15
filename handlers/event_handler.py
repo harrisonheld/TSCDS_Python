@@ -31,10 +31,12 @@ class EventHandler(BaseEventHandler):
                 from handlers.level_up_event_handler import LevelUpEventHandler
 
                 return LevelUpEventHandler(self.engine)
+            elif action_or_state.next_handler:
+                return action_or_state.next_handler
+            else:
+                from handlers.main_game_event_handler import MainGameEventHandler
 
-            from handlers.main_game_event_handler import MainGameEventHandler
-
-            return MainGameEventHandler(self.engine)  # Return to the main handler.
+                return MainGameEventHandler(self.engine)  # Return to the main handler.
         return self
 
     def handle_action(self, action: Optional[Action]) -> bool:

@@ -1,16 +1,20 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Optional
 
 if TYPE_CHECKING:
     from engine import Engine
     from entity import Actor
+    from handlers.base_event_handler import BaseEventHandler
 
 
 class Action:
     def __init__(self, entity: Actor) -> None:
         super().__init__()
         self.entity = entity
+        """The Actor which is to perform this action."""
+        self.next_handler: Optional[BaseEventHandler] = None
+        """If set, the game will switch to the next handler to be returned after this action is performed."""
 
     @property
     def engine(self) -> Engine:
