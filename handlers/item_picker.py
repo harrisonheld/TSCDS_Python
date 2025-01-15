@@ -70,6 +70,8 @@ class ItemPicker(AskUserEventHandler):
                 console.print(x + 1, y + i + 1, f"[{item_key}]", ordinal_fg, ordinal_bg)
                 console.print(x + 4, y + i + 1, item.char, item.color)
                 console.print(x + 5, y + i + 1, item_string)
+        else:
+            console.print(x + 1, y + 1, "-- Nothing here! --", fg=color.light_grey)
 
     def ev_keydown(self, event: tcod.event.KeyDown) -> Optional[ActionOrHandler]:
         key = event.sym
