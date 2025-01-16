@@ -26,8 +26,8 @@ class EquipmentSlot:
 
 class Equipment(BaseComponent):
 
-    def __init__(self):
-        self.parent: Actor = None
+    def __init__(self) -> None:
+        self.parent: Actor
         self.slots: List[EquipmentSlot] = []
 
     def add_slot(self, slotType: SlotType) -> None:
