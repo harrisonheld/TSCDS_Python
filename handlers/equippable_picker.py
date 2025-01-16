@@ -19,7 +19,7 @@ import keys
 class EquippablePicker(ItemPicker):
     """Pick an equippable item of the given slot type."""
 
-    TITLE = "Pick an armor"
+    TITLE = "Pick an item to equip"
 
     def __init__(self, engine: Engine, parent: EquipmentScreen, slot_type: SlotType):
         # super init comes after, because it uses the slot_type in its criteria method
