@@ -14,4 +14,5 @@ class InventoryDropHandler(ItemPicker):
     def on_item_selected(self, item: Item) -> Optional[ActionOrHandler]:
         """Drop this item."""
         action = DropItemAction(self.engine.player, item)
+        action.next_handler = self
         return action

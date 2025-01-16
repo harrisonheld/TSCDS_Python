@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from actions.action import Action
-from entity import Actor
+from entity import Actor, Item
 from upgrades import Upgrade
 import exceptions
 
@@ -9,18 +9,17 @@ import exceptions
 class PickupAction(Action):
     """Pickup an item and add it to the inventory, if there is room for it."""
 
-    def __init__(self, entity: Actor):
+    def __init__(self, entity: Actor, item: Item):
         super().__init__(entity)
+        self.item = item
 
     def perform(self) -> None:
-        x = self.entity.x
-        y = self.entity.y
-        item = self.engine.game_map.get_item_at_location(x, y)
-        if item is None:
-            raise exceptions.Impossible("There is nothing here to pick up.")
+
+        if self.item.x != self.entity.x or self.item.y != self.entity.y:
+            raise exceptions.Impossible("You can't pick that up - it is too far away.")
 
         inventory = self.entity.inventory
-        inventory.add(item)
+        inventory.add(self.item)
 
-        if isinstance(item, Upgrade):
-            item.on_pickup(self.entity)
+        if isinstance(self.item, Upgrade):
+            self.item.on_pickup(self.entity)

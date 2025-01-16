@@ -31,6 +31,8 @@ class Inventory(BaseComponent):
         """
         if len(self.items) >= self.capacity:
             raise exceptions.Impossible("Your inventory is full.")
+        if item in self.items:
+            raise exceptions.Impossible(f"You already have the {item.name}.")
 
         try:
             self.parent.gamemap.engine.game_map.entities.remove(item)

@@ -266,12 +266,6 @@ sword = Item(
     name="sword",
     equippable=Equippable(slot_type=SlotType.HAND, power_bonus=4),
 )
-knife = Item(
-    char="f",
-    color=color.light_grey,
-    name="knife",
-    equippable=Equippable(slot_type=SlotType.HAND, power_bonus=3),
-)
 
 leather_armor = Item(
     char="[",

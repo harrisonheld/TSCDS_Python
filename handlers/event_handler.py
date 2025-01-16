@@ -17,14 +17,17 @@ class EventHandler(BaseEventHandler):
 
     def handle_events(self, event: tcod.event.Event) -> BaseEventHandler:
         """Handle events for input handlers with an engine."""
-        action_or_state = self.dispatch(event)
-        if isinstance(action_or_state, BaseEventHandler):
-            return action_or_state
-        action: Action = action_or_state
+        action_or_handler = self.dispatch(event)
+        if action_or_handler is None:
+            return self
+        if isinstance(action_or_handler, BaseEventHandler):
+            return action_or_handler
+        assert isinstance(action_or_handler, Action)
+        action: Action = action_or_handler
         if self.handle_action(action):
             # A valid action was performed.
             if not self.engine.player.is_alive:
-                # The player was killed sometime during or after the action.
+                # The player was killed sometime due to the action.
                 from handlers.game_over_event_handler import GameOverEventHandler
 
                 return GameOverEventHandler(self.engine)
@@ -38,7 +41,8 @@ class EventHandler(BaseEventHandler):
                 from handlers.main_game_event_handler import MainGameEventHandler
 
                 return MainGameEventHandler(self.engine)  # Return to the main handler.
-        return self
+
+        raise RuntimeError("Control should not reach this point.")
 
     def handle_action(self, action: Optional[Action]) -> bool:
         """Handle actions returned from event methods.
@@ -52,13 +56,12 @@ class EventHandler(BaseEventHandler):
             action.perform()
         except exceptions.Impossible as exc:
             self.engine.message_log.add_message(exc.args[0], color.impossible)
-            return False  # Skip enemy turn on exceptions.
+            return False  # Skip enemy turn on failures.
 
         # TODO: enemies use visibility to know if they can see player.
         # if we change this, this first update visibility will no longer be necessary
         self.engine.update_visibility()
         self.engine.handle_enemy_turns()
-
         self.engine.update_visibility()
 
         return True

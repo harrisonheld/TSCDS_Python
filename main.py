@@ -43,10 +43,12 @@ def main() -> None:
             while True:
                 frame_time_start = time.perf_counter()
 
+                # rendering
                 root_console.clear(bg=color.black)
                 handler.on_render(console=root_console, delta_time=delta_time)
                 context.present(root_console)
 
+                # handling input
                 try:
                     for event in tcod.event.get():
                         context.convert_event(event)

@@ -1,4 +1,4 @@
-from typing import Callable, Optional
+from typing import Callable, List, Optional
 
 import tcod
 
@@ -28,12 +28,12 @@ class EquippablePicker(ItemPicker):
         self.parent = parent
         self.do_render_engine = False
 
-    def criteria(self, item: Item) -> bool:
-        if item.equippable is None:
-            return False
-        if item.equippable.slot_type != self.slot_type:
-            return False
-        return True
+    def generate_items(self) -> List[Item]:
+        return [
+            item
+            for item in self.engine.player.inventory.items
+            if item.equippable is not None and item.equippable.slot_type == self.slot_type
+        ]
 
     def on_render(self, console, delta_time):
         self.parent.on_render(console, delta_time)

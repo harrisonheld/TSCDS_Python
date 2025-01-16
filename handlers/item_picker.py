@@ -1,4 +1,5 @@
-from typing import Optional
+from typing import List, Optional
+import cProfile
 
 import tcod
 
@@ -6,6 +7,7 @@ from engine import Engine
 from entity import Item
 from handlers.action_or_handler import ActionOrHandler
 from handlers.ask_user_event_handler import AskUserEventHandler
+from handlers.base_event_handler import BaseEventHandler
 import color
 import keys
 
@@ -19,9 +21,20 @@ class ItemPicker(AskUserEventHandler):
     TITLE = "<missing title>"
 
     def __init__(self, engine: Engine):
-        self.curr_selected_idx = 0
-        self.items = [item for item in engine.player.inventory.items if self.criteria(item)]
         super().__init__(engine)
+        self.curr_selected_idx = 0
+        self.items = self.generate_items()
+        self._dirty = False
+        """This dirty flag will be set to True when the items have changed (or MAY have changed)."""
+
+    def handle_events(self, event) -> BaseEventHandler:
+        if self._dirty:
+            self.items = self.generate_items()
+            if self.curr_selected_idx >= len(self.items):
+                self.curr_selected_idx = len(self.items) - 1
+            self._dirty = False
+
+        return super().handle_events(event)
 
     def on_render(self, console: tcod.console.Console, delta_time: float) -> None:
         """Render an inventory menu, which displays the items in the inventory, and the letter to select them.
@@ -74,6 +87,7 @@ class ItemPicker(AskUserEventHandler):
             console.print(x + 1, y + 1, "-- Nothing here! --", fg=color.light_grey)
 
     def ev_keydown(self, event: tcod.event.KeyDown) -> Optional[ActionOrHandler]:
+        self.items = self.generate_items()
         key = event.sym
 
         # due to this code, there is no need for length==0 checks
@@ -109,6 +123,9 @@ class ItemPicker(AskUserEventHandler):
         """Called when the user selects a valid item."""
         raise NotImplementedError()
 
-    def criteria(self, item: Item) -> bool:
-        """Only inventory items which pass this criteria will be shown."""
-        return True
+    def generate_items(self) -> List[Item]:
+        """Get the items that can be selected."""
+        # This returns a REFERENCE to the items in the player's inventory
+        # (notably NOT a copy, in case you're not catching on here, Harrison in 6 months)
+        # This is the intended behavior - modifications to inventory will be reflected in the item picker
+        return self.engine.player.inventory.items
