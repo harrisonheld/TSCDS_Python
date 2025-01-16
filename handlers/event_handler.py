@@ -18,40 +18,35 @@ class EventHandler(BaseEventHandler):
     def handle_events(self, event: tcod.event.Event) -> BaseEventHandler:
         """Handle events for input handlers with an engine."""
         action_or_handler = self.dispatch(event)
-        if action_or_handler is None:
-            return self
         if isinstance(action_or_handler, BaseEventHandler):
             return action_or_handler
-        assert isinstance(action_or_handler, Action)
-        action: Action = action_or_handler
-        if self.handle_action(action):
-            # A valid action was performed.
-            if not self.engine.player.is_alive:
-                # The player was killed sometime due to the action.
-                from handlers.game_over_event_handler import GameOverEventHandler
+        elif isinstance(action_or_handler, Action):
+            action = action_or_handler
+            if self.handle_action(action):
+                # A valid action was performed.
+                if not self.engine.player.is_alive:
+                    # The player was killed sometime due to the action.
+                    from handlers.game_over_event_handler import GameOverEventHandler
 
-                return GameOverEventHandler(self.engine)
-            elif self.engine.player.level.requires_level_up:
-                from handlers.level_up_event_handler import LevelUpEventHandler
+                    return GameOverEventHandler(self.engine)
+                elif self.engine.player.level.requires_level_up:
+                    from handlers.level_up_event_handler import LevelUpEventHandler
 
-                return LevelUpEventHandler(self.engine)
-            elif action.next_handler:
-                return action.next_handler
-            else:
-                from handlers.main_game_event_handler import MainGameEventHandler
+                    return LevelUpEventHandler(self.engine)
+                elif action.next_handler:
+                    return action.next_handler
+                else:
+                    from handlers.main_game_event_handler import MainGameEventHandler
 
-                return MainGameEventHandler(self.engine)  # Return to the main handler.
+                    return MainGameEventHandler(self.engine)  # Return to the main handler.
 
-        raise RuntimeError("Control should not reach this point.")
+        return self
 
-    def handle_action(self, action: Optional[Action]) -> bool:
+    def handle_action(self, action: Action) -> bool:
         """Handle actions returned from event methods.
 
         Returns True if the action will advance a turn.
         """
-        if action is None:
-            return False
-
         try:
             action.perform()
         except exceptions.Impossible as exc:
