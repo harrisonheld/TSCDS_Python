@@ -15,6 +15,10 @@ class GetHandler(ItemPicker):
 
     TITLE = "Select an item to get"
 
+    def __init__(self, engine):
+        super().__init__(engine)
+        self.show_inventory_count = True
+
     def generate_items(self):
         xy = self.engine.player.xy
         return self.engine.game_map.get_items_at_location(*xy)

@@ -11,6 +11,10 @@ class InventoryDropHandler(ItemPicker):
 
     TITLE = "Select an item to drop"
 
+    def __init__(self, engine):
+        super().__init__(engine)
+        self.show_inventory_count = True
+
     def on_item_selected(self, item: Item) -> Optional[ActionOrHandler]:
         """Drop this item."""
         action = DropItemAction(self.engine.player, item)

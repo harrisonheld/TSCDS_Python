@@ -25,6 +25,10 @@ class Inventory(BaseComponent):
     def is_full(self) -> bool:
         return len(self.items) == self.capacity
 
+    @property
+    def capacity_string(self) -> str:
+        return f"items: {len(self.items)}/{self.capacity}"
+
     def add(self, item: Item, add_message: bool = True) -> None:
         """
         Add or pickup (from the game map) an item to the inventory, and attempt to auto-bind it to a key.

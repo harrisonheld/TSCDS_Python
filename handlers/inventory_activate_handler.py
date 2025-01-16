@@ -12,6 +12,10 @@ class InventoryActivateHandler(ItemPicker):
 
     TITLE = "Select an item to use"
 
+    def __init__(self, engine):
+        super().__init__(engine)
+        self.show_inventory_count = True
+
     def on_item_selected(self, item: Item) -> Optional[ActionOrHandler]:
         if item.consumable:
             return item.consumable.get_action(self.engine.player)
