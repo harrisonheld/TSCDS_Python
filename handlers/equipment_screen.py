@@ -105,7 +105,7 @@ class EquipmentScreen(AskUserEventHandler):
         if slot.item is None:
             from handlers.equippable_picker import EquippablePicker
 
-            return EquippablePicker(self.engine, self, slot_type=slot.slot_type)
+            return EquippablePicker(self.engine, parent=self, slot=slot)
 
         assert slot.item is not None
         player = self.engine.player

@@ -28,6 +28,8 @@ class ItemPicker(AskUserEventHandler):
         """This dirty flag will be set to True when the items have changed (or MAY have changed)."""
         self.show_inventory_count = False
         """This will show the inventory count at the bottom of the menu."""
+        self.show_on_ground_hint = False
+        """This will show the "on ground" hint for items that are not in the player's inventory."""
 
     def gain_focus(self) -> None:
         if self._dirty:
@@ -78,6 +80,8 @@ class ItemPicker(AskUserEventHandler):
                 item_key = chr(ord("a") + i)
 
                 item_string = item.name
+                if self.show_on_ground_hint and item not in self.engine.player.inventory.items:
+                    item_string += f" (on ground)"
 
                 ordinal_fg, ordinal_bg = color.white, color.black
                 if i == self.curr_selected_idx:
