@@ -57,25 +57,25 @@ class Fighter(BaseComponent):
         assert self.parent.ai is not None
         self.parent.ai.on_die()
 
-        if self.engine.player is self.parent:
+        if self.parent is self.engine.player:
             death_message = "Saad, thyn heres been shaken of olde lif. You are dead."
             death_message_color = color.player_die
             self.engine.message_log.add_message(death_message, death_message_color)
-            # make the player itself resemble a corpse
+            # make the player itself resemble a corpse, so it will appear that way in the status bar
             self.engine.player.char = "%"
             self.engine.player.color = color.deep_red
             self.engine.player.name = f"slain {self.engine.player.name}"
-
         else:
             death_message = f"The {self.parent.name} dies."
             death_message_color = color.enemy_die
             self.engine.message_log.add_message(death_message, death_message_color)
 
-            corpse = entity_factories.corpse.spawn(self.gamemap, self.parent.x, self.parent.y)
-            corpse.name = f"slain {self.parent.name}"
-
             self.engine.player.level.add_xp(self.parent.level.xp_given)
-            self.gamemap.entities.remove(self.parent)
+
+        # replace killed entity with a corpse
+        corpse = entity_factories.corpse.spawn(self.gamemap, self.parent.x, self.parent.y)
+        corpse.name = f"slain {self.parent.name}"
+        self.gamemap.entities.remove(self.parent)
 
     def heal(self, amount: int) -> int:
         if self.hp == self.max_hp:
