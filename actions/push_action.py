@@ -18,11 +18,11 @@ class PushAction(ActionWithDirectionBase):
         dest_y += self.dy
 
         if not self.engine.game_map.in_bounds(dest_x, dest_y):
-            raise Impossible("The object cannot be pushed off the map.")
+            raise Impossible(f"The {target.name} cannot be pushed off the map.")
         if self.engine.game_map.get_blocking_entity_at_location(dest_x, dest_y):
-            raise Impossible("You can't push that. There is something in the way.")
+            raise Impossible(f"You can't push the {target.name}. There is something in the way.")
         if not self.engine.game_map.tiles["walkable"][dest_x, dest_y]:
-            raise Impossible("You can't push that into a wall.")
+            raise Impossible(f"You can't push the {target.name} into a wall.")
 
         target.move(self.dx, self.dy)
         self.entity.move(self.dx, self.dy)
