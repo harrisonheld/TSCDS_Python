@@ -53,6 +53,7 @@ def main() -> None:
                     for event in tcod.event.get():
                         context.convert_event(event)
                         handler = handler.handle_events(event)
+                        handler.gain_focus()
                 except exceptions.SaveAndQuitToMainMenu:
                     save_game(handler)
                     handler = setup_game.MainMenu()

@@ -29,14 +29,12 @@ class ItemPicker(AskUserEventHandler):
         self.show_inventory_count = False
         """This will show the inventory count at the bottom of the menu."""
 
-    def handle_events(self, event) -> BaseEventHandler:
+    def gain_focus(self) -> None:
         if self._dirty:
             self.items = self.generate_items()
             if self.curr_selected_idx >= len(self.items):
                 self.curr_selected_idx = len(self.items) - 1
             self._dirty = False
-
-        return super().handle_events(event)
 
     def on_render(self, console: tcod.console.Console, delta_time: float) -> None:
         """Render an inventory menu, which displays the items in the inventory, and the letter to select them.
