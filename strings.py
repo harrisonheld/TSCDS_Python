@@ -6,7 +6,6 @@ def preserve_capitalize(string: str) -> str:
 musings = [
     # just random things that sound cool
     "Know no want.",
-    "By any means necessary.",
     # song lyrics
     "To wait for tomorrow is for fools in their sorrow.",  # Hour of the Dragon, Manilla Road
     "In this world's darkest hour, up the hammers to strike.",  # Flaming Metal System, Manilla Road
