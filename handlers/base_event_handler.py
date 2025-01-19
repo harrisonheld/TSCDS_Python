@@ -20,3 +20,9 @@ class BaseEventHandler(tcod.event.EventDispatch[ActionOrHandler]):
 
     def ev_quit(self, event: tcod.event.Quit) -> Optional[Action]:
         raise SystemExit()
+
+    def gain_focus(self) -> None:
+        """Called when this handler gains focus, such as when the game starts
+        or when the player closes a menu and this handler becomes the active one.
+        """
+        pass

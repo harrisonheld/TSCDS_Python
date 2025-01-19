@@ -44,6 +44,11 @@ def new_game() -> Engine:
     engine.game_world.generate_floor()
     engine.update_visibility()
 
+    entity_factories.leather_armor.spawn(engine.game_map, engine.player.x, engine.player.y)
+    entity_factories.dagger.spawn(engine.game_map, engine.player.x, engine.player.y)
+    entity_factories.chain_mail.spawn(engine.game_map, engine.player.x, engine.player.y)
+    entity_factories.sword.spawn(engine.game_map, engine.player.x, engine.player.y)
+
     engine.message_log.add_message(
         "Artow a Saad of olde Salum, and nou stonden thu at the heigh gate to Brightsheol. Fight or die."
     )

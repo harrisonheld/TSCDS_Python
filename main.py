@@ -27,7 +27,7 @@ def main() -> None:
 
     target_fps = 60
     target_delta_time = 1 / target_fps
-    delta_time = 0
+    delta_time = 0.0
 
     handler: input_handlers.BaseEventHandler = setup_game.MainMenu()
 
@@ -43,14 +43,17 @@ def main() -> None:
             while True:
                 frame_time_start = time.perf_counter()
 
+                # rendering
                 root_console.clear(bg=color.black)
                 handler.on_render(console=root_console, delta_time=delta_time)
                 context.present(root_console)
 
+                # handling input
                 try:
                     for event in tcod.event.get():
                         context.convert_event(event)
                         handler = handler.handle_events(event)
+                        handler.gain_focus()
                 except exceptions.SaveAndQuitToMainMenu:
                     save_game(handler)
                     handler = setup_game.MainMenu()

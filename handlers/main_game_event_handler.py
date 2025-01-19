@@ -7,6 +7,7 @@ from actions.pickup_action import PickupAction
 from actions.wait_action import WaitAction
 from handlers.action_or_handler import ActionOrHandler
 from handlers.event_handler import EventHandler
+from handlers.get_handler import GetHandler
 import actions.take_stairs_action
 import color
 import keys
@@ -53,7 +54,13 @@ class MainGameEventHandler(EventHandler):
             return HelpViewer(self.engine)
 
         elif key == tcod.event.KeySym.g:
-            return PickupAction(player)
+            items = self.engine.game_map.get_items_at_location(*self.engine.player.xy)
+            if len(items) == 0:
+                self.engine.message_log.add_message("There is nothing here to pick up.", color.impossible)
+                return None
+            elif len(items) == 1:
+                return PickupAction(player, items[0])
+            return GetHandler(self.engine)
         elif key == tcod.event.KeySym.i:
             from handlers.inventory_activate_handler import InventoryActivateHandler
 
@@ -74,6 +81,10 @@ class MainGameEventHandler(EventHandler):
             from handlers.look_handler import LookHandler
 
             return LookHandler(self.engine)
-        
+        elif key == tcod.event.KeySym.e:
+            from handlers.equipment_screen import EquipmentScreen
+
+            return EquipmentScreen(self.engine)
+
         # No valid key was pressed
         return None

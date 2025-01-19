@@ -40,6 +40,7 @@ g get item
 
 . wait (i.e, pass your turn)
 d drop item
+e view equipment
 c view character sheet
 m view detailed message log
 

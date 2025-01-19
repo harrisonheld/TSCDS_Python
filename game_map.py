@@ -86,6 +86,10 @@ class GameMap:
                 return entity
         return None
 
+    def get_items_at_location(self, x: int, y: int) -> List[Item]:
+        at = self.get_entities_at_location(x, y)
+        return [i for i in at if isinstance(i, Item)]
+
     def in_bounds(self, x: int, y: int) -> bool:
         """Return True if x and y are inside the bounds of this map."""
         return 0 <= x < self.width and 0 <= y < self.height

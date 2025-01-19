@@ -2,14 +2,18 @@ from typing import Optional
 
 from entity import Item
 from handlers.action_or_handler import ActionOrHandler
-from handlers.inventory_event_handler import InventoryEventHandler
+from handlers.item_picker import ItemPicker
 import color
 
 
-class InventoryBindsHandler(InventoryEventHandler):
+class InventoryBindsHandler(ItemPicker):
     """Handle binding an inventory item."""
 
     TITLE = "Select an item to bind"
+
+    def __init__(self, engine):
+        super().__init__(engine)
+        self.show_inventory_count = True
 
     def on_item_selected(self, item: Item) -> Optional[ActionOrHandler]:
         if item.consumable:
