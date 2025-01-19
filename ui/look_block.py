@@ -44,7 +44,7 @@ class LookBlock:
         return x, y, width, height
 
     def render(self, console: tcod.console.Console, entity: Entity, show_multi_hint: bool = False) -> None:
-        min_height = 9 if show_multi_hint else 4
+        min_height = 6 if show_multi_hint else 4
         x, y, width, height = self.calculate_bounds(console, entity, min_height)
 
         # draw frame
@@ -54,8 +54,8 @@ class LookBlock:
         # draw description
         console.print_box(x + 1, y + 1, width - 2, height, string=entity.description, bg=color.black)
         if show_multi_hint:
-            for idx, char in enumerate("┴^+ -v┬"):
-                console.print(x, y + idx + 1, char)
+            for idx, char in enumerate("▲+-▼"):
+                console.print(x, y + height - 5 + idx, char)
 
         if isinstance(entity, Actor):
             actor: Actor = entity
