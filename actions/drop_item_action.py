@@ -10,3 +10,6 @@ class DropItemAction(ItemAction):
 
         if isinstance(self.item, Upgrade):
             self.item.on_drop(self.entity)
+
+        if self.entity is self.engine.player:
+            self.engine.message_log.add_message(f"You drop the {self.item.name}.")

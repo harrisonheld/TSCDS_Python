@@ -48,6 +48,8 @@ def new_game() -> Engine:
     entity_factories.dagger.spawn(engine.game_map, engine.player.x, engine.player.y)
     entity_factories.chain_mail.spawn(engine.game_map, engine.player.x, engine.player.y)
     entity_factories.sword.spawn(engine.game_map, engine.player.x, engine.player.y)
+    entity_factories.eye_of_belial.spawn(engine.game_map, engine.player.x, engine.player.y)
+    entity_factories.dagashas_spur.spawn(engine.game_map, engine.player.x, engine.player.y)
 
     engine.message_log.add_message(
         "Artow a Saad of olde Salum, and nou stonden thu at the heigh gate to Brightsheol. Fight or die."

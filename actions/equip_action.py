@@ -37,6 +37,7 @@ class EquipAction(Action):
         if oldItem is not None:
             self.entity.inventory.add(oldItem)
 
-        if oldItem is not None:
-            self.engine.message_log.add_message(f"You unequip the {oldItem.name}.")
-        self.engine.message_log.add_message(f"You equip the {self.item.name}.")
+        if self.entity is self.engine.player:
+            if oldItem is not None:
+                self.engine.message_log.add_message(f"You unequip the {oldItem.name}.")
+            self.engine.message_log.add_message(f"You equip the {self.item.name}.")

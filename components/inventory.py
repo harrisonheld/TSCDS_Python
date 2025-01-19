@@ -29,7 +29,7 @@ class Inventory(BaseComponent):
     def capacity_string(self) -> str:
         return f"items: {len(self.items)}/{self.capacity}"
 
-    def add(self, item: Item, add_message: bool = True) -> None:
+    def add(self, item: Item) -> None:
         """
         Add or pickup (from the game map) an item to the inventory, and attempt to auto-bind it to a key.
         """
@@ -46,9 +46,6 @@ class Inventory(BaseComponent):
 
         item.parent = self
         self.items.append(item)
-
-        if add_message:
-            self.engine.message_log.add_message(f"You picked up the {item.name}!")
 
         # try auto-binding
         if item.consumable is not None:
@@ -73,8 +70,6 @@ class Inventory(BaseComponent):
         """
         self.remove(item)
         item.place(self.parent.x, self.parent.y, self.gamemap)
-
-        self.engine.message_log.add_message(f"You dropped the {item.name}.")
 
     def bind(self, item: Item, key: tcod.event.KeySym, add_message: bool = True) -> None:
         """

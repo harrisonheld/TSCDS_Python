@@ -1,31 +1,33 @@
 from __future__ import annotations
 
 from actions.action import Action
+from actions.drop_item_action import DropItemAction
 from components.equipment import EquipmentSlot
 from entity import Actor, Item
 import exceptions
 
 
 class UnequipAction(Action):
-    def __init__(self, entity: Actor, item: Item):
+    def __init__(self, entity: Actor, slot: EquipmentSlot, to_floor: bool = False):
         super().__init__(entity)
 
-        self.item = item
+        self.slot = slot
+        self.to_floor = to_floor
 
     def perform(self) -> None:
 
-        if self.entity.inventory.is_full:
-            raise exceptions.Impossible("Nowhere to put that - your inventory is full.")
+        item = self.slot.item
+        if item is None:
+            raise exceptions.Impossible("There's nothing to unequip here.")
 
-        slot: EquipmentSlot
-        for s in self.entity.equipment.slots:
-            if s.item is self.item:
-                slot = s
-                break
+        if not self.to_floor:
+            if self.entity.inventory.is_full:
+                raise exceptions.Impossible("Nowhere to put that - your inventory is full.")
 
-        if slot is None:
-            raise exceptions.Impossible(f"You cannot unequip the {self.item.name} - you aren't wearing it.")
+            self.entity.inventory.add(item)
 
-        slot.item = None
-        self.entity.inventory.add(self.item)
-        self.engine.message_log.add_message(f"You unequip the {self.item.name}.")
+        self.slot.item = None
+        self.engine.message_log.add_message(f"You unequip the {item.name}.")
+
+        if self.to_floor:
+            item.place(self.entity.x, self.entity.y, self.entity.gamemap)

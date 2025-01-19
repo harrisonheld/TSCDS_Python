@@ -2,6 +2,8 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
+from actions.drop_item_action import DropItemAction
+from actions.unequip_action import UnequipAction
 from components.base_component import BaseComponent
 from render_order import RenderOrder
 import color
@@ -53,6 +55,13 @@ class Fighter(BaseComponent):
             return 0
 
     def die(self) -> None:
+
+        # drop everything
+        for slot in self.parent.equipment.slots:
+            if slot.item is not None:
+                UnequipAction(self.parent, slot, to_floor=True).perform()
+        for item in self.parent.inventory.items:
+            DropItemAction(self.parent, item).perform()
 
         assert self.parent.ai is not None
         self.parent.ai.on_die()

@@ -23,3 +23,6 @@ class PickupAction(Action):
 
         if isinstance(self.item, Upgrade):
             self.item.on_pickup(self.entity)
+
+        if self.entity is self.engine.player:
+            self.engine.message_log.add_message(f"You pick up the {self.item.name}.")

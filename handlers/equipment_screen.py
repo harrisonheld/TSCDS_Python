@@ -109,6 +109,6 @@ class EquipmentScreen(AskUserEventHandler):
 
         assert slot.item is not None
         player = self.engine.player
-        action = UnequipAction(player, slot.item)
+        action = UnequipAction(player, slot)
         action.next_handler = self  # we do not want thing action to switch handlers - let's stay in this menu
         return action

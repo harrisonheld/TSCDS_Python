@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import random
+
 from actions.action_with_direction_base import ActionWithDirectionBase
 import color
 import exceptions
@@ -12,7 +14,37 @@ class MeleeAction(ActionWithDirectionBase):
         if not target:
             raise exceptions.Impossible("There is nothing there to attack.")
 
-        damage = self.entity.fighter.power - target.fighter.defense
+        attacker = self.entity
+        power = attacker.fighter.power
+        defense = target.fighter.defense
+
+        total_penetrations = 0
+        while True:
+            # roll three d20s
+            dice = [random.randint(1, 20) for _ in range(3)]
+
+            penetrations = 0
+            for die in dice:
+                # 20's penetrate twice, and always succeed
+                if die == 20:
+                    penetrations += 2
+                    continue
+                # 1's always fail
+                elif die == 1:
+                    break
+                elif die + power > defense:
+                    penetrations += 1
+                    continue
+                else:
+                    break
+            total_penetrations += penetrations
+
+            if penetrations < 3:
+                break
+            # reduce power for next round
+            power -= 6
+
+        damage = total_penetrations
 
         # log message
         attacker = self.entity
