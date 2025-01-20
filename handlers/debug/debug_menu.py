@@ -4,6 +4,7 @@ import tcod
 
 from handlers.debug.debug_color_viewer import DebugColorViewer
 from handlers.debug.debug_cp437_viewer import DebugCP437Viewer
+from handlers.debug.debug_item_spawner import DebugItemSpawner
 from handlers.event_handler import EventHandler
 from handlers.main_game_event_handler import MainGameEventHandler
 import color
@@ -21,6 +22,7 @@ class DebugMenu(EventHandler):
         sub_console.print(width // 2, 0, "┤Debug Menu├", alignment=tcod.constants.CENTER)
         sub_console.print(1, 1, "[a] colors")
         sub_console.print(1, 2, "[b] cp437")
+        sub_console.print(1, 3, "[c] item spawner")
 
         x = console.width // 2 - sub_console.width // 2
         y = console.height // 2 - sub_console.height // 2
@@ -33,6 +35,8 @@ class DebugMenu(EventHandler):
             return DebugColorViewer(self.engine)
         elif key == tcod.event.KeySym.b:
             return DebugCP437Viewer(self.engine)
+        elif key == tcod.event.KeySym.c:
+            return DebugItemSpawner(self.engine)
 
         elif key in keys.MODIFIER_KEYS:
             return None
