@@ -85,6 +85,10 @@ class MainGameEventHandler(EventHandler):
             from handlers.equipment_screen import EquipmentScreen
 
             return EquipmentScreen(self.engine)
+        elif key == tcod.event.KeySym.z:
+            from handlers.debug.debug_menu import DebugMenu
+
+            return DebugMenu(self.engine)
 
         # No valid key was pressed
         return None
