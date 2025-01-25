@@ -22,6 +22,7 @@ import handlers.base_event_handler as input_handlers
 import handlers.main_game_event_handler
 import handlers.popup_message
 import keys
+import loot_tables
 import strings
 
 
@@ -44,12 +45,8 @@ def new_game() -> Engine:
     engine.game_world.generate_floor()
     engine.update_visibility()
 
-    blueprints.leather_armor.spawn(engine.game_map, engine.player.x, engine.player.y)
-    blueprints.dagger.spawn(engine.game_map, engine.player.x, engine.player.y)
-    blueprints.chain_mail.spawn(engine.game_map, engine.player.x, engine.player.y)
-    blueprints.sword.spawn(engine.game_map, engine.player.x, engine.player.y)
-    blueprints.eye_of_belial.spawn(engine.game_map, engine.player.x, engine.player.y)
-    blueprints.dagashas_spur.spawn(engine.game_map, engine.player.x, engine.player.y)
+    for _ in range(50):
+        loot_tables.treasure.roll().spawn(engine.game_map, *player.xy)
 
     engine.message_log.add_message(
         "Artow a Saad of olde Salum, and nou stonden thu at the heigh gate to Brightsheol. Fight or die."
