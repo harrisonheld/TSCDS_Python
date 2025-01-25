@@ -3,7 +3,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Dict, List, Tuple
 import random
 
-import entity_factories
+import blueprints
 
 if TYPE_CHECKING:
     from entity import Entity
@@ -21,19 +21,19 @@ max_monsters_by_floor = [
 ]
 
 item_chances: Dict[int, List[Tuple[Entity, int]]] = {
-    0: [(entity_factories.health_potion, 35)],
-    2: [(entity_factories.confusion_scroll, 10)],
-    4: [(entity_factories.lightning_scroll, 25), (entity_factories.sword, 5)],
-    6: [(entity_factories.fireball_scroll, 25), (entity_factories.chain_mail, 15)],
+    0: [(blueprints.health_potion, 35)],
+    2: [(blueprints.confusion_scroll, 10)],
+    4: [(blueprints.lightning_scroll, 25), (blueprints.sword, 5)],
+    6: [(blueprints.fireball_scroll, 25), (blueprints.chain_mail, 15)],
 }
 
 enemy_chances: Dict[int, List[Tuple[Entity, int]]] = {
     0: [
-        (entity_factories.dessicated_vassal, 50),
-        (entity_factories.frog_warden, 50),
-        (entity_factories.flamewalker, 20),
+        (blueprints.dessicated_vassal, 50),
+        (blueprints.frog_warden, 50),
+        (blueprints.flamewalker, 20),
     ],
-    3: [(entity_factories.beamer, 100)],
+    3: [(blueprints.beamer, 100)],
 }
 
 

@@ -7,8 +7,8 @@ from handlers.action_or_handler import ActionOrHandler
 from handlers.event_handler import EventHandler
 from handlers.item_picker import ItemPicker
 from handlers.main_game_event_handler import MainGameEventHandler
+import blueprints
 import color
-import entity_factories
 import keys
 
 
@@ -17,8 +17,8 @@ class DebugItemSpawner(ItemPicker):
     TITLE = "(Debug) Debug Item Spawner"
 
     def __init__(self, engine):
-        all_entities = [getattr(entity_factories, name) for name in dir(entity_factories) if not name.startswith("_")]
-        self.all_items = [x for x in all_entities if isinstance(x, entity_factories.Item)]
+        all_entities = [getattr(blueprints, name) for name in dir(blueprints) if not name.startswith("_")]
+        self.all_items = [x for x in all_entities if isinstance(x, blueprints.Item)]
 
         super().__init__(engine)
 

@@ -7,7 +7,7 @@ import tcod
 
 from game_map import GameMap
 from procgen.helpers import *
-import entity_factories
+import blueprints
 import sizes
 import tile_types
 
@@ -75,7 +75,7 @@ class TreasureRoom(RoomBase):
             loot = random.choice(pool)
             pool.remove(loot)
         else:
-            loot = entity_factories.default_loot
+            loot = blueprints.default_loot
         loot.spawn(dungeon, *self.center)
 
         # spawn a few barrels
@@ -85,7 +85,7 @@ class TreasureRoom(RoomBase):
             y = random.randint(self.y1 + 1, self.y2 - 1)
 
             if len(dungeon.get_entities_at_location(x, y)) == 0 and not dungeon.tiles[x, y] == tile_types.down_stairs:
-                entity_factories.barrel.spawn(dungeon, x, y)
+                blueprints.barrel.spawn(dungeon, x, y)
 
         # TODO: remove this, it makes it so you can see the treasure room from the start
         dungeon.explored[self.inner_with_rind] = True

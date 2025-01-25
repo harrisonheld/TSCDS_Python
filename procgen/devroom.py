@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING, List
 from entity import Actor, Entity
 from game_map import GameMap
 from procgen.helpers import *
-import entity_factories
+import blueprints
 import sizes
 import tile_types
 
@@ -27,7 +27,7 @@ def generate(engine: Engine) -> GameMap:
     # Place player
     player.place(0, 0, gamemap=dungeon)
 
-    blueprints: List[Entity] = [value for value in vars(entity_factories).values() if isinstance(value, Entity)]
+    blueprints: List[Entity] = [value for value in vars(blueprints).values() if isinstance(value, Entity)]
     idx = 0
     for blueprint in blueprints:
         idx += 1

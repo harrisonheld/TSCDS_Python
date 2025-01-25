@@ -6,8 +6,8 @@ import random
 
 from components.base_component import BaseComponent
 from components.gas_immune import GasImmune
+import blueprints
 import color
-import entity_factories
 
 if TYPE_CHECKING:
     from engine import Engine
@@ -78,6 +78,6 @@ class Gas(BaseComponent):
                 gas_comp.do_contact_damage()
 
                 if random.random() < (0.1 * self.density):
-                    entity_factories.fire.spawn(self.gamemap, new_x, new_y)
+                    blueprints.fire.spawn(self.gamemap, new_x, new_y)
                 if random.random() < (0.005 * self.density):
-                    entity_factories.flameprowler.spawn(self.gamemap, new_x, new_y)
+                    blueprints.flameprowler.spawn(self.gamemap, new_x, new_y)

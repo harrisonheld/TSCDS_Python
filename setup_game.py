@@ -16,8 +16,8 @@ from engine import Engine
 from game_map import GameWorld
 from helpers import resource_path
 from ui.starfield import Starfield
+import blueprints
 import color
-import entity_factories
 import handlers.base_event_handler as input_handlers
 import handlers.main_game_event_handler
 import handlers.popup_message
@@ -27,29 +27,29 @@ import strings
 
 def new_game() -> Engine:
     """Return a brand new game session as an Engine instance."""
-    player = copy.deepcopy(entity_factories.player)
+    player = copy.deepcopy(blueprints.player)
 
     engine = Engine(player=player)
 
     engine.game_world = GameWorld(engine=engine)
 
     engine.game_world.treasure_pool = [
-        entity_factories.eye_of_belial,
-        entity_factories.dagashas_spur,
-        entity_factories.max_health_potion,
-        entity_factories.cracked_red_eye_orb,
-        entity_factories.cracked_blue_eye_orb,
+        blueprints.eye_of_belial,
+        blueprints.dagashas_spur,
+        blueprints.max_health_potion,
+        blueprints.cracked_red_eye_orb,
+        blueprints.cracked_blue_eye_orb,
     ]
-    engine.game_world.boss_pool = [entity_factories.indrix, entity_factories.fume_knight]
+    engine.game_world.boss_pool = [blueprints.indrix, blueprints.fume_knight]
     engine.game_world.generate_floor()
     engine.update_visibility()
 
-    entity_factories.leather_armor.spawn(engine.game_map, engine.player.x, engine.player.y)
-    entity_factories.dagger.spawn(engine.game_map, engine.player.x, engine.player.y)
-    entity_factories.chain_mail.spawn(engine.game_map, engine.player.x, engine.player.y)
-    entity_factories.sword.spawn(engine.game_map, engine.player.x, engine.player.y)
-    entity_factories.eye_of_belial.spawn(engine.game_map, engine.player.x, engine.player.y)
-    entity_factories.dagashas_spur.spawn(engine.game_map, engine.player.x, engine.player.y)
+    blueprints.leather_armor.spawn(engine.game_map, engine.player.x, engine.player.y)
+    blueprints.dagger.spawn(engine.game_map, engine.player.x, engine.player.y)
+    blueprints.chain_mail.spawn(engine.game_map, engine.player.x, engine.player.y)
+    blueprints.sword.spawn(engine.game_map, engine.player.x, engine.player.y)
+    blueprints.eye_of_belial.spawn(engine.game_map, engine.player.x, engine.player.y)
+    blueprints.dagashas_spur.spawn(engine.game_map, engine.player.x, engine.player.y)
 
     engine.message_log.add_message(
         "Artow a Saad of olde Salum, and nou stonden thu at the heigh gate to Brightsheol. Fight or die."

@@ -10,8 +10,8 @@ from actions.wait_action import WaitAction
 from components.ai.ai_base import AIBase
 from components.pushable import Pushable
 from entity import Actor, Entity, Item
+import blueprints
 import color
-import entity_factories
 
 
 class IndrixAI(AIBase):
@@ -36,7 +36,7 @@ class IndrixAI(AIBase):
             self.leap_cooldown = self.leap_period
             self.leaping = self.air_time
             self.entity.x, self.entity.y = (-1, -1)
-            self.leap_indicator = entity_factories.indrix_leap_indicator.spawn(self.entity.gamemap, target.x, target.y)
+            self.leap_indicator = blueprints.indrix_leap_indicator.spawn(self.entity.gamemap, target.x, target.y)
             turns = "turns" if self.leaping > 1 else "turn"
             self.leap_indicator.description = f"Indrix will land in {self.leaping} {turns}."
             return

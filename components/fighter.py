@@ -6,8 +6,8 @@ from actions.drop_item_action import DropItemAction
 from actions.unequip_action import UnequipAction
 from components.base_component import BaseComponent
 from render_order import RenderOrder
+import blueprints
 import color
-import entity_factories
 
 if TYPE_CHECKING:
     from entity import Actor
@@ -82,7 +82,7 @@ class Fighter(BaseComponent):
             self.engine.player.level.add_xp(self.parent.level.xp_given)
 
         # replace killed entity with a corpse
-        corpse = entity_factories.corpse.spawn(self.gamemap, self.parent.x, self.parent.y)
+        corpse = blueprints.corpse.spawn(self.gamemap, self.parent.x, self.parent.y)
         corpse.name = f"slain {self.parent.name}"
         self.gamemap.entities.remove(self.parent)
 
