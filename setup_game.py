@@ -45,8 +45,8 @@ def new_game() -> Engine:
     engine.game_world.generate_floor()
     engine.update_visibility()
 
-    for _ in range(50):
-        loot_tables.treasure.roll().spawn(engine.game_map, *player.xy)
+    for item in loot_tables.fun_bag.roll_batch():
+        item.spawn(engine.game_map, *player.xy)
 
     engine.message_log.add_message(
         "Artow a Saad of olde Salum, and nou stonden thu at the heigh gate to Brightsheol. Fight or die."

@@ -1,4 +1,4 @@
-from typing import Dict, Generic, TypeVar, Union
+from typing import Dict, Generic, List, Tuple, TypeVar, Union
 import random
 
 from entity import Entity, Item
@@ -6,6 +6,7 @@ import blueprints
 
 T = TypeVar("T")
 TableEntry = Union[T, "RandomTable[T]"]
+GrabBagEntry = Union[T, "RandomTable[T]"]
 
 class RandomTable(Generic[T]):
     def __init__(self, table: Dict[TableEntry, int]):
@@ -15,7 +16,6 @@ class RandomTable(Generic[T]):
     def roll(self) -> T:
 
         # find the table entry
-        # if this gets inefficient, can make a cumulative_sum_table and binary search
         table_entry: TableEntry
         total = sum(self.table.values())
         num = random.randint(1, total)
@@ -25,13 +25,25 @@ class RandomTable(Generic[T]):
                 table_entry = key
                 break
 
-        # check if table_entry is a RandomTable
         if isinstance(table_entry, RandomTable):
             return table_entry.roll()
         return table_entry
 
-        # unreachable
-        raise RuntimeError("Something went wrong in the random table generator")
+
+class GrabBag(Generic[T]):
+    def __init__(self, contents: List[Tuple[GrabBagEntry, int]]):
+        self.contents = contents
+
+    def roll_batch(self) -> List[T]:
+        result = []
+        for entry, count in self.contents:
+            for _ in range(count):
+                if isinstance(entry, RandomTable):
+                    result.append(entry.roll())
+                else:
+                    result.append(entry)
+
+        return result
 
 
 weapons = RandomTable[Item](
@@ -50,4 +62,9 @@ consumables = RandomTable[Item](
     }
 )
 
-treasure = RandomTable[Item]({weapons: 50, consumables: 50})
+fun_bag = GrabBag[Item](
+    [
+        (weapons, 1),
+        (consumables, 3),
+    ]
+)
