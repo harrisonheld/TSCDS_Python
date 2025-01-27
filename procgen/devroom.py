@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING, List
 from entity import Actor, Entity
 from game_map import GameMap
 from procgen.helpers import *
-import blueprints
+import blueprints.actors as actors
 import sizes
 import tile_types
 

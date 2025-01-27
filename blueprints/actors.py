@@ -1,6 +1,4 @@
-import sys
-
-from components import consumable, equippable
+from components import equippable
 from components.ai import *
 from components.ai.beamer_ai import BeamerAI
 from components.ai.flamewalker_ai import OgglerAI
@@ -8,9 +6,7 @@ from components.ai.frog_warden_ai import FrogWardenAI
 from components.ai.fumeknight_ai import FumeKnightAI
 from components.ai.hostile_enemy_ai import HostileEnemyAI
 from components.ai.indrix_ai import IndrixAI
-from components.consumable import SwapConsumable
 from components.equipment import Equipment, SlotType
-from components.equippable import Equippable
 from components.fighter import Fighter
 from components.fire import Fire
 from components.fire_immune import FireImmune
@@ -24,6 +20,7 @@ from components.trail_leaver import TrailLeaver
 from entity import *
 from upgrades import *
 import color
+import tables.loot_tables as loot_tables
 
 humanoid_equipment = Equipment()
 humanoid_equipment.add_slot(SlotType.HAND)
@@ -71,8 +68,9 @@ dessicated_vassal = Actor(
     ai_cls=HostileEnemyAI,
     equipment=copy.deepcopy(humanoid_equipment),
     fighter=Fighter(hp=12, base_defense=1, base_power=3),
-    inventory=Inventory(capacity=0),
+    inventory=Inventory(capacity=4),
     level=Level(xp_given=20),
+    grab_bag=loot_tables.equipment1_bag,
 )
 
 
@@ -84,8 +82,9 @@ frog_warden = Actor(
     ai_cls=FrogWardenAI,
     equipment=copy.deepcopy(humanoid_equipment),
     fighter=Fighter(hp=10, base_defense=0, base_power=3),
-    inventory=Inventory(capacity=0),
+    inventory=Inventory(capacity=4),
     level=Level(xp_given=35),
+    grab_bag=loot_tables.equipment1_bag,
 )
 
 beamer = Actor(
@@ -173,111 +172,6 @@ beamer_ray_indicator = Entity(
     name="indicator",
     description="If you're standing here, you shouldn't be.",
     render_order=RenderOrder.EFFECT_BOTTOM,
-)
-
-confusion_scroll = Item(
-    char="~",
-    color=color.purple,
-    name="confusion scroll",
-    description="[TODO]",
-    consumable=consumable.ConfusionConsumable(number_of_turns=10),
-)
-fireball_scroll = Item(
-    char="~",
-    color=color.red,
-    name="fireball scroll",
-    description="[TODO]",
-    consumable=consumable.FireballDamageConsumable(damage=12, radius=3),
-)
-health_potion = Item(
-    char="&",
-    color=color.green,
-    name="health potion",
-    description="[TODO]",
-    consumable=consumable.HealingConsumable(amount=4),
-)
-lightning_scroll = Item(
-    char="~",
-    color=color.orange,
-    name="lightning scroll",
-    description="[TODO]",
-    consumable=consumable.LightningDamageConsumable(damage=20, maximum_range=5),
-)
-
-eye_of_belial = UpgradeEyeOfBelial(
-    char="☼",
-    color=color.red,
-    name="Eye of Belial",
-    description="""A perfectly smooth sphere carved of red chalcedony.
-
-While in your inventory, allows you to see the detailed stats and health of enemies by looking at them.""",
-)
-dagashas_spur = UpgradeDagashasSpur(
-    char="Ü",
-    color=color.red,
-    name="Dagasha's Spur",
-    description="""This crown of thorns points outward, but its wearer's mind is pierced all the same, drawing in will.
-
-On use, allows you to swap places with an adjacent enemy.""",
-    consumable=SwapConsumable(),
-)
-max_health_potion = Item(
-    char="&",
-    color=color.red,
-    name="max health potion",
-    description="""Wysterwort DCXLVIII (reigned 206 - 201): Where his predecessor was known to vanquish anyone who opposed him, King Wysterwort DCXLVIII made no such distinction. For those that survived his fickle bouts of executions, they found themselves subject to strange rules of law. In the year 203, it was mandaded that human babes should be nursed with wine rather than milk. Wysterwort's eccentricities were humored amidst a backdrop of famine and disease. The mad king himself fell victim to blight, and commisioned an alchemist to brew the max health potion. Days before its completion, and for reasons undocumented, the accomplished monarch fell into a deep depression and strangled himself. He was survived by his heir Wysterwort DCXLIX, who abdicated mere minutes later.
-
-On use, heals you to max health.""",
-    consumable=consumable.HealingConsumable(amount=sys.maxsize),
-)
-cracked_red_eye_orb = UpgradeCrackedRedEyeOrb(
-    char="Φ",
-    color=color.red,
-    name="Vertical-Slitted Eye",
-    description="""This red gemstone whispers great strength. It would only be remiss to leave an enemy unslain.
-
-While in your inventory, increases your attack power by 1.""",
-)
-cracked_blue_eye_orb = UpgradeCrackedBlueEyeOrb(
-    char="Θ",
-    color=color.red,
-    name="Square-Pupiled Eye",
-    description="""This soothing azure gemstone whispers resilience. Cast aside your doubts; they are unworthy of you.
-
-While in your inventory, increases your defense by 1.""",
-)
-default_loot = Item(
-    color=color.white,
-    char="~",
-    name="scrap of paper",
-    description="A torn piece of paper with a message scrawled on it: 'Sorry adventurer, this dungeon ran out of treasure! Better luck next time!'",
-)
-
-
-dagger = Item(
-    char="/",
-    color=color.light_grey,
-    name="dagger",
-    equippable=Equippable(slot_type=SlotType.HAND, power_bonus=2),
-)
-sword = Item(
-    char="\\",
-    color=color.light_grey,
-    name="sword",
-    equippable=Equippable(slot_type=SlotType.HAND, power_bonus=4),
-)
-
-leather_armor = Item(
-    char="[",
-    color=color.orange,
-    name="leather armor",
-    equippable=Equippable(slot_type=SlotType.BODY, defense_bonus=1),
-)
-chain_mail = Item(
-    char="[",
-    color=color.light_grey,
-    name="chain mail",
-    equippable=Equippable(slot_type=SlotType.BODY, defense_bonus=3),
 )
 
 brazier = Entity(

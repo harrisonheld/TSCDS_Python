@@ -39,7 +39,7 @@ class Inventory(BaseComponent):
             raise exceptions.Impossible(f"You already have the {item.name}.")
 
         try:
-            self.parent.gamemap.engine.game_map.entities.remove(item)
+            self.parent.gamemap.entities.remove(item)
         except KeyError:
             # if not on map, dw about it
             pass

@@ -10,7 +10,7 @@ from actions.wait_action import WaitAction
 from components.ai.ai_base import AIBase
 from entity import Actor, Entity
 from shape.ray import Ray
-import blueprints
+import blueprints.actors as actors
 import color
 import tile_types
 
@@ -83,7 +83,7 @@ class BeamerAI(AIBase):
                     self.beam_endpoint = (x, y)
                     break
 
-                indicator = blueprints.beamer_ray_indicator.spawn(self.entity.gamemap, x, y)
+                indicator = actors.beamer_ray_indicator.spawn(self.entity.gamemap, x, y)
                 self.indicators.append(indicator)
             return
 

@@ -6,7 +6,7 @@ import random
 
 from components.base_component import BaseComponent
 from components.gas_immune import GasImmune
-import blueprints
+import blueprints.actors as actors
 import color
 
 if TYPE_CHECKING:
@@ -78,6 +78,6 @@ class Gas(BaseComponent):
                 gas_comp.do_contact_damage()
 
                 if random.random() < (0.1 * self.density):
-                    blueprints.fire.spawn(self.gamemap, new_x, new_y)
+                    actors.fire.spawn(self.gamemap, new_x, new_y)
                 if random.random() < (0.005 * self.density):
-                    blueprints.flameprowler.spawn(self.gamemap, new_x, new_y)
+                    actors.flameprowler.spawn(self.gamemap, new_x, new_y)

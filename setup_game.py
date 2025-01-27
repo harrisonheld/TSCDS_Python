@@ -16,37 +16,34 @@ from engine import Engine
 from game_map import GameWorld
 from helpers import resource_path
 from ui.starfield import Starfield
-import blueprints
+import blueprints.actors as actors
+import blueprints.items
 import color
 import handlers.base_event_handler as input_handlers
 import handlers.main_game_event_handler
 import handlers.popup_message
 import keys
-import loot_tables
 import strings
 
 
 def new_game() -> Engine:
     """Return a brand new game session as an Engine instance."""
-    player = copy.deepcopy(blueprints.player)
+    player = copy.deepcopy(actors.player)
 
     engine = Engine(player=player)
 
     engine.game_world = GameWorld(engine=engine)
 
     engine.game_world.treasure_pool = [
-        blueprints.eye_of_belial,
-        blueprints.dagashas_spur,
-        blueprints.max_health_potion,
-        blueprints.cracked_red_eye_orb,
-        blueprints.cracked_blue_eye_orb,
+        blueprints.items.eye_of_belial,
+        blueprints.items.dagashas_spur,
+        blueprints.items.max_health_potion,
+        blueprints.items.cracked_red_eye_orb,
+        blueprints.items.cracked_blue_eye_orb,
     ]
-    engine.game_world.boss_pool = [blueprints.indrix, blueprints.fume_knight]
+    engine.game_world.boss_pool = [actors.indrix, actors.fume_knight]
     engine.game_world.generate_floor()
     engine.update_visibility()
-
-    for item in loot_tables.fun_bag.roll_batch():
-        item.spawn(engine.game_map, *player.xy)
 
     engine.message_log.add_message(
         "Artow a Saad of olde Salum, and nou stonden thu at the heigh gate to Brightsheol. Fight or die."

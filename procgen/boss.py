@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from game_map import GameMap
 from procgen.helpers import *
-import blueprints
+import blueprints.actors
 import sizes
 import tile_types
 
@@ -31,21 +31,21 @@ def generate(engine: Engine) -> GameMap:
     # Place boss
     boss_pos = (sizes.dungeon_width // 2, sizes.dungeon_height // 2)
     if engine.game_world.boss_pool == []:
-        blueprints.default_boss.spawn(dungeon, *boss_pos)
+        blueprints.actors.default_boss.spawn(dungeon, *boss_pos)
     else:
         chosen = random.choice(engine.game_world.boss_pool)
         engine.game_world.boss_pool.remove(chosen)
         chosen.spawn(dungeon, sizes.dungeon_width // 2, sizes.dungeon_height // 2)
     # place braziers in corners
-    blueprints.brazier.spawn(dungeon, room_x + 1, room_y + 1)
-    blueprints.brazier.spawn(dungeon, room_x + room_width - 2, room_y + 1)
-    blueprints.brazier.spawn(dungeon, room_x + 1, room_y + room_height - 2)
-    blueprints.brazier.spawn(dungeon, room_x + room_width - 2, room_y + room_height - 2)
+    blueprints.actors.brazier.spawn(dungeon, room_x + 1, room_y + 1)
+    blueprints.actors.brazier.spawn(dungeon, room_x + room_width - 2, room_y + 1)
+    blueprints.actors.brazier.spawn(dungeon, room_x + 1, room_y + room_height - 2)
+    blueprints.actors.brazier.spawn(dungeon, room_x + room_width - 2, room_y + room_height - 2)
     # place statues orthogonally
-    blueprints.statue.spawn(dungeon, sizes.dungeon_width // 2, room_y + 1)
-    blueprints.statue.spawn(dungeon, sizes.dungeon_width // 2, room_y + room_height - 2)
-    blueprints.statue.spawn(dungeon, room_x + 1, sizes.dungeon_height // 2)
-    blueprints.statue.spawn(dungeon, room_x + room_width - 2, sizes.dungeon_height // 2)
+    blueprints.actors.statue.spawn(dungeon, sizes.dungeon_width // 2, room_y + 1)
+    blueprints.actors.statue.spawn(dungeon, sizes.dungeon_width // 2, room_y + room_height - 2)
+    blueprints.actors.statue.spawn(dungeon, room_x + 1, sizes.dungeon_height // 2)
+    blueprints.actors.statue.spawn(dungeon, room_x + room_width - 2, sizes.dungeon_height // 2)
 
     # make room visible
     dungeon.explored[room_x - 1 : room_x + room_width + 1, room_y - 1 : room_y + room_height + 1] = True

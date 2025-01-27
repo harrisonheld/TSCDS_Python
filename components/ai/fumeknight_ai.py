@@ -8,7 +8,7 @@ from actions.movement_action import MovementAction
 from actions.wait_action import WaitAction
 from components.ai.ai_base import AIBase
 from entity import Actor
-import blueprints
+import blueprints.actors as actors
 import color
 
 
@@ -42,7 +42,7 @@ class FumeKnightAI(AIBase):
             #     self.engine.message_log.add_message("The Fume Knight's sword continues to release residual vapor.", color.yellow)
             if self.gas_cooldown == 0:
                 self.gas_cooldown = self.gas_period
-            blueprints.gas.spawn(self.entity.gamemap, *self.entity.xy)
+            actors.gas.spawn(self.entity.gamemap, *self.entity.xy)
 
         if self.can_see(self.entity, target):
             if distance <= 1:
