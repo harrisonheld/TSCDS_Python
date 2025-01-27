@@ -74,9 +74,9 @@ class MainGameEventHandler(EventHandler):
 
             return InventoryDropHandler(self.engine)
         elif key == tcod.event.KeySym.c:
-            from handlers.character_screen_event_handler import CharacterScreenEventHandler
+            from handlers.character_sheet_screen import CharacterSheetScreen
 
-            return CharacterScreenEventHandler(self.engine)
+            return CharacterSheetScreen(self.engine)
         elif key == tcod.event.KeySym.l:
             from handlers.look_handler import LookHandler
 

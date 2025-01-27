@@ -44,6 +44,7 @@ d drop item
 e view equipment
 c view character sheet
 m view detailed message log
+e equip from inventory or ground
 
 b   edit key binds
 1-9 use key binds
