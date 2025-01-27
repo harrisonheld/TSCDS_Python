@@ -60,7 +60,9 @@ class Fighter(BaseComponent):
         for slot in self.parent.equipment.slots:
             if slot.item is not None:
                 UnequipAction(self.parent, slot, to_floor=True).perform()
-        for item in self.parent.inventory.items:
+
+        while len(self.parent.inventory.items) > 0:
+            item = self.parent.inventory.items[0]
             DropItemAction(self.parent, item).perform()
 
         assert self.parent.ai is not None

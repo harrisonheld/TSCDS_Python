@@ -33,6 +33,7 @@ enemy_chances: Dict[int, List[Tuple[Entity, int]]] = {
         (actors.dessicated_vassal, 50),
         (actors.frog_warden, 50),
         (actors.flamewalker, 20),
+        (actors.crystal_lizard, 10),
     ],
     3: [(actors.beamer, 100)],
 }

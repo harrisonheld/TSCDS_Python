@@ -29,6 +29,6 @@ equipment1_bag: GrabBag[Item] = GrabBag[Item](
 
 crystal_lizard_bag: GrabBag[Item] = GrabBag[Item](
     [
-        (consumables_table, 5),
+        (consumables_table, 3),
     ]
 )

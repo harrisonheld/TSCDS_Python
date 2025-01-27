@@ -87,6 +87,20 @@ frog_warden = Actor(
     grab_bag=loot_tables.equipment1_bag,
 )
 
+# TODO: make him flee instead of fight you
+crystal_lizard = Actor(
+    char="l",
+    color=color.sky_blue,
+    name="crystal lizard",
+    description="Behold, rump! Therefore, try thrusting.",
+    ai_cls=HostileEnemyAI,
+    equipment=copy.deepcopy(humanoid_equipment),
+    fighter=Fighter(hp=1, base_defense=0, base_power=3),
+    inventory=Inventory(capacity=4),
+    level=Level(xp_given=100),
+    grab_bag=loot_tables.crystal_lizard_bag,
+)
+
 beamer = Actor(
     char="b",
     color=color.red,
