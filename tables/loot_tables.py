@@ -24,6 +24,12 @@ equipment1_table: RandomTable[Item] = RandomTable[Item](
     ]
 )
 
+treasure1_table: RandomTable[Item] = RandomTable[Item](
+    [
+        (blueprints.items.sunbleached_jag, 1),
+    ]
+)
+
 consumables_table: RandomTable[Item] = RandomTable[Item](
     [
         (blueprints.items.fireball_scroll, 10),

@@ -123,3 +123,6 @@ mythril_plate_mail: Item = Item(
     name="mythrilplate mail",
     equippable=Equippable(slot_type=SlotType.BODY, defense_bonus=5),
 )
+# treasure
+# potential dark souls style upgrade material?
+sunbleached_jag: Item = Item(char="/", color=color.white, name="sunbleached jag")
