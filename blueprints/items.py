@@ -99,7 +99,7 @@ leather_armor: Item = Item(
 )
 # tier 2
 steel_sword: Item = Item(
-    char="\\",
+    char="/",
     color=color.light_grey,
     name="steel sword",
     equippable=Equippable(slot_type=SlotType.HAND, power_bonus=4),
