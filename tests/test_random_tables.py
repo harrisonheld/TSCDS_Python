@@ -6,7 +6,6 @@ from tables.random_table import RandomTable
 
 class TestRandomTable(unittest.TestCase):
     def test_nested(self):
-        # Define the random tables
         games = RandomTable[str](
             [
                 ("fortnite", 1),
