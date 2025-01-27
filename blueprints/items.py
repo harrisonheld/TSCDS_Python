@@ -110,3 +110,16 @@ chain_mail: Item = Item(
     name="chain mail",
     equippable=Equippable(slot_type=SlotType.BODY, defense_bonus=3),
 )
+# tier 3
+mithril_sword: Item = Item(
+    char="/",
+    color=color.sky_blue,
+    name="mythril sword",
+    equippable=Equippable(slot_type=SlotType.HAND, power_bonus=6),
+)
+mythril_plate_mail: Item = Item(
+    char="[",
+    color=color.sky_blue,
+    name="mythrilplate mail",
+    equippable=Equippable(slot_type=SlotType.BODY, defense_bonus=5),
+)
