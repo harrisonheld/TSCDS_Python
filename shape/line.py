@@ -1,9 +1,6 @@
 from typing import Iterable, Tuple
 
-from shape.base_shape import BaseShape
-
-
-class Line(BaseShape):
+class Line:
     def __init__(self, from_x: int, from_y: int, to_x: int, to_y: int):
         self.from_x = from_x
         self.from_y = from_y
@@ -25,6 +22,7 @@ class Line(BaseShape):
         self.iter_y = self.from_y
         self.iter_last = False
 
+        # Determine step directions
         if self.from_x < self.to_x:
             self.step_x = 1
         else:
@@ -35,6 +33,7 @@ class Line(BaseShape):
         else:
             self.step_y = -1
 
+        # Initial decision parameter for Bresenham's line algorithm
         if self.iter_dx > self.iter_dy:
             self.iter_D = 2 * self.iter_dy - self.iter_dx
         else:
@@ -45,14 +44,22 @@ class Line(BaseShape):
     def __next__(self) -> Tuple[int, int]:
         if self.iter_last:
             raise StopIteration
-        if self.iter_x == self.to_x and self.iter_y == self.to_y:
-            self.last = True
+
         ret = (self.iter_x, self.iter_y)
 
+        # Stop iteration when we reach the end
+        if self.iter_x == self.to_x and self.iter_y == self.to_y:
+            self.iter_last = True
+            return ret
+
+        # Update the decision parameter and coordinates
         if self.iter_D > 0:
             self.iter_x += self.step_x
             self.iter_y += self.step_y
-            self.iter_D -= 2 * (self.iter_dx if self.iter_dx > self.iter_dy else self.iter_dy)
+            if self.iter_dx > self.iter_dy:
+                self.iter_D -= 2 * self.iter_dx
+            else:
+                self.iter_D -= 2 * self.iter_dy
         else:
             if self.iter_dx > self.iter_dy:
                 self.iter_x += self.step_x
