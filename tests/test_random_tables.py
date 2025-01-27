@@ -1,6 +1,8 @@
-import unittest
 from collections import Counter
+import unittest
+
 from tables.random_table import RandomTable
+
 
 class TestRandomTable(unittest.TestCase):
     def test_nested(self):
