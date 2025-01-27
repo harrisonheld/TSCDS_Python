@@ -13,6 +13,9 @@ class GrabBag(Generic[T]):
         """Initialize a GrabBag with contents. Each entry in `contents` can be:
         - A tuple of (entry, count, chance): `(entry, 5, 100)`
         - A tuple of (entry, range, chance): `(entry, range(8, 11), 100)`
+
+        Remarks:
+        - Remember that range is [inclusive, exclusive)
         """
         self.contents = contents
 
