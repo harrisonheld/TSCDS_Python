@@ -99,7 +99,11 @@ class Entity:
         if gamemap:
             if hasattr(self, "parent"):  # Possibly uninitialized.
                 if self.parent is self.gamemap:
-                    self.gamemap.entities.remove(self)
+                    try:
+                        self.gamemap.entities.remove(self)
+                    except KeyError:
+                        # probably not an issue - just means it wasn't on the map
+                        pass
             self.parent = gamemap
             gamemap.entities.add(self)
 
