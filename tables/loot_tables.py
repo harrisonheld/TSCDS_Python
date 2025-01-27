@@ -41,12 +41,13 @@ consumables_table: RandomTable[Item] = RandomTable[Item](
 
 equipment1_bag: GrabBag[Item] = GrabBag[Item](
     [
-        (equipment1_table, 1),
+        (equipment1_table, 1, 100),
+        (treasure1_table, 1, 50),
     ]
 )
 
 crystal_lizard_bag: GrabBag[Item] = GrabBag[Item](
     [
-        (consumables_table, 3),
+        (consumables_table, range(2, 3), 100),
     ]
 )

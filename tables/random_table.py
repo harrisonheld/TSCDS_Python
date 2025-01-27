@@ -7,6 +7,7 @@ TableEntry = Union[T, "RandomTable[T]"]
 
 class RandomTable(Generic[T]):
     def __init__(self, table: List[Tuple[TableEntry, int]]):
+        """Initialize a RandomTable with entries and their weights."""
         self.table = table
         """Dictionary of entries and their weights."""
 
