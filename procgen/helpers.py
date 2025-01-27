@@ -24,7 +24,7 @@ max_monsters_by_floor = [
 item_chances: Dict[int, List[Tuple[Entity, int]]] = {
     0: [(blueprints.items.health_potion, 35)],
     2: [(blueprints.items.confusion_scroll, 10)],
-    4: [(blueprints.items.lightning_scroll, 25), (blueprints.items.sword, 5)],
+    4: [(blueprints.items.lightning_scroll, 25), (blueprints.items.steel_sword, 5)],
     6: [(blueprints.items.fireball_scroll, 25), (blueprints.items.chain_mail, 15)],
 }
 

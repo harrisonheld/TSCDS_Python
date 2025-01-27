@@ -5,8 +5,8 @@ import blueprints.items
 
 equipment1_table: RandomTable[Item] = RandomTable[Item](
     [
-        (blueprints.items.sword, 1),
-        (blueprints.items.dagger, 1),
+        (blueprints.items.steel_sword, 1),
+        (blueprints.items.bronze_sword, 1),
         (blueprints.items.chain_mail, 1),
         (blueprints.items.leather_armor, 1),
     ]

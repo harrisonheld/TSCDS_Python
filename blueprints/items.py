@@ -84,23 +84,25 @@ default_loot = Item(
     name="scrap of paper",
     description="A torn piece of paper with a message scrawled on it: 'Sorry adventurer, this dungeon ran out of treasure! Better luck next time!'",
 )
-dagger: Item = Item(
+# tier 1
+bronze_sword: Item = Item(
     char="/",
-    color=color.light_grey,
-    name="dagger",
+    color=color.orange,
+    name="bronze sword",
     equippable=Equippable(slot_type=SlotType.HAND, power_bonus=2),
-)
-sword: Item = Item(
-    char="\\",
-    color=color.light_grey,
-    name="sword",
-    equippable=Equippable(slot_type=SlotType.HAND, power_bonus=4),
 )
 leather_armor: Item = Item(
     char="[",
     color=color.orange,
     name="leather armor",
     equippable=Equippable(slot_type=SlotType.BODY, defense_bonus=1),
+)
+# tier 2
+steel_sword: Item = Item(
+    char="\\",
+    color=color.light_grey,
+    name="steel sword",
+    equippable=Equippable(slot_type=SlotType.HAND, power_bonus=4),
 )
 chain_mail: Item = Item(
     char="[",
