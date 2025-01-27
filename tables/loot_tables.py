@@ -3,14 +3,24 @@ from tables.grab_bag import GrabBag
 from tables.random_table import RandomTable
 import blueprints.items
 
-equipment1_table: RandomTable[Item] = RandomTable[Item](
+equipment3_table: RandomTable[Item] = RandomTable[Item](
     [
-        (blueprints.items.steel_sword, 1),
-        (blueprints.items.bronze_sword, 1),
-        (blueprints.items.chain_mail, 1),
-        (blueprints.items.leather_armor, 1),
         (blueprints.items.mithril_sword, 1),
         (blueprints.items.mythril_plate_mail, 1),
+    ]
+)
+equipment2_table: RandomTable[Item] = RandomTable[Item](
+    [
+        (equipment3_table, 1),
+        (blueprints.items.chain_mail, 1),
+        (blueprints.items.leather_armor, 1),
+    ]
+)
+equipment1_table: RandomTable[Item] = RandomTable[Item](
+    [
+        (equipment2_table, 1),
+        (blueprints.items.steel_sword, 1),
+        (blueprints.items.bronze_sword, 1),
     ]
 )
 
