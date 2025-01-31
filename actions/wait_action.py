@@ -6,7 +6,7 @@ import color
 
 class WaitAction(Action):
     def perform(self) -> None:
-        if self.entity is self.engine.player:
+        if self.actor is self.engine.player:
             self.engine.message_log.add_message("You wait.")
 
         # literlly do nothing

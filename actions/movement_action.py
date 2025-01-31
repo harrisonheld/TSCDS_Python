@@ -18,4 +18,4 @@ class MovementAction(ActionWithDirectionBase):
             # Destination is blocked by an entity.
             raise exceptions.Impossible("That way is blocked.")
 
-        self.entity.move(self.dx, self.dy)
+        self.actor.move(self.dx, self.dy)

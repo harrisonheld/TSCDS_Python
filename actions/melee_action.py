@@ -14,7 +14,7 @@ class MeleeAction(ActionWithDirectionBase):
         if not target:
             raise exceptions.Impossible("There is nothing there to attack.")
 
-        attacker = self.entity
+        attacker = self.actor
         power = attacker.fighter.power
         defense = target.fighter.defense
 
@@ -47,7 +47,7 @@ class MeleeAction(ActionWithDirectionBase):
         damage = total_penetrations
 
         # log message
-        attacker = self.entity
+        attacker = self.actor
         if damage > 0:
             attack_color = color.combat_good if attacker is self.engine.player else color.combat_bad
             if target is not self.engine.player and attacker is not self.engine.player:

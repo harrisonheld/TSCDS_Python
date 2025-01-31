@@ -52,7 +52,7 @@ class ConfusionConsumable(Consumable):
         )
 
     def activate(self, action: actions.item_action.ItemAction) -> None:
-        consumer = action.entity
+        consumer = action.actor
         target = action.target_actor
 
         if not self.engine.game_map.visible[action.target_xy]:
@@ -112,7 +112,7 @@ class HealingConsumable(Consumable):
         self.amount = amount
 
     def activate(self, action: actions.item_action.ItemAction) -> None:
-        consumer = action.entity
+        consumer = action.actor
         amount_recovered = consumer.fighter.heal(self.amount)
 
         if amount_recovered > 0:
@@ -131,7 +131,7 @@ class LightningDamageConsumable(Consumable):
         self.maximum_range = maximum_range
 
     def activate(self, action: actions.item_action.ItemAction) -> None:
-        consumer = action.entity
+        consumer = action.actor
         target = None
         closest_distance = self.maximum_range + 1.0
 
@@ -161,7 +161,7 @@ class SwapConsumable(Consumable):
         )
 
     def activate(self, action: actions.item_action.ItemAction) -> None:
-        dx = action.target_xy[0] - action.entity.x
-        dy = action.target_xy[1] - action.entity.y
-        swap = SwapAction(action.entity, dx, dy)
+        dx = action.target_xy[0] - action.actor.x
+        dy = action.target_xy[1] - action.actor.y
+        swap = SwapAction(action.actor, dx, dy)
         swap.perform()

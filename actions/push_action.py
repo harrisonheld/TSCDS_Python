@@ -25,5 +25,5 @@ class PushAction(ActionWithDirectionBase):
             raise Impossible(f"You can't push the {target.name} into a wall.")
 
         target.move(self.dx, self.dy)
-        self.entity.move(self.dx, self.dy)
-        self.engine.message_log.add_message(f"The {self.entity.name} pushes the {target.name}.")
+        self.actor.move(self.dx, self.dy)
+        self.engine.message_log.add_message(f"The {self.actor.name} pushes the {target.name}.")

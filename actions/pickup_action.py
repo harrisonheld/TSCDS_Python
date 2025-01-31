@@ -15,14 +15,14 @@ class PickupAction(Action):
 
     def perform(self) -> None:
 
-        if self.item.x != self.entity.x or self.item.y != self.entity.y:
+        if self.item.x != self.actor.x or self.item.y != self.actor.y:
             raise exceptions.Impossible("You can't pick that up - it is too far away.")
 
-        inventory = self.entity.inventory
+        inventory = self.actor.inventory
         inventory.add(self.item)
 
         if isinstance(self.item, Upgrade):
-            self.item.on_pickup(self.entity)
+            self.item.on_pickup(self.actor)
 
-        if self.entity is self.engine.player:
+        if self.actor is self.engine.player:
             self.engine.message_log.add_message(f"You pick up the {self.item.name}.")

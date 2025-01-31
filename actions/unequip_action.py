@@ -21,10 +21,10 @@ class UnequipAction(Action):
             raise exceptions.Impossible("There's nothing to unequip here.")
 
         if not self.to_floor:
-            self.entity.inventory.add(item)
+            self.actor.inventory.add(item)
 
         self.slot.item = None
         self.engine.message_log.add_message(f"You unequip the {item.name}.")
 
         if self.to_floor:
-            item.place(self.entity.x, self.entity.y, self.entity.gamemap)
+            item.place(self.actor.x, self.actor.y, self.actor.gamemap)

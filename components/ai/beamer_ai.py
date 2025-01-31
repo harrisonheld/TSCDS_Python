@@ -29,8 +29,8 @@ class BeamerAI(AIBase):
 
     def perform(self) -> None:
         target = self.engine.player
-        dx = target.x - self.entity.x
-        dy = target.y - self.entity.y
+        dx = target.x - self.actor.x
+        dy = target.y - self.actor.y
         distance = max(abs(dx), abs(dy))  # Chebyshev distance.
 
         self.ray_cooldown_curr -= 1
@@ -38,7 +38,7 @@ class BeamerAI(AIBase):
         # if we have taken aim, fire the beam
         if self.beam_endpoint != (-1, -1):
             # check if we got hit while focusing beam
-            if self.stored_hp > self.entity.fighter.hp:
+            if self.stored_hp > self.actor.fighter.hp:
                 self.engine.message_log.add_message("The beamer's focus is interrupted.", color.yellow)
                 self.beam_endpoint = (-1, -1)
                 for indicator in self.indicators:
@@ -52,7 +52,7 @@ class BeamerAI(AIBase):
             self.engine.message_log.add_message("The beamer fires a beam!", color.combat_neutral)
             for indicator in self.indicators:
                 for actor in self.engine.game_map.get_actors_at_location(indicator.x, indicator.y):
-                    beam_damage = self.entity.fighter.power * 2 - actor.fighter.defense
+                    beam_damage = self.actor.fighter.power * 2 - actor.fighter.defense
                     if beam_damage > 0:
                         atk_color = color.combat_bad if actor is self.engine.player else color.combat_neutral
                         self.engine.message_log.add_message(
@@ -70,10 +70,10 @@ class BeamerAI(AIBase):
             return
 
         # take aim
-        if self.ray_cooldown_curr <= 0 and self.can_see(self.entity, target):
+        if self.ray_cooldown_curr <= 0 and self.can_see(self.actor, target):
             self.engine.message_log.add_message("The beamer focuses its gaze.", color.yellow)
-            ray = Ray(self.entity.x, self.entity.y, target.x, target.y)
-            self.stored_hp = self.entity.fighter.hp
+            ray = Ray(self.actor.x, self.actor.y, target.x, target.y)
+            self.stored_hp = self.actor.fighter.hp
             first = True
             for x, y in ray:
                 if first:
@@ -83,25 +83,25 @@ class BeamerAI(AIBase):
                     self.beam_endpoint = (x, y)
                     break
 
-                indicator = actors.beamer_ray_indicator.spawn(self.entity.gamemap, x, y)
+                indicator = actors.beamer_ray_indicator.spawn(self.actor.gamemap, x, y)
                 self.indicators.append(indicator)
             return
 
         # walking
-        if self.can_see(self.entity, target):
+        if self.can_see(self.actor, target):
             if distance <= 1:
-                MeleeAction(self.entity, dx, dy).perform()
+                MeleeAction(self.actor, dx, dy).perform()
                 return
             self.path = self.get_path(target.x, target.y)
         if self.path:
             dest_x, dest_y = self.path.pop(0)
             return MovementAction(
-                self.entity,
-                dest_x - self.entity.x,
-                dest_y - self.entity.y,
+                self.actor,
+                dest_x - self.actor.x,
+                dest_y - self.actor.y,
             ).perform()
 
-        WaitAction(self.entity).perform()
+        WaitAction(self.actor).perform()
 
     def on_die(self) -> None:
         for indicator in self.indicators:

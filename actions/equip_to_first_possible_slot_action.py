@@ -22,14 +22,14 @@ class EquipToFirstPossibleSlotAction(Action):
 
         # find the first empty slot of item.slot_type
         chosenSlot = None
-        for slot in self.entity.equipment.slots:
+        for slot in self.actor.equipment.slots:
             if slot.item is None and slot.slot_type == self.item.equippable.slot_type:
                 chosenSlot = slot
                 break
 
         # if there is no empty slot, find the first slot of the same type - we will just equip over it, uneqipping it
         if chosenSlot is None:
-            for slot in self.entity.equipment.slots:
+            for slot in self.actor.equipment.slots:
                 if slot.slot_type == self.item.equippable.slot_type:
                     chosenSlot = slot
                     break
@@ -39,4 +39,4 @@ class EquipToFirstPossibleSlotAction(Action):
                 f"{self.item.name} goes in the {self.item.equippable.slot_type.name} slot, but there is no such slot."
             )
 
-        EquipAction(self.entity, self.item, chosenSlot).perform()
+        EquipAction(self.actor, self.item, chosenSlot).perform()

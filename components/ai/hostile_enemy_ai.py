@@ -17,23 +17,23 @@ class HostileEnemyAI(AIBase):
 
     def perform(self) -> None:
         target = self.engine.player
-        dx = target.x - self.entity.x
-        dy = target.y - self.entity.y
+        dx = target.x - self.actor.x
+        dy = target.y - self.actor.y
         distance = max(abs(dx), abs(dy))  # Chebyshev distance.
 
-        if self.can_see(self.entity, target):
+        if self.can_see(self.actor, target):
             if distance <= 1:
-                MeleeAction(self.entity, dx, dy).perform()
+                MeleeAction(self.actor, dx, dy).perform()
                 return
             self.path = self.get_path(target.x, target.y)
 
         if self.path:
             dest_x, dest_y = self.path.pop(0)
             MovementAction(
-                self.entity,
-                dest_x - self.entity.x,
-                dest_y - self.entity.y,
+                self.actor,
+                dest_x - self.actor.x,
+                dest_y - self.actor.y,
             ).perform()
             return
 
-        WaitAction(self.entity).perform()
+        WaitAction(self.actor).perform()

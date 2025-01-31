@@ -22,8 +22,8 @@ class FumeKnightAI(AIBase):
 
     def perform(self) -> None:
         target = self.engine.player
-        dx = target.x - self.entity.x
-        dy = target.y - self.entity.y
+        dx = target.x - self.actor.x
+        dy = target.y - self.actor.y
         distance = max(abs(dx), abs(dy))
 
         self.gas_cooldown -= 1
@@ -31,7 +31,7 @@ class FumeKnightAI(AIBase):
             self.engine.message_log.add_message(
                 "The Fume Knight impales his ventilated sword into the ground.", color.yellow
             )
-            WaitAction(self.entity).perform()
+            WaitAction(self.actor).perform()
             return
         if self.gas_cooldown < self.gas_duration:
             if self.gas_cooldown == self.gas_duration - 1:
@@ -42,22 +42,22 @@ class FumeKnightAI(AIBase):
             #     self.engine.message_log.add_message("The Fume Knight's sword continues to release residual vapor.", color.yellow)
             if self.gas_cooldown == 0:
                 self.gas_cooldown = self.gas_period
-            actors.gas.spawn(self.entity.gamemap, *self.entity.xy)
+            actors.gas.spawn(self.actor.gamemap, *self.actor.xy)
 
-        if self.can_see(self.entity, target):
+        if self.can_see(self.actor, target):
             if distance <= 1:
-                MeleeAction(self.entity, dx, dy).perform()
+                MeleeAction(self.actor, dx, dy).perform()
                 return
             self.path = self.get_path(target.x, target.y)
 
         if self.path:
-            old_x, old_y = self.entity.x, self.entity.y
+            old_x, old_y = self.actor.x, self.actor.y
             dest_x, dest_y = self.path.pop(0)
             MovementAction(
-                self.entity,
+                self.actor,
                 dest_x - old_x,
                 dest_y - old_y,
             ).perform()
             return
 
-        WaitAction(self.entity).perform()
+        WaitAction(self.actor).perform()

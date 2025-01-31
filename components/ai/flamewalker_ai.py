@@ -18,23 +18,23 @@ class OgglerAI(AIBase):
 
     def perform(self) -> None:
         target = self.engine.player
-        dx = target.x - self.entity.x
-        dy = target.y - self.entity.y
+        dx = target.x - self.actor.x
+        dy = target.y - self.actor.y
         distance = max(abs(dx), abs(dy))  # Chebyshev distance.
         if distance <= 1:
-            OggleAction(self.entity, target).perform()
+            OggleAction(self.actor, target).perform()
             return
 
-        if self.can_see(self.entity, target):
+        if self.can_see(self.actor, target):
             self.path = self.get_path(target.x, target.y)
         if self.path:
             dest_x, dest_y = self.path.pop(0)
-            old_x, old_y = self.entity.x, self.entity.y
+            old_x, old_y = self.actor.x, self.actor.y
             MovementAction(
-                self.entity,
+                self.actor,
                 dest_x - old_x,
                 dest_y - old_y,
             ).perform()
             return
 
-        WaitAction(self.entity).perform()
+        WaitAction(self.actor).perform()

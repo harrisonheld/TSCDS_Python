@@ -24,9 +24,9 @@ class AIBase(Action):
         If there is no valid path then returns an empty list.
         """
         # Copy the walkable array.
-        cost = np.array(self.entity.gamemap.tiles["walkable"], dtype=np.int8)
+        cost = np.array(self.actor.gamemap.tiles["walkable"], dtype=np.int8)
 
-        for entity in self.entity.gamemap.entities:
+        for entity in self.actor.gamemap.entities:
             # Check that an entity blocks movement and the cost isn't zero (blocking.)
             if entity.blocks_movement and cost[entity.x, entity.y]:
                 # Add to the cost of a blocked position.
@@ -39,7 +39,7 @@ class AIBase(Action):
         graph = tcod.path.SimpleGraph(cost=cost, cardinal=2, diagonal=3)
         pathfinder = tcod.path.Pathfinder(graph)
 
-        pathfinder.add_root((self.entity.x, self.entity.y))  # Start position.
+        pathfinder.add_root((self.actor.x, self.actor.y))  # Start position.
 
         # Compute the path to the destination and remove the starting point.
         path: List[List[int]] = pathfinder.path_to((dest_x, dest_y))[1:].tolist()
@@ -50,4 +50,4 @@ class AIBase(Action):
     def can_see(self, me: Entity, other: Entity) -> bool:
         """Return True if the other entity is within the FOV of me."""
         # as is, enemies see what players see. so if the enemy is visible, it can see you
-        return self.entity.gamemap.visible[me.x, me.y]
+        return self.actor.gamemap.visible[me.x, me.y]

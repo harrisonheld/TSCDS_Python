@@ -29,14 +29,14 @@ class EquipAction(Action):
         if currentItem is not None:
             oldItem = currentItem
         self.slot.item = self.item
-        if self.item in self.entity.inventory.items:
-            self.entity.inventory.remove(self.item)
-        elif self.item in self.entity.gamemap.entities:
-            self.entity.gamemap.entities.remove(self.item)
+        if self.item in self.actor.inventory.items:
+            self.actor.inventory.remove(self.item)
+        elif self.item in self.actor.gamemap.entities:
+            self.actor.gamemap.entities.remove(self.item)
         if oldItem is not None:
-            self.entity.inventory.add(oldItem)
+            self.actor.inventory.add(oldItem)
 
-        if self.entity is self.engine.player:
+        if self.actor is self.engine.player:
             if oldItem is not None:
                 self.engine.message_log.add_message(f"You unequip the {oldItem.name}.")
             self.engine.message_log.add_message(f"You equip the {self.item.name}.")
