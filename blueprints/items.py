@@ -127,7 +127,7 @@ mithril_sword: Item = Item(
 mythril_plate_mail: Item = Item(
     char="[",
     color=color.sky_blue,
-    name="mythrilplate mail",
+    name="mythril platemail",
     equippable=Equippable(slot_type=SlotType.BODY, defense_bonus=5),
 )
 # treasure
