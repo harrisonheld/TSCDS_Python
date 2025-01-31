@@ -4,7 +4,7 @@ import random
 from tables.random_table import RandomTable
 
 T = TypeVar("T")
-GrabBagEntry = Union[T, "RandomTable[T]"]
+GrabBagEntry = Union[T, "RandomTable[T]", "GrabBag[T]"]
 Count = Union[int, range]
 
 
@@ -26,7 +26,7 @@ class GrabBag(Generic[T]):
                 continue
             num = self._resolve_count(count)
             for _ in range(num):
-                result.append(self._resolve_grab_bag_entry(entry))
+                result.extend(self._resolve_grab_bag_entry(entry))
 
         return result
 
@@ -38,7 +38,9 @@ class GrabBag(Generic[T]):
             return random.choice(spec)
         raise ValueError(f"Invalid count spec: {spec}")
 
-    def _resolve_grab_bag_entry(self, entry: GrabBagEntry) -> T:
+    def _resolve_grab_bag_entry(self, entry: GrabBagEntry) -> List[T]:
+        if isinstance(entry, GrabBag):
+            return entry.roll_batch()
         if isinstance(entry, RandomTable):
-            return entry.roll()
-        return entry
+            return [entry.roll()]
+        return [entry]

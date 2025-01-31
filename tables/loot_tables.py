@@ -53,6 +53,12 @@ equipment1_bag: GrabBag[Item] = GrabBag[Item](
         (treasure1_table, range(1, 3), 50),
     ]
 )
+frog_warden_bag: GrabBag[Item] = GrabBag[Item](
+    [
+        (equipment1_bag, 1, 50),
+        (blueprints.items.frog_leg, 1, 50),
+    ]
+)
 
 crystal_lizard_bag: GrabBag[Item] = GrabBag[Item](
     [

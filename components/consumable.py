@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Optional
 
+from actions.leap_action import LeapAction
 from actions.swap_action import SwapAction
 from components.base_component import BaseComponent
 from components.inventory import Inventory
@@ -165,3 +166,21 @@ class SwapConsumable(Consumable):
         dy = action.target_xy[1] - action.actor.y
         swap = SwapAction(action.actor, dx, dy)
         swap.perform()
+
+
+class LeapConsumable(Consumable):
+    def __init__(self, distance: int):
+        self.distance = distance
+
+    def get_action(self, consumer: Actor) -> SelectAdjacentHandler:
+        self.engine.message_log.add_message("Select a direction to leap.", color.needs_target)
+        return SelectAdjacentHandler(
+            self.engine, callback=lambda xy: actions.item_action.ItemAction(consumer, self.parent, xy)
+        )
+
+    def activate(self, action: actions.item_action.ItemAction) -> None:
+        dx = action.target_xy[0] - action.actor.x
+        dy = action.target_xy[1] - action.actor.y
+        leap = LeapAction(action.actor, dx, dy, self.distance)
+        leap.perform()
+        self.consume()

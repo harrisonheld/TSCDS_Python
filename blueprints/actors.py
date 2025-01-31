@@ -87,7 +87,7 @@ frog_warden = Actor(
     fighter=Fighter(hp=10, base_defense=0, base_power=3),
     inventory=Inventory(),
     level=Level(xp_given=35),
-    grab_bag=loot_tables.equipment1_bag,
+    grab_bag=loot_tables.frog_warden_bag,
 )
 
 # TODO: make him flee instead of fight you

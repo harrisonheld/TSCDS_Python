@@ -16,7 +16,7 @@ if TYPE_CHECKING:
 class Inventory(BaseComponent):
     parent: Actor
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.items: List[Item] = []
         self.binds: Dict[tcod.event.KeySym, Item] = {}
 

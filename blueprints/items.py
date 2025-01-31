@@ -43,6 +43,13 @@ lightning_scroll: Item = Item(
     description="[TODO]",
     consumable=consumable.LightningDamageConsumable(damage=20, maximum_range=5),
 )
+frog_leg: Item = Item(
+    char="L",
+    color=color.green,
+    name="frog leg",
+    description="On use, allows you to leap two spaces.",
+    consumable=consumable.LeapConsumable(distance=3),
+)
 eye_of_belial = UpgradeEyeOfBelial(
     char="☼",
     color=color.red,
