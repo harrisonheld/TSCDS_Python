@@ -30,6 +30,9 @@ humanoid_equipment.add_slot(SlotType.BODY)
 humanoid_equipment.add_slot(SlotType.HANDS)
 humanoid_equipment.add_slot(SlotType.LEGS)
 humanoid_equipment.add_slot(SlotType.FEET)
+humanoid_equipment.add_slot(SlotType.MISSILE)
+humanoid_equipment.add_slot(SlotType.MISSILE)
+humanoid_equipment.add_slot(SlotType.THROWN)
 
 player = Actor(
     char="@",
@@ -94,7 +97,7 @@ crystal_lizard = Actor(
     name="crystal lizard",
     description="Behold, rump! Therefore, try thrusting.",
     ai_cls=HostileEnemyAI,
-    equipment=copy.deepcopy(humanoid_equipment),
+    equipment=Equipment(),
     fighter=Fighter(hp=1, base_defense=0, base_power=3),
     inventory=Inventory(),
     level=Level(xp_given=100),

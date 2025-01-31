@@ -16,6 +16,8 @@ class SlotType(Enum):
     LEGS = auto()
     HANDS = auto()  # worn items, like a pair of gloves
     FEET = auto()
+    MISSILE = auto()  # ranged weapons; guns, etc.
+    THROWN = auto()
 
 
 class EquipmentSlot:
