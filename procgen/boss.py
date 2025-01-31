@@ -1,7 +1,9 @@
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+import random
+
 from game_map import GameMap
-from procgen.helpers import *
 import blueprints.actors
 import sizes
 import tile_types

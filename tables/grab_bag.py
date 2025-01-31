@@ -22,15 +22,11 @@ class GrabBag(Generic[T]):
     def roll_batch(self) -> List[T]:
         result = []
         for entry, count, chance in self.contents:
+            if random.random() > chance / 100.0:
+                continue
             num = self._resolve_count(count)
             for _ in range(num):
-                if random.random() > chance / 100.0:
-                    continue
-
-                if isinstance(entry, RandomTable):
-                    result.append(entry.roll())
-                else:
-                    result.append(entry)
+                result.append(self._resolve_grab_bag_entry(entry))
 
         return result
 
@@ -41,3 +37,8 @@ class GrabBag(Generic[T]):
         elif isinstance(spec, range):
             return random.choice(spec)
         raise ValueError(f"Invalid count spec: {spec}")
+
+    def _resolve_grab_bag_entry(self, entry: GrabBagEntry) -> T:
+        if isinstance(entry, RandomTable):
+            return entry.roll()
+        return entry

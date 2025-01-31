@@ -22,11 +22,18 @@ fireball_scroll: Item = Item(
     description="[TODO]",
     consumable=consumable.FireballDamageConsumable(damage=12, radius=3),
 )
-health_potion: Item = Item(
+minor_health_potion: Item = Item(
+    char="&",
+    color=color.turquoise,
+    name="minor health potion",
+    description="On use, restores 2 health.",
+    consumable=consumable.HealingConsumable(amount=2),
+)
+major_health_potion: Item = Item(
     char="&",
     color=color.green,
-    name="health potion",
-    description="[TODO]",
+    name="major health potion",
+    description="On use, restores 4 health.",
     consumable=consumable.HealingConsumable(amount=4),
 )
 lightning_scroll: Item = Item(

@@ -36,7 +36,14 @@ consumables_table: RandomTable[Item] = RandomTable[Item](
         (blueprints.items.fireball_scroll, 10),
         (blueprints.items.lightning_scroll, 10),
         (blueprints.items.confusion_scroll, 10),
-        (blueprints.items.health_potion, 30),
+        (blueprints.items.major_health_potion, 30),
+    ]
+)
+
+floor_loot: RandomTable[Item] = RandomTable[Item](
+    [
+        (blueprints.items.minor_health_potion, 10),
+        (blueprints.items.major_health_potion, 10),
     ]
 )
 
