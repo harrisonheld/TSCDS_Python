@@ -14,7 +14,7 @@ import keys
 
 class DebugItemSpawner(ItemPicker):
 
-    TITLE = "(Debug) Debug Item Spawner"
+    TITLE = "(Debug) Item Spawner"
 
     def __init__(self, engine):
         all = [getattr(items, name) for name in dir(items) if not name.startswith("_")]
