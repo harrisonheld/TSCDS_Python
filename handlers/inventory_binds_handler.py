@@ -13,7 +13,6 @@ class InventoryBindsHandler(ItemPicker):
 
     def __init__(self, engine):
         super().__init__(engine)
-        self.show_inventory_count = True
 
     def on_item_selected(self, item: Item) -> Optional[ActionOrHandler]:
         if item.consumable:

@@ -26,9 +26,6 @@ class LevelUpEventHandler(AskUserEventHandler):
         sub_console.print(x=1, y=3, string=f"a) Vitality (+10 HP, from {self.engine.player.fighter.max_hp})")
         sub_console.print(x=1, y=4, string=f"b) Strength (+1 attack, from {self.engine.player.fighter.power})")
         sub_console.print(x=1, y=5, string=f"c) Endurance (+1 defense, from {self.engine.player.fighter.defense})")
-        sub_console.print(
-            x=1, y=6, string=f"d) Inventory Space (+2 items, from {self.engine.player.inventory.capacity})"
-        )
 
         sub_console.blit(console, x, y)
 
@@ -44,8 +41,6 @@ class LevelUpEventHandler(AskUserEventHandler):
                 player.level.increase_power()
             elif index == 2:
                 player.level.increase_defense()
-            elif index == 3:
-                player.level.increase_inventory()
         else:
             self.engine.message_log.add_message("Invalid entry.", color.impossible)
 

@@ -63,8 +63,3 @@ class Level(BaseComponent):
         self.parent.fighter.base_defense += amount
         self.engine.message_log.add_message("Your feel more resilient.")
         self.increase_level()
-
-    def increase_inventory(self, amount: int = 2) -> None:
-        self.parent.inventory.capacity += amount
-        self.engine.message_log.add_message("Your pockets feel roomier.")
-        self.increase_level()

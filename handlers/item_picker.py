@@ -26,8 +26,6 @@ class ItemPicker(AskUserEventHandler):
         self.items = self.generate_items()
         self._dirty = False
         """This dirty flag will be set to True when the items have changed (or MAY have changed)."""
-        self.show_inventory_count = False
-        """This will show the inventory count at the bottom of the menu."""
         self.show_on_ground_hint = False
         """This will show the "on ground" hint for items that are not in the player's inventory."""
 
@@ -70,8 +68,6 @@ class ItemPicker(AskUserEventHandler):
             bg=color.black,
         )
         console.print(x + 1, y, f"┤{self.TITLE}├")
-        if self.show_inventory_count:
-            console.print(x + 2, y + height - 1, f"{self.engine.player.inventory.capacity_string}")
         hint = "┤[l]ook├"
         console.print(x + width - 1 - len(hint), y + height - 1, hint)
 

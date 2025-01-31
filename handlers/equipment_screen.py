@@ -38,6 +38,7 @@ class EquipmentScreen(AskUserEventHandler):
         sub_console = tcod.console.Console(width, height)
         sub_console.draw_frame(0, 0, width, height, bg=color.black, fg=color.white)
         sub_console.print(width // 2, 0, "┤Equipment├", alignment=tcod.constants.CENTER)
+        sub_console.print(1, height - 1, "[r] remove")
 
         idx = 0
         for slot in self.engine.player.equipment.slots:
@@ -80,6 +81,13 @@ class EquipmentScreen(AskUserEventHandler):
         elif key in keys.MENU_NAV_DOWN:
             self.curr_selected_idx = (self.curr_selected_idx + 1) % len(player.equipment.slots)
             return None
+        # removal via remove key
+        if key == tcod.event.KeySym.r:
+            selected_slot = player.equipment.slots[self.curr_selected_idx]
+            player = self.engine.player
+            action = UnequipAction(player, selected_slot)
+            action.next_handler = self  # we do not want this action to switch handlers - let's stay in this menu
+            return action
         # item selection via enter
         if key in keys.CONFIRM_KEYS:
             selected_slot = player.equipment.slots[self.curr_selected_idx]
@@ -102,13 +110,6 @@ class EquipmentScreen(AskUserEventHandler):
 
     def on_slot_selected(self, slot: EquipmentSlot) -> Optional[ActionOrHandler]:
         """Called when the user selects a slot."""
-        if slot.item is None:
-            from handlers.equippable_picker import EquippablePicker
+        from handlers.equippable_picker import EquippablePicker
 
-            return EquippablePicker(self.engine, parent=self, slot=slot)
-
-        assert slot.item is not None
-        player = self.engine.player
-        action = UnequipAction(player, slot)
-        action.next_handler = self  # we do not want thing action to switch handlers - let's stay in this menu
-        return action
+        return EquippablePicker(self.engine, parent=self, slot=slot)

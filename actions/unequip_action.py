@@ -21,9 +21,6 @@ class UnequipAction(Action):
             raise exceptions.Impossible("There's nothing to unequip here.")
 
         if not self.to_floor:
-            if self.entity.inventory.is_full:
-                raise exceptions.Impossible("Nowhere to put that - your inventory is full.")
-
             self.entity.inventory.add(item)
 
         self.slot.item = None

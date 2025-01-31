@@ -39,7 +39,7 @@ player = Actor(
     ai_cls=HostileEnemyAI,
     equipment=copy.deepcopy(humanoid_equipment),
     fighter=Fighter(hp=30, base_defense=0, base_power=2),
-    inventory=Inventory(capacity=4),
+    inventory=Inventory(),
     level=Level(level_up_base=200),
 )
 
@@ -68,7 +68,7 @@ dessicated_vassal = Actor(
     ai_cls=HostileEnemyAI,
     equipment=copy.deepcopy(humanoid_equipment),
     fighter=Fighter(hp=12, base_defense=1, base_power=3),
-    inventory=Inventory(capacity=4),
+    inventory=Inventory(),
     level=Level(xp_given=20),
     grab_bag=loot_tables.equipment1_bag,
 )
@@ -82,7 +82,7 @@ frog_warden = Actor(
     ai_cls=FrogWardenAI,
     equipment=copy.deepcopy(humanoid_equipment),
     fighter=Fighter(hp=10, base_defense=0, base_power=3),
-    inventory=Inventory(capacity=4),
+    inventory=Inventory(),
     level=Level(xp_given=35),
     grab_bag=loot_tables.equipment1_bag,
 )
@@ -96,7 +96,7 @@ crystal_lizard = Actor(
     ai_cls=HostileEnemyAI,
     equipment=copy.deepcopy(humanoid_equipment),
     fighter=Fighter(hp=1, base_defense=0, base_power=3),
-    inventory=Inventory(capacity=4),
+    inventory=Inventory(),
     level=Level(xp_given=100),
     grab_bag=loot_tables.crystal_lizard_bag,
 )
@@ -109,7 +109,7 @@ beamer = Actor(
     ai_cls=BeamerAI,
     equipment=Equipment(),
     fighter=Fighter(hp=16, base_defense=1, base_power=4),
-    inventory=Inventory(capacity=0),
+    inventory=Inventory(),
     level=Level(xp_given=150),
 )
 
@@ -121,7 +121,7 @@ flamewalker = Actor(
     ai_cls=OgglerAI,
     equipment=Equipment(),
     fighter=Fighter(hp=3, base_defense=0, base_power=1),
-    inventory=Inventory(capacity=0),
+    inventory=Inventory(),
     level=Level(xp_given=20),
     components=[TrailLeaver(fire), FireImmune()],
 )
@@ -133,7 +133,7 @@ flameprowler = Actor(
     ai_cls=HostileEnemyAI,
     equipment=Equipment(),
     fighter=Fighter(hp=10, base_defense=0, base_power=3),
-    inventory=Inventory(capacity=0),
+    inventory=Inventory(),
     level=Level(xp_given=100),
     components=[TrailLeaver(fire), FireImmune(), GasImmune()],
 )
@@ -146,7 +146,7 @@ indrix = Actor(
     ai_cls=IndrixAI,
     equipment=copy.deepcopy(humanoid_equipment),
     fighter=Fighter(hp=30, base_defense=1, base_power=4),
-    inventory=Inventory(capacity=0),
+    inventory=Inventory(),
     level=Level(xp_given=400),
 )
 fume_knight = Actor(
@@ -157,7 +157,7 @@ fume_knight = Actor(
     ai_cls=FumeKnightAI,
     equipment=copy.deepcopy(humanoid_equipment),
     fighter=Fighter(hp=50, base_defense=2, base_power=6),
-    inventory=Inventory(capacity=0),
+    inventory=Inventory(),
     level=Level(xp_given=500),
     components=[GasImmune(), FireImmune()],
 )
@@ -169,7 +169,7 @@ default_boss = Actor(
     ai_cls=HostileEnemyAI,
     equipment=copy.deepcopy(humanoid_equipment),
     fighter=Fighter(hp=1, base_defense=0, base_power=1),
-    inventory=Inventory(capacity=0),
+    inventory=Inventory(),
     level=Level(xp_given=10),
 )
 
