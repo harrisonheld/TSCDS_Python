@@ -34,6 +34,7 @@ class EquipmentScreen(AskUserEventHandler):
         )
 
         width = longest_slot_name + longest_item_name + 7  # space for borders, item glyph, and key prompt
+        width = max(width, 14)  # ensure width is at least 20, skinny screen looks wonky imo
         height = slot_count + 2
         sub_console = tcod.console.Console(width, height)
         sub_console.draw_frame(0, 0, width, height, bg=color.black, fg=color.white)
