@@ -126,4 +126,4 @@ mythril_plate_mail: Item = Item(
 # treasure
 # potential dark souls style upgrade material?
 sunbleached_jag: Item = Item(char="√", color=color.white, name="sunbleached jag")
-crying_jag: Item = Item(char="√", color=color.sky_blue, name="crying jag")
+unbloodied_tear: Item = Item(char="°", color=color.sky_blue, name="unbloodied tear")

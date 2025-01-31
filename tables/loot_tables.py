@@ -27,7 +27,7 @@ equipment1_table: RandomTable[Item] = RandomTable[Item](
 treasure1_table: RandomTable[Item] = RandomTable[Item](
     [
         (blueprints.items.sunbleached_jag, 1),
-        (blueprints.items.crying_jag, 1),
+        (blueprints.items.unbloodied_tear, 1),
     ]
 )
 
