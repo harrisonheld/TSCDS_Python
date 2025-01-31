@@ -49,8 +49,8 @@ floor_loot: RandomTable[Item] = RandomTable[Item](
 
 equipment1_bag: GrabBag[Item] = GrabBag[Item](
     [
-        (equipment1_table, range(2, 4), 100),
-        (treasure1_table, 1, 50),
+        (equipment1_table, 1, 50),
+        (treasure1_table, range(1, 3), 50),
     ]
 )
 
