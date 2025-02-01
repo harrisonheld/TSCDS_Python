@@ -123,6 +123,12 @@ leather_armor: Item = Item(
     name="leather armor",
     equippable=Equippable(slot_type=SlotType.BODY, defense_bonus=1),
 )
+leather_helmet: Item = Item(
+    char="[",
+    color=color.orange,
+    name="leather helmet",
+    equippable=Equippable(slot_type=SlotType.HEAD, defense_bonus=1),
+)
 # tier 2
 steel_sword: Item = Item(
     char="/",
@@ -142,36 +148,48 @@ steel_hammer: Item = Item(
     name="steel hammer",
     equippable=Equippable(slot_type=SlotType.HAND, power_bonus=4),
 )
-chain_mail: Item = Item(
+steel_armor: Item = Item(
     char="[",
     color=color.light_grey,
     name="chain mail",
     equippable=Equippable(slot_type=SlotType.BODY, defense_bonus=3),
 )
+steel_helmet: Item = Item(
+    char="[",
+    color=color.orange,
+    name="leather helmet",
+    equippable=Equippable(slot_type=SlotType.HEAD, defense_bonus=2),
+)
 # tier 3
-mithril_sword: Item = Item(
+mythril_sword: Item = Item(
     char="/",
     color=color.sky_blue,
     name="mythril sword",
     equippable=Equippable(slot_type=SlotType.HAND, power_bonus=6),
 )
-mithril_spear: Item = Item(
+mythril_spear: Item = Item(
     char="/",
     color=color.sky_blue,
     name="mythril spear",
     equippable=Equippable(slot_type=SlotType.HAND, power_bonus=6),
 )
-mithril_hammer: Item = Item(
+mythril_hammer: Item = Item(
     char="/",
     color=color.sky_blue,
     name="mythril hammer",
     equippable=Equippable(slot_type=SlotType.HAND, power_bonus=6),
 )
-mythril_plate_mail: Item = Item(
+mythril_armor: Item = Item(
     char="[",
     color=color.sky_blue,
     name="mythril platemail",
     equippable=Equippable(slot_type=SlotType.BODY, defense_bonus=5),
+)
+mythril_helmet: Item = Item(
+    char="[",
+    color=color.sky_blue,
+    name="mythril helmet",
+    equippable=Equippable(slot_type=SlotType.HEAD, defense_bonus=3),
 )
 # treasure
 # potential dark souls style upgrade material?
