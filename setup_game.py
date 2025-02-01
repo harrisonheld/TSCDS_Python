@@ -45,9 +45,7 @@ def new_game() -> Engine:
     engine.game_world.generate_floor()
     engine.update_visibility()
 
-    engine.message_log.add_message(
-        "Artow a Saad of olde Salum, and nou stonden thu at the heigh gate to Brightsheol. Fight or die."
-    )
+    engine.message_log.add_message("The world begins anew. Do what you must.")
     engine.message_log.add_message("Press '?' for help.", color.welcome_text)
     engine.message_log.add_message("Not sure what you're looking at? Press 'l' to look around.", color.welcome_text)
 

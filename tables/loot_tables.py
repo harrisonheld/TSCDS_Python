@@ -13,13 +13,13 @@ equipment2_table: RandomTable[Item] = RandomTable[Item](
     [
         (equipment3_table, 1),
         (blueprints.items.chain_mail, 1),
-        (blueprints.items.leather_armor, 1),
+        (blueprints.items.steel_sword, 1),
     ]
 )
 equipment1_table: RandomTable[Item] = RandomTable[Item](
     [
         (equipment2_table, 1),
-        (blueprints.items.steel_sword, 1),
+        (blueprints.items.leather_armor, 1),
         (blueprints.items.bronze_sword, 1),
     ]
 )
