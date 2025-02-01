@@ -3,6 +3,7 @@ from __future__ import annotations
 import random
 
 from actions.action_with_direction_base import ActionWithDirectionBase
+from components.melee_weapon import MeleeClass, MeleeWeapon
 import color
 import exceptions
 import strings
@@ -15,6 +16,59 @@ class MeleeAction(ActionWithDirectionBase):
             raise exceptions.Impossible("There is nothing there to attack.")
 
         attacker = self.actor
+
+        # set each var to true if the attacker wields any weapon of the type
+        spear = False
+        hammer = False
+        sword = False
+        for slot in attacker.equipment.slots:
+            if slot.item and (weapon := slot.item.get_component(MeleeWeapon)):
+                if weapon.melee_class == MeleeClass.SPEAR:
+                    spear = True
+                if weapon.melee_class == MeleeClass.HAMMER:
+                    hammer = True
+                if weapon.melee_class == MeleeClass.SWORD:
+                    sword = True
+
+        print(spear, hammer)
+
+        if spear:
+            try:
+                from actions.push_action import PushAction
+                from components.ai.stunned_ai import StunnedAI
+
+                PushAction(self.actor, self.dx, self.dy, move_with_push=False).perform()
+                target.ai = StunnedAI(
+                    entity=target,
+                    previous_ai=target.ai,
+                    turns_remaining=0,
+                    silent=True,
+                )
+            except exceptions.Impossible as e:
+                # if the push fails, print it, but continue on and do the attack.
+                self.engine.message_log.add_message(e.args[0], color.impossible)
+        elif hammer:
+            from components.ai.confused_ai import ConfusedAI
+            from components.ai.stunned_ai import StunnedAI
+
+            # first, confuse the target
+            if not isinstance(target.ai, ConfusedAI) and not isinstance(target.ai, StunnedAI):
+                target.ai = ConfusedAI(entity=target, previous_ai=target.ai, turns_remaining=2, silent=False)
+            # if already confused, add stun
+            elif isinstance(target.ai, ConfusedAI):
+                target.ai = StunnedAI(
+                    entity=target,
+                    previous_ai=target.ai,
+                    turns_remaining=3,
+                    silent=False,
+                )
+            # finally, inflict mental retardation
+            elif isinstance(target.ai, StunnedAI):
+                self.engine.message_log.add_message(
+                    f"The {target.name} has become mentally retarded!", color.combat_good
+                )
+                target.ai.add_turns_remaining(2)
+
         power = attacker.fighter.power
         defense = target.fighter.defense
 

@@ -9,7 +9,9 @@ if TYPE_CHECKING:
 
 
 class BaseComponent:
-    parent: Entity  # Owning entity instance.
+
+    def __init__(self) -> None:
+        self.parent: Entity
 
     @property
     def gamemap(self) -> GameMap:

@@ -32,7 +32,6 @@ class CircularIndexSelector:
         self._index = (self._index - 1) % self._length
 
     def set_length(self, length: int):
-        print("setting length to " + str(length))
         self._length = length
         if self._index >= length:
             self._index = length - 1

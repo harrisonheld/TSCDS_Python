@@ -1,9 +1,11 @@
 import sys
 
 from components import consumable
+from components.armor import Armor
 from components.consumable import SwapConsumable
 from components.equipment import SlotType
 from components.equippable import Equippable
+from components.melee_weapon import MeleeClass, MeleeWeapon
 from entity import Item
 from upgrades import Item, UpgradeCrackedBlueEyeOrb, UpgradeCrackedRedEyeOrb, UpgradeDagashasSpur, UpgradeEyeOfBelial
 import color
@@ -103,93 +105,108 @@ bronze_sword: Item = Item(
     char="/",
     color=color.orange,
     name="bronze sword",
-    equippable=Equippable(slot_type=SlotType.HAND, power_bonus=2),
+    equippable=Equippable(slot_type=SlotType.HAND),
+    components=[MeleeWeapon(MeleeClass.SWORD, 2)],
 )
 bronze_spear: Item = Item(
     char="/",
     color=color.orange,
     name="bronze spear",
-    equippable=Equippable(slot_type=SlotType.HAND, power_bonus=2),
+    equippable=Equippable(slot_type=SlotType.HAND),
+    components=[MeleeWeapon(MeleeClass.SPEAR, 2)],
 )
 bronze_hammer: Item = Item(
     char="/",
     color=color.orange,
     name="bronze hammer",
-    equippable=Equippable(slot_type=SlotType.HAND, power_bonus=2),
+    equippable=Equippable(slot_type=SlotType.HAND),
+    components=[MeleeWeapon(MeleeClass.HAMMER, 2)],
 )
 leather_armor: Item = Item(
     char="[",
     color=color.orange,
     name="leather armor",
-    equippable=Equippable(slot_type=SlotType.BODY, defense_bonus=1),
+    equippable=Equippable(slot_type=SlotType.BODY),
+    components=[Armor(1)],
 )
 leather_helmet: Item = Item(
     char="[",
     color=color.orange,
     name="leather helmet",
-    equippable=Equippable(slot_type=SlotType.HEAD, defense_bonus=1),
+    equippable=Equippable(slot_type=SlotType.HEAD),
+    components=[Armor(1)],
 )
 # tier 2
 steel_sword: Item = Item(
     char="/",
     color=color.light_grey,
     name="steel sword",
-    equippable=Equippable(slot_type=SlotType.HAND, power_bonus=4),
+    equippable=Equippable(slot_type=SlotType.HAND),
+    components=[MeleeWeapon(MeleeClass.SWORD, 4)],
 )
 steel_spear: Item = Item(
     char="/",
     color=color.light_grey,
     name="steel spear",
-    equippable=Equippable(slot_type=SlotType.HAND, power_bonus=4),
+    equippable=Equippable(slot_type=SlotType.HAND),
+    components=[MeleeWeapon(MeleeClass.SPEAR, 4)],
 )
 steel_hammer: Item = Item(
     char="/",
     color=color.light_grey,
     name="steel hammer",
-    equippable=Equippable(slot_type=SlotType.HAND, power_bonus=4),
+    equippable=Equippable(slot_type=SlotType.HAND),
+    components=[MeleeWeapon(MeleeClass.HAMMER, 4)],
 )
 steel_armor: Item = Item(
     char="[",
     color=color.light_grey,
     name="chain mail",
-    equippable=Equippable(slot_type=SlotType.BODY, defense_bonus=3),
+    equippable=Equippable(slot_type=SlotType.BODY),
+    components=[Armor(3)],
 )
 steel_helmet: Item = Item(
     char="[",
     color=color.orange,
     name="leather helmet",
-    equippable=Equippable(slot_type=SlotType.HEAD, defense_bonus=2),
+    equippable=Equippable(slot_type=SlotType.HEAD),
+    components=[Armor(2)],
 )
 # tier 3
 mythril_sword: Item = Item(
     char="/",
     color=color.sky_blue,
     name="mythril sword",
-    equippable=Equippable(slot_type=SlotType.HAND, power_bonus=6),
+    equippable=Equippable(slot_type=SlotType.HAND),
+    components=[MeleeWeapon(MeleeClass.SWORD, 6)],
 )
 mythril_spear: Item = Item(
     char="/",
     color=color.sky_blue,
     name="mythril spear",
-    equippable=Equippable(slot_type=SlotType.HAND, power_bonus=6),
+    equippable=Equippable(slot_type=SlotType.HAND),
+    components=[MeleeWeapon(MeleeClass.SPEAR, 6)],
 )
 mythril_hammer: Item = Item(
     char="/",
     color=color.sky_blue,
     name="mythril hammer",
-    equippable=Equippable(slot_type=SlotType.HAND, power_bonus=6),
+    equippable=Equippable(slot_type=SlotType.HAND),
+    components=[MeleeWeapon(MeleeClass.HAMMER, 6)],
 )
 mythril_armor: Item = Item(
     char="[",
     color=color.sky_blue,
     name="mythril platemail",
-    equippable=Equippable(slot_type=SlotType.BODY, defense_bonus=5),
+    equippable=Equippable(slot_type=SlotType.BODY),
+    components=[Armor(5)],
 )
 mythril_helmet: Item = Item(
     char="[",
     color=color.sky_blue,
     name="mythril helmet",
-    equippable=Equippable(slot_type=SlotType.HEAD, defense_bonus=3),
+    equippable=Equippable(slot_type=SlotType.HEAD),
+    components=[Armor(3)],
 )
 # treasure
 # potential dark souls style upgrade material?

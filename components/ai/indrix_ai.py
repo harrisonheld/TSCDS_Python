@@ -8,6 +8,7 @@ from actions.melee_action import MeleeAction
 from actions.movement_action import MovementAction
 from actions.wait_action import WaitAction
 from components.ai.ai_base import AIBase
+from components.melee_weapon import MeleeWeapon
 from components.pushable import Pushable
 from entity import Actor, Entity, Item
 import blueprints.actors as actors
@@ -62,10 +63,10 @@ class IndrixAI(AIBase):
                     self.actor.fighter.base_power -= 4
 
                 stuff_here = self.engine.game_map.get_entities_at_location(self.actor.x, self.actor.y)
-                # find Equippable() in stuff_here
+                # find melee weapons here
                 for thing in stuff_here:
-                    if isinstance(thing, Item) and thing.equippable and thing.equippable.power_bonus > 0:
-                        damage = thing.equippable.power_bonus * 2
+                    if weapon := thing.get_component(MeleeWeapon):
+                        damage = weapon.damage * 2
                         self.engine.message_log.add_message(
                             f"Indrix hurts himself on the dropped {thing.name} for {damage} damage.",
                             color.combat_good,

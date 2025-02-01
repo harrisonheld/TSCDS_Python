@@ -6,8 +6,13 @@ import strings
 
 
 class PushAction(ActionWithDirectionBase):
+    def __init__(self, entity, dx, dy, move_with_push=True):
+        super().__init__(entity, dx, dy)
+        self._move_with_push = move_with_push
+
     def perform(self) -> None:
         target = self.target_entity
+        """If true, the pusher will move with the pushed object."""
         if not target:
             raise Impossible("There is nothing there to push.")
 
@@ -25,5 +30,6 @@ class PushAction(ActionWithDirectionBase):
             raise Impossible(f"You can't push the {target.name} into a wall.")
 
         target.move(self.dx, self.dy)
-        self.actor.move(self.dx, self.dy)
+        if self._move_with_push:
+            self.actor.move(self.dx, self.dy)
         self.engine.message_log.add_message(f"The {self.actor.name} pushes the {target.name}.")

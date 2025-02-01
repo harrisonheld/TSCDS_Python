@@ -11,7 +11,7 @@ class BumpAction(ActionWithDirectionBase):
     def perform(self) -> None:
         if self.target_entity and self.target_entity.has_component(Pushable):
             return PushAction(self.actor, self.dx, self.dy).perform()
-        if self.target_actor:
+        elif self.target_actor:
             return MeleeAction(self.actor, self.dx, self.dy).perform()
         else:
             return MovementAction(self.actor, self.dx, self.dy).perform()

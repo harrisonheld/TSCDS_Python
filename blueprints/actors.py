@@ -34,10 +34,18 @@ humanoid_equipment.add_slot(SlotType.MISSILE)
 humanoid_equipment.add_slot(SlotType.MISSILE)
 humanoid_equipment.add_slot(SlotType.THROWN)
 
+quadruped_equipment = Equipment()
+quadruped_equipment.add_slot(SlotType.HEAD)
+quadruped_equipment.add_slot(SlotType.BODY)
+quadruped_equipment.add_slot(SlotType.LEGS)
+quadruped_equipment.add_slot(SlotType.LEGS)
+quadruped_equipment.add_slot(SlotType.FEET)
+quadruped_equipment.add_slot(SlotType.FEET)
+
 player = Actor(
     char="@",
     color=color.sky_blue,
-    name="Player",
+    name="Harrison",
     description="It's you.",
     ai_cls=HostileEnemyAI,
     equipment=copy.deepcopy(humanoid_equipment),
