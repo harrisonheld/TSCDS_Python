@@ -105,6 +105,18 @@ bronze_sword: Item = Item(
     name="bronze sword",
     equippable=Equippable(slot_type=SlotType.HAND, power_bonus=2),
 )
+bronze_spear: Item = Item(
+    char="/",
+    color=color.orange,
+    name="bronze spear",
+    equippable=Equippable(slot_type=SlotType.HAND, power_bonus=2),
+)
+bronze_hammer: Item = Item(
+    char="/",
+    color=color.orange,
+    name="bronze hammer",
+    equippable=Equippable(slot_type=SlotType.HAND, power_bonus=2),
+)
 leather_armor: Item = Item(
     char="[",
     color=color.orange,
@@ -118,6 +130,18 @@ steel_sword: Item = Item(
     name="steel sword",
     equippable=Equippable(slot_type=SlotType.HAND, power_bonus=4),
 )
+steel_spear: Item = Item(
+    char="/",
+    color=color.light_grey,
+    name="steel spear",
+    equippable=Equippable(slot_type=SlotType.HAND, power_bonus=4),
+)
+steel_hammer: Item = Item(
+    char="/",
+    color=color.light_grey,
+    name="steel hammer",
+    equippable=Equippable(slot_type=SlotType.HAND, power_bonus=4),
+)
 chain_mail: Item = Item(
     char="[",
     color=color.light_grey,
@@ -129,6 +153,18 @@ mithril_sword: Item = Item(
     char="/",
     color=color.sky_blue,
     name="mythril sword",
+    equippable=Equippable(slot_type=SlotType.HAND, power_bonus=6),
+)
+mithril_spear: Item = Item(
+    char="/",
+    color=color.sky_blue,
+    name="mythril spear",
+    equippable=Equippable(slot_type=SlotType.HAND, power_bonus=6),
+)
+mithril_hammer: Item = Item(
+    char="/",
+    color=color.sky_blue,
+    name="mythril hammer",
     equippable=Equippable(slot_type=SlotType.HAND, power_bonus=6),
 )
 mythril_plate_mail: Item = Item(
