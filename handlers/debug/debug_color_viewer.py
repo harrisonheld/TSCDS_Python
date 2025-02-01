@@ -24,7 +24,7 @@ class DebugColorViewer(EventHandler):
 
         for y, col1 in enumerate(self.unique_colors):
             for x, col2 in enumerate(self.unique_colors):
-                sub_console.print(x + 1, y + 1, "h", bg=col1, fg=col2)
+                sub_console.print(x + 1, y + 1, "☺", bg=col1, fg=col2)
 
         x = console.width // 2 - sub_console.width // 2
         y = console.height // 2 - sub_console.height // 2
