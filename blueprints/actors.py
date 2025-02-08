@@ -1,11 +1,11 @@
 from components import equippable
 from components.ai import *
 from components.ai.beamer_ai import BeamerAI
-from components.ai.flamewalker_ai import OgglerAI
 from components.ai.frog_warden_ai import FrogWardenAI
 from components.ai.fumeknight_ai import FumeKnightAI
 from components.ai.hostile_enemy_ai import HostileEnemyAI
 from components.ai.indrix_ai import IndrixAI
+from components.ai.oggler_ai import OgglerAI
 from components.equipment import Equipment, SlotType
 from components.fighter import Fighter
 from components.fire import Fire
@@ -124,10 +124,10 @@ beamer = Actor(
     level=Level(xp_given=150),
 )
 
-flamewalker = Actor(
+flameling = Actor(
     char="f",
     color=color.deep_red,
-    name="flamewalker",
+    name="flameling",
     description="A little spur of fire. Locks of flame dance close behind him as he rolls and tumbles. He seems to mean no harm. Why not let him close?",
     ai_cls=OgglerAI,
     equipment=Equipment(),
