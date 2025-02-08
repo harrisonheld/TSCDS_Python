@@ -48,15 +48,3 @@ class Equipment(BaseComponent):
                     bonus += armor.defense
 
         return bonus
-
-    @property
-    def power_bonus(self) -> int:
-        bonus = 0
-
-        for slot in self.slots:
-            if item := slot.item:
-                assert item.equippable is not None
-                if weapon := item.get_component(MeleeWeapon):
-                    bonus += weapon.damage
-
-        return bonus

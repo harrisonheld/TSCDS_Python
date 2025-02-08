@@ -5,6 +5,7 @@ from components.base_component import BaseComponent
 
 class MeleeClass(Enum):
     NONE = auto()  # still a melee weapon, just doesn't have any special qualities
+    FIST = auto()  # bare hands, hand wraps, brass knuckles, etc
     SPEAR = auto()
     HAMMER = auto()
     SWORD = auto()

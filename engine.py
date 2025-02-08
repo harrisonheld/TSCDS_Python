@@ -70,6 +70,8 @@ class Engine:
 
     def render(self, console: Console) -> None:
         self.game_map.render(console)
+
+        # render info block
         self.info_block.render(
             console,
             self.game_map.width + 1,
@@ -77,24 +79,58 @@ class Engine:
             width=sizes.sidebar_width_including_border,
             height=sizes.info_block_height,
         )
-        self.message_log.render(
-            console=console,
-            x=self.game_map.width + 1,
-            y=sizes.info_block_height,
-            width=sizes.sidebar_width_including_border,
-            height=sizes.screen_height - sizes.info_block_height,
-        )
+
+        # render 'stuff here'
         console.draw_frame(self.game_map.width, 0, 1, self.game_map.height, decoration="│││││││││")
-        console.draw_frame(self.game_map.width, 10, sizes.sidebar_width_including_border, 1, decoration="──────├──")
+        console.draw_frame(
+            self.game_map.width,
+            sizes.info_block_height,
+            sizes.sidebar_width_including_border,
+            1,
+            decoration="──────├──",
+        )
         console.print_box(
             self.game_map.width + 1,
-            10,
+            sizes.info_block_height,
+            sizes.sidebar_width_including_border - 1,
+            1,
+            "┤Stuff Here├",
+            fg=color.white,
+            alignment=libtcodpy.CENTER,
+        )
+        render_functions.render_names_at_player_location(
+            console=console,
+            x=self.game_map.width + 1,
+            y=sizes.info_block_height + 1,
+            max_height=sizes.stuff_here_height,
+            engine=self,
+        )
+
+        # render message log
+        console.draw_frame(
+            self.game_map.width,
+            sizes.info_block_height + sizes.stuff_here_height + 1,
+            sizes.sidebar_width_including_border,
+            1,
+            decoration="──────├──",
+        )
+        console.print_box(
+            self.game_map.width + 1,
+            sizes.info_block_height + sizes.stuff_here_height + 1,
             sizes.sidebar_width_including_border - 1,
             1,
             "┤Message Log├",
             fg=color.white,
             alignment=libtcodpy.CENTER,
         )
+        self.message_log.render(
+            console=console,
+            x=self.game_map.width + 1,
+            y=sizes.info_block_height + sizes.stuff_here_height + 1,
+            width=sizes.sidebar_width_including_border,
+            height=sizes.screen_height - sizes.info_block_height - sizes.stuff_here_height - 1,
+        )
+
         render_functions.render_names_at_mouse_location(console=console, x=0, y=self.game_map.height - 1, engine=self)
 
     def save_as(self, filename: str) -> None:

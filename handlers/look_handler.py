@@ -21,6 +21,11 @@ class LookHandler(SelectIndexHandler):
         dec_keys = keys.MENU_NAV_DOWN - keys.MOVE_KEYS.keys()
         self.depth_selector.set_controls(inc_keys, dec_keys)
 
+    def on_index_selection_changed(self) -> None:
+        self.depth_selector.set_index(0)
+        entities_here = len(list(self.engine.game_map.get_entities_at_location(*self.engine.mouse_location)))
+        self.depth_selector.set_length(entities_here)
+
     def on_index_selected(self, x: int, y: int) -> MainGameEventHandler:
         """Return to main handler."""
         return MainGameEventHandler(self.engine)
@@ -48,18 +53,11 @@ class LookHandler(SelectIndexHandler):
             hint = entities_here > 1
             self.engine.look_block.render(console, entities[self.depth_selector.get_index()], show_multi_hint=hint)
 
-    def on_index_selection_changed(self) -> None:
-        self.depth_selector.set_index(0)
-        super().on_index_selection_changed()
-
     def ev_keydown(self, event: tcod.event.KeyDown) -> Optional[ActionOrHandler]:
 
         if self.depth_selector.take_input(event.sym):
             return None
 
         result = super().ev_keydown(event)
-
-        entities_here = len(list(self.engine.game_map.get_entities_at_location(*self.engine.mouse_location)))
-        self.depth_selector.set_length(entities_here)
 
         return result

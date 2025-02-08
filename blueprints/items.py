@@ -14,14 +14,14 @@ confusion_scroll: Item = Item(
     char="~",
     color=color.purple,
     name="confusion scroll",
-    description="[TODO]",
+    description="On use, confuses a single target.",
     consumable=consumable.ConfusionConsumable(number_of_turns=10),
 )
 fireball_scroll: Item = Item(
     char="~",
     color=color.red,
     name="fireball scroll",
-    description="[TODO]",
+    description="On use, creates an explosion at the target location.",
     consumable=consumable.FireballDamageConsumable(damage=12, radius=3),
 )
 minor_health_potion: Item = Item(
@@ -42,7 +42,7 @@ lightning_scroll: Item = Item(
     char="~",
     color=color.orange,
     name="lightning scroll",
-    description="[TODO]",
+    description="On use, causes lightning to strike down on the nearest creature.",
     consumable=consumable.LightningDamageConsumable(damage=20, maximum_range=5),
 )
 frog_leg: Item = Item(

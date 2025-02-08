@@ -49,10 +49,7 @@ class Fighter(BaseComponent):
 
     @property
     def power_bonus(self) -> int:
-        if self.parent.equipment:
-            return self.parent.equipment.power_bonus
-        else:
-            return 0
+        return 0
 
     def die(self) -> None:
 

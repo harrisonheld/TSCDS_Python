@@ -17,22 +17,25 @@ class MeleeAction(ActionWithDirectionBase):
 
         attacker = self.actor
 
-        # set each var to true if the attacker wields any weapon of the type
-        spear = False
-        hammer = False
-        sword = False
-        for slot in attacker.equipment.slots:
-            if slot.item and (weapon := slot.item.get_component(MeleeWeapon)):
-                if weapon.melee_class == MeleeClass.SPEAR:
-                    spear = True
-                if weapon.melee_class == MeleeClass.HAMMER:
-                    hammer = True
-                if weapon.melee_class == MeleeClass.SWORD:
-                    sword = True
+        # Pick a random weapon. If none, use fists
+        weapon_items = [
+            slot.item for slot in attacker.equipment.slots if slot.item and slot.item.get_component(MeleeWeapon)
+        ]
+        weapon: MeleeWeapon
+        if not weapon_items:
+            weapon = MeleeWeapon(MeleeClass.FIST, 1)
+        else:
+            chosen_weapon_item = random.choice(weapon_items)
+            weapon_component = chosen_weapon_item.get_component(MeleeWeapon)
 
-        print(spear, hammer)
+            if weapon_component is None:
+                weapon = MeleeWeapon(MeleeClass.FIST, 1)
+            else:
+                weapon = weapon_component
 
-        if spear:
+        weapon_class = weapon.melee_class
+
+        if weapon_class == MeleeClass.SPEAR:
             try:
                 from actions.push_action import PushAction
                 from components.ai.stunned_ai import StunnedAI
@@ -47,7 +50,7 @@ class MeleeAction(ActionWithDirectionBase):
             except exceptions.Impossible as e:
                 # if the push fails, print it, but continue on and do the attack.
                 self.engine.message_log.add_message(e.args[0], color.impossible)
-        elif hammer:
+        elif weapon_class == MeleeClass.HAMMER:
             from components.ai.confused_ai import ConfusedAI
             from components.ai.stunned_ai import StunnedAI
 
@@ -69,7 +72,7 @@ class MeleeAction(ActionWithDirectionBase):
                 )
                 target.ai.add_turns_remaining(2)
 
-        power = attacker.fighter.power
+        power = attacker.fighter.power + weapon.damage
         defense = target.fighter.defense
 
         total_penetrations = 0
