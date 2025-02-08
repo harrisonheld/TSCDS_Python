@@ -22,7 +22,7 @@ def save_game(handler: input_handlers.BaseEventHandler) -> None:
 
 
 def main() -> None:
-    font_path = resource_path("data/dwarffortress64x64.png")
+    font_path = resource_path("data/cheepicus12x12.png")
     tileset = tcod.tileset.load_tilesheet(font_path, 16, 16, tcod.tileset.CHARMAP_CP437)
 
     target_fps = 60
@@ -46,7 +46,7 @@ def main() -> None:
                 # rendering
                 root_console.clear(bg=color.black)
                 handler.on_render(console=root_console, delta_time=delta_time)
-                context.present(root_console)
+                context.present(root_console, integer_scaling=True)
 
                 # handling input
                 try:

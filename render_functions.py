@@ -36,7 +36,8 @@ def render_names_at_player_location(console: Console, x: int, y: int, max_height
     mouse = player.xy
 
     here = engine.game_map.get_entities_at_location(*mouse)
-    here.remove(engine.player)
+    if engine.player in here:
+        here.remove(engine.player)
     more = len(here) > max_height
 
     for i, entity in enumerate(here):
