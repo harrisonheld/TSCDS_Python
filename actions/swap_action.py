@@ -10,6 +10,8 @@ class SwapAction(ActionWithDirectionBase):
 
     def perform(self) -> None:
         target = self.target_entity
+        if self.target_actor:
+            target = self.target_actor
         if target is None:
             raise exceptions.Impossible("There is nothing there to swap with.")
 

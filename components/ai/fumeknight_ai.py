@@ -46,7 +46,7 @@ class FumeKnightAI(AIBase):
 
         if self.can_see(self.actor, target):
             if distance <= 1:
-                MeleeAction(self.actor, dx, dy).perform()
+                MeleeAction(self.actor, target).perform()
                 return
             self.path = self.get_path(target.x, target.y)
 

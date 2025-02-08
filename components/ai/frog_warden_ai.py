@@ -38,7 +38,7 @@ class FrogWardenAI(AIBase):
                     self.engine.message_log.add_message(f"The {self.actor.name} hops over you!")
                     return
                 # if no hop, melee
-                MeleeAction(self.actor, dx, dy).perform()
+                MeleeAction(self.actor, target).perform()
                 return
 
             self.path = self.get_path(target.x, target.y)

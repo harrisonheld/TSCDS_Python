@@ -2,14 +2,19 @@ from __future__ import annotations
 
 import random
 
-from actions.action_with_direction_base import ActionWithDirectionBase
+from actions.action import Action
 from components.melee_weapon import MeleeClass, MeleeWeapon
+from entity import Actor
 import color
 import exceptions
 import strings
 
 
-class MeleeAction(ActionWithDirectionBase):
+class MeleeAction(Action):
+    def __init__(self, actor: Actor, target: Actor) -> None:
+        super().__init__(actor)
+        self.target_actor = target
+
     def perform(self) -> None:
         target = self.target_actor
         if not target:
@@ -40,7 +45,7 @@ class MeleeAction(ActionWithDirectionBase):
                 from actions.push_action import PushAction
                 from components.ai.stunned_ai import StunnedAI
 
-                PushAction(self.actor, self.dx, self.dy, move_with_push=False).perform()
+                PushAction(self.actor, target, move_with_push=False).perform()
                 target.ai = StunnedAI(
                     entity=target,
                     previous_ai=target.ai,

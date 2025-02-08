@@ -59,7 +59,7 @@ class IndrixAI(AIBase):
                     dx = target.x - self.actor.x
                     dy = target.y - self.actor.y
                     self.actor.fighter.base_power += 4
-                    MeleeAction(self.actor, dx, dy).perform()
+                    MeleeAction(self.actor, target).perform()
                     self.actor.fighter.base_power -= 4
 
                 stuff_here = self.engine.game_map.get_entities_at_location(self.actor.x, self.actor.y)
@@ -86,7 +86,7 @@ class IndrixAI(AIBase):
 
         if self.can_see(self.actor, target):
             if distance <= 1:
-                MeleeAction(self.actor, dx, dy).perform()
+                MeleeAction(self.actor, target).perform()
                 return
             self.path = self.get_path(target.x, target.y)
 
