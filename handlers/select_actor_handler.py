@@ -15,6 +15,15 @@ class SelectActorHandler(SelectIndexHandler):
 
         self.callback = callback
 
+        actors = list(self.engine.game_map.actors)
+        # remove non-visible actors
+        actors = [actor for actor in actors if self.engine.game_map.visible[actor.x, actor.y]]
+        # set cursor pos to 2nd closest visible actor - the first is the player
+        if len(actors) >= 2:
+            actors.sort(key=lambda actor: actor.distance(*self.engine.mouse_location))
+            self.engine.mouse_location = actors[1].xy
+
+
     def on_index_selected(self, x: int, y: int) -> Optional[Action]:
         actor = self.engine.game_map.get_actor_at_location(x, y)
         if not actor:
