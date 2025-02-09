@@ -240,3 +240,4 @@ phlogistonated_chicken_heart: Item = Item(
     name="phlogistonated chicken heart",
     description="A cracked, grey chicken heart. Though dry and brittle, it refuses to crumble. An early experiment, the alchemists believed that combustion could sustain a heart indefinitely. Others believe man's heart is better left unkindled.",
 )
+glass_sphere: Item = Item(char="Ø", color=color.white, name="glass sphere")
