@@ -231,6 +231,12 @@ mythril_helmet: Item = Item(
     components=[Armor(3)],
 )
 # treasure
-# potential dark souls style upgrade material?
+# potential dark souls style upgrade materials? who knows
 sunbleached_jag: Item = Item(char="√", color=color.white, name="sunbleached jag")
 unbloodied_tear: Item = Item(char="°", color=color.sky_blue, name="unbloodied tear")
+phlogistonated_chicken_heart: Item = Item(
+    char="*",
+    color=color.red,
+    name="phlogistonated chicken heart",
+    description="A cracked, grey chicken heart. Though dry and brittle, it refuses to crumble. An early experiment, the alchemists believed that combustion could sustain a heart indefinitely. Others believe man's heart is better left unkindled.",
+)

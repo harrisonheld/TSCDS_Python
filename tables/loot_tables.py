@@ -68,7 +68,17 @@ frog_warden_bag: GrabBag[Item] = GrabBag[Item](
         (blueprints.items.frog_leg, 1, 50),
     ]
 )
-
+flameling_bag: GrabBag[Item] = GrabBag[Item](
+    [
+        (blueprints.items.phlogistonated_chicken_heart, 1, 50),
+    ]
+)
+flameprowler_bag: GrabBag[Item] = GrabBag[Item](
+    [
+        (blueprints.items.phlogistonated_chicken_heart, range(2, 3), 100),
+        (blueprints.items.fireball_scroll, 1, 50),
+    ]
+)
 crystal_lizard_bag: GrabBag[Item] = GrabBag[Item](
     [
         (consumables_table, range(2, 4), 100),

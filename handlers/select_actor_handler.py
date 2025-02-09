@@ -23,7 +23,6 @@ class SelectActorHandler(SelectIndexHandler):
             actors.sort(key=lambda actor: actor.distance(*self.engine.mouse_location))
             self.engine.mouse_location = actors[1].xy
 
-
     def on_index_selected(self, x: int, y: int) -> Optional[Action]:
         actor = self.engine.game_map.get_actor_at_location(x, y)
         if not actor:

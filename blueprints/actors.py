@@ -135,6 +135,7 @@ flameling = Actor(
     inventory=Inventory(),
     level=Level(xp_given=20),
     components=[TrailLeaver(fire), FireImmune()],
+    grab_bag=loot_tables.flameling_bag,
 )
 flameprowler = Actor(
     char="F",
@@ -147,6 +148,7 @@ flameprowler = Actor(
     inventory=Inventory(),
     level=Level(xp_given=100),
     components=[TrailLeaver(fire), FireImmune(), GasImmune()],
+    grab_bag=loot_tables.flameprowler_bag,
 )
 
 indrix = Actor(
