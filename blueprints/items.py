@@ -6,6 +6,7 @@ from components.consumable import SwapConsumable
 from components.equipment import SlotType
 from components.equippable import Equippable
 from components.melee_weapon import MeleeClass, MeleeWeapon
+from components.ranged_weapon import RangedClass, RangedWeapon
 from entity import Item
 from upgrades import Item, UpgradeCrackedBlueEyeOrb, UpgradeCrackedRedEyeOrb, UpgradeDagashasSpur, UpgradeEyeOfBelial
 import color
@@ -121,6 +122,27 @@ bronze_hammer: Item = Item(
     name="bronze hammer",
     equippable=Equippable(slot_type=SlotType.HAND),
     components=[MeleeWeapon(MeleeClass.HAMMER, 2)],
+)
+flintlock: Item = Item(
+    char=")",
+    color=color.orange,
+    name="flintlock",
+    equippable=Equippable(slot_type=SlotType.MISSILE),
+    components=[RangedWeapon(RangedClass.PISTOL, 2)],
+)
+rifle: Item = Item(
+    char=")",
+    color=color.orange,
+    name="rifle",
+    equippable=Equippable(slot_type=SlotType.MISSILE),
+    components=[RangedWeapon(RangedClass.RIFLE, 2)],
+)
+wooden_bow: Item = Item(
+    char=")",
+    color=color.orange,
+    name="wooden bow",
+    equippable=Equippable(slot_type=SlotType.MISSILE),
+    components=[RangedWeapon(RangedClass.BOW, 2)],
 )
 leather_armor: Item = Item(
     char="[",

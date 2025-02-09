@@ -8,7 +8,7 @@ from actions.wait_action import WaitAction
 from handlers.action_or_handler import ActionOrHandler
 from handlers.event_handler import EventHandler
 from handlers.get_handler import GetHandler
-import actions.ranged_action
+import actions.ranged_attack_action
 import actions.take_stairs_action
 import color
 import keys
@@ -91,10 +91,10 @@ class MainGameEventHandler(EventHandler):
 
             return DebugMenu(self.engine)
         elif key == tcod.event.KeySym.f:
-            from actions.ranged_action import RangedAction
-            from handlers.single_ranged_attack_handler import SingleRangedAttackHandler
+            from actions.ranged_attack_action import RangedAttackAction
+            from handlers.select_actor_handler import SelectActorHandler
 
-            return SingleRangedAttackHandler(self.engine, lambda xy: RangedAction(player, *xy))
+            return SelectActorHandler(self.engine, lambda chosen_target: RangedAttackAction(player, chosen_target))
 
         # No valid key was pressed
         return None

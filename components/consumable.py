@@ -9,8 +9,8 @@ from components.inventory import Inventory
 from exceptions import Impossible
 from handlers.action_or_handler import ActionOrHandler
 from handlers.area_ranged_attack_handler import AreaRangedAttackHandler
+from handlers.select_actor_handler import SelectActorHandler
 from handlers.select_adjacent_handler import SelectAdjacentHandler
-from handlers.single_ranged_attack_handler import SingleRangedAttackHandler
 import actions.item_action
 import color
 import components.ai.confused_ai
@@ -45,11 +45,11 @@ class ConfusionConsumable(Consumable):
     def __init__(self, number_of_turns: int):
         self.number_of_turns = number_of_turns
 
-    def get_action(self, consumer: Actor) -> SingleRangedAttackHandler:
-        self.engine.message_log.add_message("Select a target location.", color.needs_target)
-        return SingleRangedAttackHandler(
+    def get_action(self, consumer: Actor) -> SelectActorHandler:
+        self.engine.message_log.add_message("Select a target to confuse.", color.needs_target)
+        return SelectActorHandler(
             self.engine,
-            callback=lambda xy: actions.item_action.ItemAction(consumer, self.parent, xy),
+            callback=lambda target: actions.item_action.ItemAction(consumer, self.parent, target.xy),
         )
 
     def activate(self, action: actions.item_action.ItemAction) -> None:

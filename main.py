@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import ctypes
 import time
 import traceback
 
@@ -18,7 +19,6 @@ def save_game(handler: input_handlers.BaseEventHandler) -> None:
     """If the current event handler has an active Engine then save it."""
     if isinstance(handler, handlers.event_handler.EventHandler):
         handler.engine.save_as(handler.engine.save_path)
-        print("Game saved.")
 
 
 def main() -> None:
@@ -37,6 +37,7 @@ def main() -> None:
         tileset=tileset,
         title="The Stars Came Down Screaming",
         vsync=True,
+        sdl_window_flags=tcod.context.SDL_WINDOW_FULLSCREEN_DESKTOP,
     ) as context:
         root_console = tcod.console.Console(sizes.screen_width, sizes.screen_height, order="F")
         try:
