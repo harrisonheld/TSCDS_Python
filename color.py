@@ -25,6 +25,7 @@ status_hurt = yellow
 status_wounded = red
 status_critically_wounded = deep_red
 status_dead = dark_grey
+debug = orange
 
 attack_stat = red
 defense_stat = blue

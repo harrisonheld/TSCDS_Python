@@ -8,6 +8,7 @@ from entity import Item
 from handlers.action_or_handler import ActionOrHandler
 from handlers.ask_user_event_handler import AskUserEventHandler
 from handlers.base_event_handler import BaseEventHandler
+from ui.circular_index_selector import CircularIndexSelector
 import color
 import keys
 
@@ -22,20 +23,17 @@ class ItemPicker(AskUserEventHandler):
 
     def __init__(self, engine: Engine):
         super().__init__(engine)
-        self.curr_selected_idx = 0
         self.items = self.generate_items()
+        self.selector = CircularIndexSelector(len(self.items))
         self._dirty = False
         """This dirty flag will be set to True when the items have changed (or MAY have changed)."""
-        self.show_inventory_count = False
-        """This will show the inventory count at the bottom of the menu."""
         self.show_on_ground_hint = False
         """This will show the "on ground" hint for items that are not in the player's inventory."""
 
     def gain_focus(self) -> None:
         if self._dirty:
             self.items = self.generate_items()
-            if self.curr_selected_idx >= len(self.items):
-                self.curr_selected_idx = len(self.items) - 1
+            self.selector.set_length(len(self.items))
             self._dirty = False
 
     def on_render(self, console: tcod.console.Console, delta_time: float) -> None:
@@ -70,8 +68,6 @@ class ItemPicker(AskUserEventHandler):
             bg=color.black,
         )
         console.print(x + 1, y, f"┤{self.TITLE}├")
-        if self.show_inventory_count:
-            console.print(x + 2, y + height - 1, f"{self.engine.player.inventory.capacity_string}")
         hint = "┤[l]ook├"
         console.print(x + width - 1 - len(hint), y + height - 1, hint)
 
@@ -84,7 +80,7 @@ class ItemPicker(AskUserEventHandler):
                     item_string += f" (on ground)"
 
                 ordinal_fg, ordinal_bg = color.white, color.black
-                if i == self.curr_selected_idx:
+                if i == self.selector.get_index():
                     ordinal_fg, ordinal_bg = color.black, color.white
                 console.print(x + 1, y + i + 1, f"[{item_key}]", ordinal_fg, ordinal_bg)
                 console.print(x + 4, y + i + 1, item.char, item.color)
@@ -101,18 +97,14 @@ class ItemPicker(AskUserEventHandler):
             return super().ev_keydown(event)
 
         # movement of item selection
-        if key in keys.MENU_NAV_UP:
-            self.curr_selected_idx = (self.curr_selected_idx - 1) % len(self.items)
-            return None
-        elif key in keys.MENU_NAV_DOWN:
-            self.curr_selected_idx = (self.curr_selected_idx + 1) % len(self.items)
+        if self.selector.take_input(key):
             return None
         # item selection via enter
         if key in keys.CONFIRM_KEYS:
-            selected_item = self.items[self.curr_selected_idx]
+            selected_item = self.items[self.selector.get_index()]
             return self.on_item_selected(selected_item)
         if key == tcod.event.KeySym.l:
-            item = self.items[self.curr_selected_idx]
+            item = self.items[self.selector.get_index()]
             from handlers.inspect_item_handler import InspectItemHandler
 
             return InspectItemHandler(self.engine, self, item)

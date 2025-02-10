@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import ctypes
 import time
 import traceback
 
@@ -18,11 +19,10 @@ def save_game(handler: input_handlers.BaseEventHandler) -> None:
     """If the current event handler has an active Engine then save it."""
     if isinstance(handler, handlers.event_handler.EventHandler):
         handler.engine.save_as(handler.engine.save_path)
-        print("Game saved.")
 
 
 def main() -> None:
-    font_path = resource_path("data/dwarffortress64x64.png")
+    font_path = resource_path("data/cheepicus12x12.png")
     tileset = tcod.tileset.load_tilesheet(font_path, 16, 16, tcod.tileset.CHARMAP_CP437)
 
     target_fps = 60
@@ -37,6 +37,7 @@ def main() -> None:
         tileset=tileset,
         title="The Stars Came Down Screaming",
         vsync=True,
+        sdl_window_flags=tcod.context.SDL_WINDOW_FULLSCREEN_DESKTOP,
     ) as context:
         root_console = tcod.console.Console(sizes.screen_width, sizes.screen_height, order="F")
         try:
@@ -46,7 +47,7 @@ def main() -> None:
                 # rendering
                 root_console.clear(bg=color.black)
                 handler.on_render(console=root_console, delta_time=delta_time)
-                context.present(root_console)
+                context.present(root_console, integer_scaling=True)
 
                 # handling input
                 try:

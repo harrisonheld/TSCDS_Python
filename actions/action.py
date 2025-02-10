@@ -9,9 +9,9 @@ if TYPE_CHECKING:
 
 
 class Action:
-    def __init__(self, entity: Actor) -> None:
+    def __init__(self, actor: Actor) -> None:
         super().__init__()
-        self.entity = entity
+        self.actor = actor
         """The Actor which is to perform this action."""
         self.next_handler: Optional[BaseEventHandler] = None
         """If set, the game will switch to the next handler to be returned after this action is performed."""
@@ -19,7 +19,7 @@ class Action:
     @property
     def engine(self) -> Engine:
         """Return the engine this action belongs to."""
-        return self.entity.gamemap.engine
+        return self.actor.gamemap.engine
 
     def perform(self) -> None:
         """Perform this action with the objects needed to determine its scope.

@@ -2,14 +2,15 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Optional
 
+from actions.leap_action import LeapAction
 from actions.swap_action import SwapAction
 from components.base_component import BaseComponent
 from components.inventory import Inventory
 from exceptions import Impossible
 from handlers.action_or_handler import ActionOrHandler
 from handlers.area_ranged_attack_handler import AreaRangedAttackHandler
+from handlers.select_actor_handler import SelectActorHandler
 from handlers.select_adjacent_handler import SelectAdjacentHandler
-from handlers.single_ranged_attack_handler import SingleRangedAttackHandler
 import actions.item_action
 import color
 import components.ai.confused_ai
@@ -44,15 +45,15 @@ class ConfusionConsumable(Consumable):
     def __init__(self, number_of_turns: int):
         self.number_of_turns = number_of_turns
 
-    def get_action(self, consumer: Actor) -> SingleRangedAttackHandler:
-        self.engine.message_log.add_message("Select a target location.", color.needs_target)
-        return SingleRangedAttackHandler(
+    def get_action(self, consumer: Actor) -> SelectActorHandler:
+        self.engine.message_log.add_message("Select a target to confuse.", color.needs_target)
+        return SelectActorHandler(
             self.engine,
-            callback=lambda xy: actions.item_action.ItemAction(consumer, self.parent, xy),
+            callback=lambda target: actions.item_action.ItemAction(consumer, self.parent, target.xy),
         )
 
     def activate(self, action: actions.item_action.ItemAction) -> None:
-        consumer = action.entity
+        consumer = action.actor
         target = action.target_actor
 
         if not self.engine.game_map.visible[action.target_xy]:
@@ -112,7 +113,7 @@ class HealingConsumable(Consumable):
         self.amount = amount
 
     def activate(self, action: actions.item_action.ItemAction) -> None:
-        consumer = action.entity
+        consumer = action.actor
         amount_recovered = consumer.fighter.heal(self.amount)
 
         if amount_recovered > 0:
@@ -131,7 +132,7 @@ class LightningDamageConsumable(Consumable):
         self.maximum_range = maximum_range
 
     def activate(self, action: actions.item_action.ItemAction) -> None:
-        consumer = action.entity
+        consumer = action.actor
         target = None
         closest_distance = self.maximum_range + 1.0
 
@@ -161,7 +162,25 @@ class SwapConsumable(Consumable):
         )
 
     def activate(self, action: actions.item_action.ItemAction) -> None:
-        dx = action.target_xy[0] - action.entity.x
-        dy = action.target_xy[1] - action.entity.y
-        swap = SwapAction(action.entity, dx, dy)
+        dx = action.target_xy[0] - action.actor.x
+        dy = action.target_xy[1] - action.actor.y
+        swap = SwapAction(action.actor, dx, dy)
         swap.perform()
+
+
+class LeapConsumable(Consumable):
+    def __init__(self, distance: int):
+        self.distance = distance
+
+    def get_action(self, consumer: Actor) -> SelectAdjacentHandler:
+        self.engine.message_log.add_message("Select a direction to leap.", color.needs_target)
+        return SelectAdjacentHandler(
+            self.engine, callback=lambda xy: actions.item_action.ItemAction(consumer, self.parent, xy)
+        )
+
+    def activate(self, action: actions.item_action.ItemAction) -> None:
+        dx = action.target_xy[0] - action.actor.x
+        dy = action.target_xy[1] - action.actor.y
+        leap = LeapAction(action.actor, dx, dy, self.distance)
+        leap.perform()
+        self.consume()

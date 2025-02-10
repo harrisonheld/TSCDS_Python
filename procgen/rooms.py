@@ -6,9 +6,11 @@ import random
 import tcod
 
 from game_map import GameMap
-from procgen.helpers import *
-import entity_factories
+import blueprints.actors as actors
+import blueprints.items
 import sizes
+import tables.enemies_table
+import tables.loot_tables
 import tile_types
 
 if TYPE_CHECKING:
@@ -23,6 +25,7 @@ class RoomBase:
         self.x2 = x + width
         self.y2 = y + height
         self.floor_number = floor_number
+        """The floor number of the dungeon this room is part of. 1-based indexing."""
 
     @property
     def center(self) -> Tuple[int, int]:
@@ -51,11 +54,11 @@ class RoomBase:
 
 class RegularRoom(RoomBase):
     def populate(self, dungeon: GameMap) -> None:
-        number_of_monsters = random.randint(0, get_max_value_for_floor(max_monsters_by_floor, self.floor_number))
-        number_of_items = random.randint(0, get_max_value_for_floor(max_items_by_floor, self.floor_number))
+        number_of_monsters = random.randint(0, self.floor_number + 1)
+        number_of_items = random.randint(0, 2)
 
-        monsters: List[Entity] = get_entities_at_random(enemy_chances, number_of_monsters, self.floor_number)
-        items: List[Entity] = get_entities_at_random(item_chances, number_of_items, self.floor_number)
+        monsters: List[Entity] = [tables.enemies_table.dungeon_table.roll() for _ in range(number_of_monsters)]
+        items: List[Entity] = [tables.loot_tables.floor_loot.roll() for _ in range(number_of_items)]
 
         for entity in monsters + items:
             x = random.randint(self.x1 + 1, self.x2 - 1)
@@ -75,7 +78,7 @@ class TreasureRoom(RoomBase):
             loot = random.choice(pool)
             pool.remove(loot)
         else:
-            loot = entity_factories.default_loot
+            loot = blueprints.items.default_loot
         loot.spawn(dungeon, *self.center)
 
         # spawn a few barrels
@@ -85,7 +88,7 @@ class TreasureRoom(RoomBase):
             y = random.randint(self.y1 + 1, self.y2 - 1)
 
             if len(dungeon.get_entities_at_location(x, y)) == 0 and not dungeon.tiles[x, y] == tile_types.down_stairs:
-                entity_factories.barrel.spawn(dungeon, x, y)
+                actors.barrel.spawn(dungeon, x, y)
 
         # TODO: remove this, it makes it so you can see the treasure room from the start
         dungeon.explored[self.inner_with_rind] = True

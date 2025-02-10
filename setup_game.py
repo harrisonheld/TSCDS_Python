@@ -16,8 +16,9 @@ from engine import Engine
 from game_map import GameWorld
 from helpers import resource_path
 from ui.starfield import Starfield
+import blueprints.actors as actors
+import blueprints.items
 import color
-import entity_factories
 import handlers.base_event_handler as input_handlers
 import handlers.main_game_event_handler
 import handlers.popup_message
@@ -27,31 +28,24 @@ import strings
 
 def new_game() -> Engine:
     """Return a brand new game session as an Engine instance."""
-    player = copy.deepcopy(entity_factories.player)
+    player = copy.deepcopy(actors.player)
 
     engine = Engine(player=player)
 
     engine.game_world = GameWorld(engine=engine)
 
     engine.game_world.treasure_pool = [
-        entity_factories.eye_of_belial,
-        entity_factories.dagashas_spur,
-        entity_factories.max_health_potion,
-        entity_factories.cracked_red_eye_orb,
-        entity_factories.cracked_blue_eye_orb,
+        blueprints.items.eye_of_belial,
+        blueprints.items.dagashas_spur,
+        blueprints.items.max_health_potion,
+        blueprints.items.cracked_red_eye_orb,
+        blueprints.items.cracked_blue_eye_orb,
     ]
-    engine.game_world.boss_pool = [entity_factories.indrix, entity_factories.fume_knight]
+    engine.game_world.boss_pool = [actors.indrix, actors.fume_knight]
     engine.game_world.generate_floor()
     engine.update_visibility()
 
-    entity_factories.leather_armor.spawn(engine.game_map, engine.player.x, engine.player.y)
-    entity_factories.dagger.spawn(engine.game_map, engine.player.x, engine.player.y)
-    entity_factories.chain_mail.spawn(engine.game_map, engine.player.x, engine.player.y)
-    entity_factories.sword.spawn(engine.game_map, engine.player.x, engine.player.y)
-
-    engine.message_log.add_message(
-        "Artow a Saad of olde Salum, and nou stonden thu at the heigh gate to Brightsheol. Fight or die."
-    )
+    engine.message_log.add_message("The world begins anew. Do what you must.")
     engine.message_log.add_message("Press '?' for help.", color.welcome_text)
     engine.message_log.add_message("Not sure what you're looking at? Press 'l' to look around.", color.welcome_text)
 

@@ -6,6 +6,7 @@ from engine import Engine
 from handlers.action_or_handler import ActionOrHandler
 from handlers.main_game_event_handler import MainGameEventHandler
 from handlers.select_index_handler import SelectIndexHandler
+from ui.circular_index_selector import CircularIndexSelector
 import keys
 
 
@@ -14,8 +15,16 @@ class LookHandler(SelectIndexHandler):
 
     def __init__(self, engine: Engine):
         super().__init__(engine)
-        self.look_index = 0
-        self.entities_here = 0
+        n = len(list(self.engine.game_map.get_entities_at_location(*self.engine.mouse_location)))
+        self.depth_selector = CircularIndexSelector(n)
+        inc_keys = keys.MENU_NAV_UP - keys.MOVE_KEYS.keys()
+        dec_keys = keys.MENU_NAV_DOWN - keys.MOVE_KEYS.keys()
+        self.depth_selector.set_controls(inc_keys, dec_keys)
+
+    def on_index_selection_changed(self) -> None:
+        self.depth_selector.set_index(0)
+        entities_here = len(list(self.engine.game_map.get_entities_at_location(*self.engine.mouse_location)))
+        self.depth_selector.set_length(entities_here)
 
     def on_index_selected(self, x: int, y: int) -> MainGameEventHandler:
         """Return to main handler."""
@@ -35,27 +44,20 @@ class LookHandler(SelectIndexHandler):
             return
 
         entities = list(self.engine.game_map.get_entities_at_location(x, y))
-        self.entities_here = len(entities)
+        entities_here = len(entities)
 
-        if self.entities_here > 0:
+        if entities_here > 0:
             # render the selected entity
-            console.print(x, y, entities[self.look_index].char)
+            console.print(x, y, entities[self.depth_selector.get_index()].char)
 
-            hint = self.entities_here > 1
-            self.engine.look_block.render(console, entities[self.look_index], show_multi_hint=hint)
-
-    def on_index_selection_changed(self) -> None:
-        self.look_index = 0
-        super().on_index_selection_changed()
+            hint = entities_here > 1
+            self.engine.look_block.render(console, entities[self.depth_selector.get_index()], show_multi_hint=hint)
 
     def ev_keydown(self, event: tcod.event.KeyDown) -> Optional[ActionOrHandler]:
 
-        if self.entities_here > 0 and event.sym not in keys.MOVE_KEYS:
-            if event.sym in keys.MENU_NAV_UP:
-                self.look_index = (self.look_index + 1) % self.entities_here
-                return None
-            elif event.sym in keys.MENU_NAV_DOWN:
-                self.look_index = (self.look_index - 1) % self.entities_here
-                return None
+        if self.depth_selector.take_input(event.sym):
+            return None
 
-        return super().ev_keydown(event)
+        result = super().ev_keydown(event)
+
+        return result

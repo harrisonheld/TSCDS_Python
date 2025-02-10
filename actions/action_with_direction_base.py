@@ -16,7 +16,7 @@ class ActionWithDirectionBase(Action):
     @property
     def dest_xy(self) -> Tuple[int, int]:
         """Returns this actions destination."""
-        return self.entity.x + self.dx, self.entity.y + self.dy
+        return self.actor.x + self.dx, self.actor.y + self.dy
 
     @property
     def blocking_entity(self) -> Optional[Entity]:

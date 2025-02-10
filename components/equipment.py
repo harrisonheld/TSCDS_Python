@@ -3,7 +3,9 @@ from __future__ import annotations
 from enum import Enum, auto
 from typing import TYPE_CHECKING, List, Optional
 
+from components.armor import Armor
 from components.base_component import BaseComponent
+from components.melee_weapon import MeleeWeapon
 
 if TYPE_CHECKING:
     from entity import Actor, Item
@@ -16,6 +18,8 @@ class SlotType(Enum):
     LEGS = auto()
     HANDS = auto()  # worn items, like a pair of gloves
     FEET = auto()
+    MISSILE = auto()  # ranged weapons; guns, etc.
+    THROWN = auto()
 
 
 class EquipmentSlot:
@@ -25,7 +29,6 @@ class EquipmentSlot:
 
 
 class Equipment(BaseComponent):
-
     def __init__(self) -> None:
         self.parent: Actor
         self.slots: List[EquipmentSlot] = []
@@ -41,17 +44,7 @@ class Equipment(BaseComponent):
         for slot in self.slots:
             if item := slot.item:
                 assert item.equippable is not None
-                bonus += item.equippable.defense_bonus
-
-        return bonus
-
-    @property
-    def power_bonus(self) -> int:
-        bonus = 0
-
-        for slot in self.slots:
-            if item := slot.item:
-                assert item.equippable is not None
-                bonus += item.equippable.power_bonus
+                if armor := item.get_component(Armor):
+                    bonus += armor.defense
 
         return bonus

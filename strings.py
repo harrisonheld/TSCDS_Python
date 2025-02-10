@@ -6,10 +6,11 @@ def preserve_capitalize(string: str) -> str:
 musings = [
     # just random things that sound cool
     "Know no want.",
-    "By any means necessary.",
     # song lyrics
     "To wait for tomorrow is for fools in their sorrow.",  # Hour of the Dragon, Manilla Road
     "In this world's darkest hour, up the hammers to strike.",  # Flaming Metal System, Manilla Road
+    "I watch the stars turning blood red.",  # Necropolis, Manilla Road
+    "There is light, yes, I've got to believe.",  # Necropolis, Manilla Road
     "The memory fades and I weaken.",  # Invoker, Eternal Champion
     "I struck a match against the door.",  # My Rival, Steely Dan
     "And all the fools sailed away.",  # All the Fools Sailed Away, Dio
@@ -43,6 +44,7 @@ d drop item
 e view equipment
 c view character sheet
 m view detailed message log
+e equip from inventory or ground
 
 b   edit key binds
 1-9 use key binds

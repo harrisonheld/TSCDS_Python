@@ -17,7 +17,6 @@ class GetHandler(ItemPicker):
 
     def __init__(self, engine):
         super().__init__(engine)
-        self.show_inventory_count = True
 
     def generate_items(self):
         xy = self.engine.player.xy

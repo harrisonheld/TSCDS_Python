@@ -11,6 +11,7 @@ from entity import Item
 from handlers.action_or_handler import ActionOrHandler
 from handlers.ask_user_event_handler import AskUserEventHandler
 from handlers.main_game_event_handler import MainGameEventHandler
+from ui.circular_index_selector import CircularIndexSelector
 import color
 import exceptions
 import keys
@@ -20,7 +21,8 @@ class EquipmentScreen(AskUserEventHandler):
     """View, equip, and unequip equipment."""
 
     def __init__(self, engine: Engine):
-        self.curr_selected_idx = 0
+        n = len(engine.player.equipment.slots)
+        self.selector = CircularIndexSelector(n)
         super().__init__(engine)
 
     def on_render(self, console: tcod.console.Console, delta_time: float) -> None:
@@ -33,11 +35,12 @@ class EquipmentScreen(AskUserEventHandler):
             default=1,  # default is 1 because no-item is rendered as a '-'
         )
 
-        width = longest_slot_name + longest_item_name + 7  # space for borders, item glyph, and key prompt
+        width = longest_slot_name + longest_item_name + 8  # space for borders, item glyph, and key prompt
         height = slot_count + 2
         sub_console = tcod.console.Console(width, height)
         sub_console.draw_frame(0, 0, width, height, bg=color.black, fg=color.white)
         sub_console.print(width // 2, 0, "┤Equipment├", alignment=tcod.constants.CENTER)
+        sub_console.print(1, height - 1, "[r] remove")
 
         idx = 0
         for slot in self.engine.player.equipment.slots:
@@ -50,7 +53,7 @@ class EquipmentScreen(AskUserEventHandler):
             ordinal = "(" + chr(ord("a") - 1 + y) + ")"
             ordinal_fg = color.white
             ordinal_bg = color.black
-            do_highlight = idx == self.curr_selected_idx
+            do_highlight = idx == self.selector.get_index()
             if do_highlight:
                 ordinal_fg, ordinal_bg = ordinal_bg, ordinal_fg  # swap colors
 
@@ -74,18 +77,21 @@ class EquipmentScreen(AskUserEventHandler):
             return super().ev_keydown(event)
 
         # movement of item selection
-        if key in keys.MENU_NAV_UP:
-            self.curr_selected_idx = (self.curr_selected_idx - 1) % len(player.equipment.slots)
+        if self.selector.take_input(key):
             return None
-        elif key in keys.MENU_NAV_DOWN:
-            self.curr_selected_idx = (self.curr_selected_idx + 1) % len(player.equipment.slots)
-            return None
+        # removal via remove key
+        if key == tcod.event.KeySym.r:
+            selected_slot = player.equipment.slots[self.selector.get_index()]
+            player = self.engine.player
+            action = UnequipAction(player, selected_slot)
+            action.next_handler = self  # we do not want this action to switch handlers - let's stay in this menu
+            return action
         # item selection via enter
         if key in keys.CONFIRM_KEYS:
-            selected_slot = player.equipment.slots[self.curr_selected_idx]
+            selected_slot = player.equipment.slots[self.selector.get_index()]
             return self.on_slot_selected(selected_slot)
         if key == tcod.event.KeySym.l:
-            slot = player.equipment.slots[self.curr_selected_idx]
+            slot = player.equipment.slots[self.selector.get_index()]
             from handlers.inspect_item_handler import InspectItemHandler
 
             if slot.item is not None:
@@ -94,7 +100,7 @@ class EquipmentScreen(AskUserEventHandler):
         # slot selection through a-z keys
         index = key - tcod.event.KeySym.a
         if 0 <= index < len(player.equipment.slots):
-            self.curr_selected_idx = index
+            self.selector.set_index(index)
             selected_slot = player.equipment.slots[index]
             return self.on_slot_selected(selected_slot)
 
@@ -102,13 +108,6 @@ class EquipmentScreen(AskUserEventHandler):
 
     def on_slot_selected(self, slot: EquipmentSlot) -> Optional[ActionOrHandler]:
         """Called when the user selects a slot."""
-        if slot.item is None:
-            from handlers.equippable_picker import EquippablePicker
+        from handlers.equippable_picker import EquippablePicker
 
-            return EquippablePicker(self.engine, parent=self, slot=slot)
-
-        assert slot.item is not None
-        player = self.engine.player
-        action = UnequipAction(player, slot.item)
-        action.next_handler = self  # we do not want thing action to switch handlers - let's stay in this menu
-        return action
+        return EquippablePicker(self.engine, parent=self, slot=slot)

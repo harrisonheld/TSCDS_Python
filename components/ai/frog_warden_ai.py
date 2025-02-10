@@ -19,26 +19,26 @@ class FrogWardenAI(AIBase):
 
     def perform(self) -> None:
         target = self.engine.player
-        dx = target.x - self.entity.x
-        dy = target.y - self.entity.y
+        dx = target.x - self.actor.x
+        dy = target.y - self.actor.y
         distance = max(abs(dx), abs(dy))  # Chebyshev distance.
 
-        if self.can_see(self.entity, target):
+        if self.can_see(self.actor, target):
             # if next to target
             if distance <= 1:
                 # try for hop over the target
-                opposite_x = self.entity.x + 2 * dx
-                opposite_y = self.entity.y + 2 * dy
+                opposite_x = self.actor.x + 2 * dx
+                opposite_y = self.actor.y + 2 * dy
                 if (
                     random.random() < self.hop_chance
                     and self.engine.game_map.in_bounds(opposite_x, opposite_y)
                     and not self.engine.game_map.get_blocking_entity_at_location(opposite_x, opposite_y)
                 ):
-                    MovementAction(self.entity, 2 * dx, 2 * dy).perform()
-                    self.engine.message_log.add_message(f"The {self.entity.name} hops over you!")
+                    MovementAction(self.actor, 2 * dx, 2 * dy).perform()
+                    self.engine.message_log.add_message(f"The {self.actor.name} hops over you!")
                     return
                 # if no hop, melee
-                MeleeAction(self.entity, dx, dy).perform()
+                MeleeAction(self.actor, target).perform()
                 return
 
             self.path = self.get_path(target.x, target.y)
@@ -46,10 +46,10 @@ class FrogWardenAI(AIBase):
         if self.path:
             dest_x, dest_y = self.path.pop(0)
             MovementAction(
-                self.entity,
-                dest_x - self.entity.x,
-                dest_y - self.entity.y,
+                self.actor,
+                dest_x - self.actor.x,
+                dest_y - self.actor.y,
             ).perform()
             return
 
-        WaitAction(self.entity).perform()
+        WaitAction(self.actor).perform()

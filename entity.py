@@ -7,6 +7,7 @@ import math
 from components.ai.ai_base import AIBase
 from components.base_component import BaseComponent
 from render_order import RenderOrder
+from tables.grab_bag import GrabBag
 
 if TYPE_CHECKING:
     from components.consumable import Consumable
@@ -98,7 +99,11 @@ class Entity:
         if gamemap:
             if hasattr(self, "parent"):  # Possibly uninitialized.
                 if self.parent is self.gamemap:
-                    self.gamemap.entities.remove(self)
+                    try:
+                        self.gamemap.entities.remove(self)
+                    except KeyError:
+                        # probably not an issue - just means it wasn't on the map
+                        pass
             self.parent = gamemap
             gamemap.entities.add(self)
 
@@ -139,6 +144,7 @@ class Actor(Entity):
         inventory: Inventory,
         level: Level,
         components: List[BaseComponent] = [],
+        grab_bag: GrabBag[Item] = GrabBag([]),
     ):
         super().__init__(
             x=x,
@@ -166,10 +172,27 @@ class Actor(Entity):
         self.level = level
         self.level.parent = self
 
+        self.grab_bag = grab_bag
+
     @property
     def is_alive(self) -> bool:
         """Returns True as long as the actor has HP."""
         return self.fighter.hp > 0
+
+    def spawn(self, gamemap: GameMap, x: int, y: int) -> Actor:
+        """Spawn a copy of this instance at the given location."""
+        from actions.equip_to_first_possible_slot_action import EquipToFirstPossibleSlotAction
+
+        clone = super().spawn(gamemap, x, y)
+        stuff: List[Item] = clone.grab_bag.roll_batch()
+        for entry in stuff:
+            item = copy.deepcopy(entry)
+            if item.equippable:
+                EquipToFirstPossibleSlotAction(clone, item).perform()
+            else:
+                clone.inventory.add(item)
+
+        return clone
 
 
 class Item(Entity):

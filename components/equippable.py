@@ -12,13 +12,5 @@ if TYPE_CHECKING:
 class Equippable(BaseComponent):
     parent: Item
 
-    def __init__(
-        self,
-        slot_type: SlotType,
-        power_bonus: int = 0,
-        defense_bonus: int = 0,
-    ):
+    def __init__(self, slot_type: SlotType):
         self.slot_type = slot_type
-
-        self.power_bonus = power_bonus
-        self.defense_bonus = defense_bonus

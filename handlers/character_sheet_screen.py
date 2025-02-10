@@ -4,7 +4,7 @@ from handlers.ask_user_event_handler import AskUserEventHandler
 import color
 
 
-class CharacterScreenEventHandler(AskUserEventHandler):
+class CharacterSheetScreen(AskUserEventHandler):
     TITLE = "Character Information"
 
     def on_render(self, console: tcod.console.Console, delta_time: float) -> None:

@@ -10,7 +10,7 @@ class TakeStairsAction(Action):
         """
         Take the stairs, if any exist at the entity's location.
         """
-        if (self.entity.x, self.entity.y) == self.engine.game_map.downstairs_location:
+        if (self.actor.x, self.actor.y) == self.engine.game_map.downstairs_location:
             self.engine.game_world.generate_floor()
         else:
             raise exceptions.Impossible("There are no stairs here to descend.")

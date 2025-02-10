@@ -16,39 +16,25 @@ if TYPE_CHECKING:
 class Inventory(BaseComponent):
     parent: Actor
 
-    def __init__(self, capacity: int):
-        self.capacity = capacity
+    def __init__(self) -> None:
         self.items: List[Item] = []
         self.binds: Dict[tcod.event.KeySym, Item] = {}
 
-    @property
-    def is_full(self) -> bool:
-        return len(self.items) == self.capacity
-
-    @property
-    def capacity_string(self) -> str:
-        return f"items: {len(self.items)}/{self.capacity}"
-
-    def add(self, item: Item, add_message: bool = True) -> None:
+    def add(self, item: Item) -> None:
         """
         Add or pickup (from the game map) an item to the inventory, and attempt to auto-bind it to a key.
         """
-        if len(self.items) >= self.capacity:
-            raise exceptions.Impossible("Your inventory is full.")
         if item in self.items:
             raise exceptions.Impossible(f"You already have the {item.name}.")
 
         try:
-            self.parent.gamemap.engine.game_map.entities.remove(item)
+            self.parent.gamemap.entities.remove(item)
         except KeyError:
             # if not on map, dw about it
             pass
 
         item.parent = self
         self.items.append(item)
-
-        if add_message:
-            self.engine.message_log.add_message(f"You picked up the {item.name}!")
 
         # try auto-binding
         if item.consumable is not None:
@@ -73,8 +59,6 @@ class Inventory(BaseComponent):
         """
         self.remove(item)
         item.place(self.parent.x, self.parent.y, self.gamemap)
-
-        self.engine.message_log.add_message(f"You dropped the {item.name}.")
 
     def bind(self, item: Item, key: tcod.event.KeySym, add_message: bool = True) -> None:
         """

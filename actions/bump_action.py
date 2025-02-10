@@ -9,9 +9,9 @@ from components.pushable import Pushable
 
 class BumpAction(ActionWithDirectionBase):
     def perform(self) -> None:
-        if self.target_entity and self.target_entity.has_component(Pushable):
-            return PushAction(self.entity, self.dx, self.dy).perform()
         if self.target_actor:
-            return MeleeAction(self.entity, self.dx, self.dy).perform()
+            return MeleeAction(self.actor, self.target_actor).perform()
+        elif self.blocking_entity and self.blocking_entity.has_component(Pushable):
+            return PushAction(self.actor, self.blocking_entity).perform()
         else:
-            return MovementAction(self.entity, self.dx, self.dy).perform()
+            return MovementAction(self.actor, self.dx, self.dy).perform()
