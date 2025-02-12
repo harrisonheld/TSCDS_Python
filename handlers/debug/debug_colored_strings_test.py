@@ -21,8 +21,9 @@ class ColoredStringsTest(EventHandler):
         innocent = ColoredString(f"inn{color.yellow}o{color.white}cent")
         flameling = ColoredString(f"{color.red}flameling")
         combined = innocent + " " + flameling
+        from_fstring = ColoredString(f"{innocent} freaking {flameling}")
 
-        strs = [innocent, flameling, combined]
+        strs = [innocent, flameling, combined, from_fstring]
 
         for i, string in enumerate(strs):
             string.print(sub_console, 1, i + 1)

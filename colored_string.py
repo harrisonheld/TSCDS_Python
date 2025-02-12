@@ -53,6 +53,22 @@ class ColoredString:
         new_colored_string += other
         return new_colored_string
 
+    def __str__(self):
+        """Reconstructs the original input format with color markers."""
+        if not self._characters:
+            return ""
+
+        reconstructed = []
+        prev_color = None
+
+        for char, color in zip(self._characters, self._colors):
+            if color != prev_color:
+                reconstructed.append(f"({color[0]}, {color[1]}, {color[2]})")
+            reconstructed.append(char)
+            prev_color = color
+
+        return "".join(reconstructed)
+
     def print(self, console: tcod.console.Console, x: int, y: int) -> None:
         for char, fg_color in zip(self._characters, self._colors):
             console.print(x=x, y=y, string=char, fg=fg_color)
