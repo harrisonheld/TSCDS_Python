@@ -18,11 +18,11 @@ class ColoredStringsTest(EventHandler):
         sub_console.draw_frame(0, 0, width, height, bg=color.black, fg=color.white)
         sub_console.print(width // 2, 0, "┤(Debug) Colored Strings Test├", alignment=tcod.constants.CENTER)
 
-        strs = [
-            ColoredString(f"This is a white string, hopefully."),
-            ColoredString(f"This is a {color.red}red{color.white} string, hopefully."),
-            ColoredString(f"Inn{color.yellow}o{color.white}cent"),
-        ]
+        innocent = ColoredString(f"inn{color.yellow}o{color.white}cent")
+        flameling = ColoredString(f"{color.red}flameling")
+        combined = innocent + " " + flameling
+
+        strs = [innocent, flameling, combined]
 
         for i, string in enumerate(strs):
             string.print(sub_console, 1, i + 1)
