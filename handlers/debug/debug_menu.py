@@ -3,6 +3,7 @@ from typing import Optional
 import tcod
 
 from handlers.debug.debug_color_viewer import DebugColorViewer
+from handlers.debug.debug_colored_strings_test import ColoredStringsTest
 from handlers.debug.debug_cp437_viewer import DebugCP437Viewer
 from handlers.debug.debug_item_spawner import DebugItemSpawner
 from handlers.debug.debug_table_viewer import DebugTableViewer
@@ -25,6 +26,7 @@ class DebugMenu(EventHandler):
         sub_console.print(1, 2, "[b] cp437")
         sub_console.print(1, 3, "[c] item spawner")
         sub_console.print(1, 4, "[d] tables")
+        sub_console.print(1, 5, "[e] colored strings test")
 
         x = console.width // 2 - sub_console.width // 2
         y = console.height // 2 - sub_console.height // 2
@@ -41,6 +43,8 @@ class DebugMenu(EventHandler):
             return DebugItemSpawner(self.engine)
         elif key == tcod.event.KeySym.d:
             return DebugTableViewer(self.engine)
+        elif key == tcod.event.KeySym.e:
+            return ColoredStringsTest(self.engine)
 
         elif key in keys.MODIFIER_KEYS:
             return None
