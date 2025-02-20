@@ -5,7 +5,9 @@ from components.ai.frog_warden_ai import FrogWardenAI
 from components.ai.fumeknight_ai import FumeKnightAI
 from components.ai.hostile_enemy_ai import HostileEnemyAI
 from components.ai.indrix_ai import IndrixAI
+from components.ai.npc_ai import NpcAI
 from components.ai.oggler_ai import OgglerAI
+from components.conversation import Conversation
 from components.equipment import Equipment, SlotType
 from components.fighter import Fighter
 from components.fire import Fire
@@ -15,7 +17,6 @@ from components.gas_immune import GasImmune
 from components.illumination import Illumination
 from components.inventory import Inventory
 from components.level import Level
-from components.npc_ai import NpcAI
 from components.pushable import Pushable
 from components.trail_leaver import TrailLeaver
 from entity import *
@@ -248,7 +249,8 @@ edwin_the_archivist = Actor(
     equipment=copy.deepcopy(humanoid_equipment),
     fighter=Fighter(hp=10, base_defense=0, base_power=1),
     inventory=Inventory(),
-    level=Level(xp_given=10),  # XP rewarded upon interaction
+    level=Level(xp_given=10),
+    components=[Conversation("skibidy toilet")],
 )
 
 corpse = Entity(
