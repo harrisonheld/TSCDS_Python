@@ -59,14 +59,9 @@ def generate(engine: Engine, path: str) -> GameMap:
     # Parse the map
     for y, line in enumerate(lines):
         for x, char in enumerate(line):
-            if char == ".":
-                continue  # Empty space, no need to place anything here
             if char in glyphs:
                 entity = glyphs[char]  # Get the entity based on the glyph
-                entity_instance = entity.spawn(dungeon, x, y)
-                # Optionally remove AI if the entity is an Actor
-                if isinstance(entity_instance, Actor):
-                    entity_instance.ai = None
+                entity.spawn(dungeon, x, y)
 
     # Place the player at a starting position
     player.place(0, 0, gamemap=dungeon)

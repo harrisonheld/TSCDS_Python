@@ -15,6 +15,7 @@ from components.gas_immune import GasImmune
 from components.illumination import Illumination
 from components.inventory import Inventory
 from components.level import Level
+from components.npc_ai import NpcAI
 from components.pushable import Pushable
 from components.trail_leaver import TrailLeaver
 from entity import *
@@ -237,6 +238,17 @@ bookshelf = Entity(
     color=color.orange,
     blocks_movement=True,
     render_order=RenderOrder.ACTOR,
+)
+edwin_the_archivist = Actor(
+    char="E",
+    name="Edwin the Archivist",
+    description="An elderly archivist, a keeper of endless volumes. His deep knowledge of the library is matched only by his devotion to preserving its secrets.",
+    color=color.deep_red,
+    ai_cls=NpcAI,
+    equipment=copy.deepcopy(humanoid_equipment),
+    fighter=Fighter(hp=10, base_defense=0, base_power=1),
+    inventory=Inventory(),
+    level=Level(xp_given=10),  # XP rewarded upon interaction
 )
 
 corpse = Entity(
