@@ -15,17 +15,15 @@ class LookBlock:
         self.show_full_detail = b
 
     def calculate_bounds(self, console: tcod.console.Console, entity: Entity, min_height: int):
-        name = entity.name
-        description = entity.description
+        description = entity.full_description()
 
         x = entity.x + 1
         y = entity.y
 
         # width based on entity name
-        width = len(name)
-        width = max(13, width)
-        width += len(description) // 20  # gives super long descriptions a more squarish frame
-        width += 2  # for border
+        width = len(entity.full_name())
+        width = max(13, width + 2)  # plus 2 for border
+        width += len(description) // 40  # gives super long descriptions a more squarish frame
 
         if x + width >= console.width:
             width = console.width - x
@@ -50,11 +48,11 @@ class LookBlock:
         # draw frame
         console.draw_frame(x, y, width, height, bg=color.black, fg=color.white)
         # draw title
-        console.print(x + 1, y, f"{entity.name}", entity.color)
+        entity.full_name().print(console, x + 1, y)
         # draw description
-        console.print_box(x + 1, y + 1, width - 2, height, string=entity.description, bg=color.black)
+        console.print_box(x + 1, y + 1, width - 2, height, string=entity.full_description(), bg=color.black)
         if show_multi_hint:
-            for idx, char in enumerate("▲+-▼"):
+            for idx, char in enumerate("+↕-"):
                 console.print(x, y + height - 5 + idx, char)
 
         if isinstance(entity, Actor):

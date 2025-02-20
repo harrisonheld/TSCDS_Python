@@ -4,8 +4,10 @@ from typing import TYPE_CHECKING, List, Optional, Tuple, Type, TypeVar, Union
 import copy
 import math
 
+from colored_string import ColoredString
 from components.ai.ai_base import AIBase
 from components.base_component import BaseComponent
+from components.prefixes.prefix import Prefix
 from render_order import RenderOrder
 from tables.grab_bag import GrabBag
 
@@ -126,6 +128,26 @@ class Entity:
             component.before_move()
         self.x = x
         self.y = y
+
+    def full_name(self) -> ColoredString:
+        result = ColoredString()
+        for component in self.components:
+            if isinstance(component, Prefix):
+                result += component.get_colored_name()
+                result += " "
+        result += ColoredString(f"{self.color}{self.name}")
+        return result
+    
+    def full_description(self) -> str:
+        result = self.description
+        for component in self.components:
+            if isinstance(component, Prefix):
+                name = component.get_uncolored_name()
+                desc = component.get_description()
+                line = f"{name}: {desc}"
+                result += "\n" + line
+                
+        return result
 
 
 class Actor(Entity):

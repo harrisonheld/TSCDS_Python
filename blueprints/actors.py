@@ -15,6 +15,9 @@ from components.gas_immune import GasImmune
 from components.illumination import Illumination
 from components.inventory import Inventory
 from components.level import Level
+from components.prefixes.cruciformed import Cruciformed
+from components.prefixes.innocent import Innocent
+from components.prefixes.posthumous import Posthumous
 from components.pushable import Pushable
 from components.trail_leaver import TrailLeaver
 from entity import *
@@ -96,6 +99,7 @@ frog_warden = Actor(
     inventory=Inventory(),
     level=Level(xp_given=35),
     grab_bag=loot_tables.frog_warden_bag,
+    components=[Posthumous(), Innocent(), Cruciformed()],
 )
 
 # TODO: make him flee instead of fight you
@@ -134,7 +138,7 @@ flameling = Actor(
     fighter=Fighter(hp=3, base_defense=0, base_power=1),
     inventory=Inventory(),
     level=Level(xp_given=20),
-    components=[TrailLeaver(fire), FireImmune()],
+    components=[TrailLeaver(fire), FireImmune(), Innocent()],
     grab_bag=loot_tables.flameling_bag,
 )
 flameprowler = Actor(
