@@ -16,17 +16,14 @@ class ConversationHandler(AskUserEventHandler):
     def on_render(self, console: tcod.console.Console, delta_time: float) -> None:
         super().on_render(console, delta_time)
 
-        if self.engine.player.x <= 30:
-            x = 40
-        else:
-            x = 0
+        width = 40
+        height = 25
+        sub_console = tcod.console.Console(width, height)
+        sub_console.draw_frame(0, 0, width, height, bg=color.black, fg=color.white)
+        sub_console.print(width // 2, 0, f"┤{self.conversation.parent.name}├", alignment=tcod.constants.CENTER)
 
-        y = 0
+        sub_console.print_box(1, 1, width - 2, height - 2, f"{self.conversation.text}")
 
-        width = len(self.TITLE) + 4
-
-        console.draw_frame(
-            x=x, y=y, width=width, height=7, title=self.TITLE, clear=True, fg=(255, 255, 255), bg=color.black
-        )
-
-        console.print(x=x + 1, y=y + 1, string=f"Conversation Text: {self.conversation.text}")
+        x = console.width // 2 - sub_console.width // 2
+        y = console.height // 2 - sub_console.height // 2
+        sub_console.blit(console, x, y)
