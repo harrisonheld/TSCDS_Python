@@ -4,6 +4,7 @@ from typing import TYPE_CHECKING, List
 
 from entity import Actor, Entity
 from game_map import GameMap
+import blueprints
 import blueprints.actors as actors
 import sizes
 import tile_types
@@ -26,9 +27,15 @@ def generate(engine: Engine) -> GameMap:
     # Place player
     player.place(0, 0, gamemap=dungeon)
 
-    blueprints: List[Entity] = [value for value in vars(blueprints).values() if isinstance(value, Entity)]
+    bps: List[Entity] = []
+    modules = blueprints.items, blueprints.actors
+    for module in modules:
+        for name, blueprint in vars(module).items():
+            if isinstance(blueprint, Entity):
+                bps.append(blueprint)
+
     idx = 0
-    for blueprint in blueprints:
+    for blueprint in bps:
         idx += 1
         instance: Entity = blueprint.spawn(dungeon, idx, 0)
         # remove AI

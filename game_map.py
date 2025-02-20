@@ -6,6 +6,7 @@ from tcod.console import Console
 import numpy as np
 
 from entity import Actor, Item
+import helpers
 import tile_types
 
 if TYPE_CHECKING:
@@ -132,9 +133,14 @@ class GameWorld:
 
     def generate_floor(self) -> None:
         import procgen.boss
+        import procgen.from_file
         import procgen.rooms
 
         self.current_floor += 1
+        if self.current_floor == 1:
+            path = helpers.resource_path("data/maps/library.txt")
+            self.engine.game_map = procgen.from_file.generate(self.engine, path)
+            return
         if self.current_floor in [2, 4, 6]:
             self.engine.game_map = procgen.boss.generate(self.engine)
             return

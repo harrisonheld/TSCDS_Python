@@ -230,6 +230,15 @@ barrel = Entity(
     render_order=RenderOrder.ACTOR,
     components=[Pushable()],
 )
+bookshelf = Entity(
+    char="≡",
+    name="mahogany bookshelf",
+    description="A bookshelf.",
+    color=color.orange,
+    blocks_movement=True,
+    render_order=RenderOrder.ACTOR,
+)
+
 corpse = Entity(
     char="%",
     name="remains",
