@@ -6,7 +6,6 @@ from actions.action import Action
 from components.conversation import Conversation
 from components.melee_weapon import MeleeClass, MeleeWeapon
 from entity import Actor
-from handlers.conversation_handler import ConversationHandler
 import color
 import exceptions
 import strings
@@ -14,6 +13,9 @@ import strings
 
 class ConverseAction(Action):
     def __init__(self, actor: Actor, target: Actor) -> None:
+
+        from handlers.conversation_handler import ConversationHandler
+
         conversation = target.get_component(Conversation)
         assert conversation is not None
 

@@ -1,0 +1,42 @@
+- id: root
+  npc_text: "Ah, you've come to visit the library. I trust you'll find something of interest within these walls."
+  next:
+    - books
+    - strange
+
+- id: books
+  player_text: "Tell me about these books."
+  npc_text: "Each book here is a vessel, holding not just information, but a piece of the eternal."
+  next:
+    - useful
+    - profound
+
+- id: useful
+  player_text: "Are any of them actually useful?"
+  npc_text: "Useful? Knowledge is its own reward."
+  next: [end]
+
+- id: profound
+  player_text: "That sounds profound."
+  npc_text: "Indeed, knowledge transcends time."
+  next: [end]
+
+- id: strange
+  player_text: "This place feels... strange."
+  npc_text: "Strange? No, no. It is simply vast. A mirror of the mind."
+  next:
+    - ominous
+    - abyss
+
+- id: ominous
+  player_text: "It feels ominous."
+  npc_text: "Perhaps, if one fears reflection."
+  next: [end]
+
+- id: abyss
+  player_text: "It feels like an abyss."
+  npc_text: "Then you will learn nothing from it."
+  next: [end]
+
+- id: end
+  player_text: "I'll be back."

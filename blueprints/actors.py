@@ -22,6 +22,7 @@ from components.trail_leaver import TrailLeaver
 from entity import *
 from upgrades import *
 import color
+import helpers
 import tables.loot_tables as loot_tables
 
 humanoid_equipment = Equipment()
@@ -250,14 +251,7 @@ edwin_the_archivist = Actor(
     fighter=Fighter(hp=10, base_defense=0, base_power=1),
     inventory=Inventory(),
     level=Level(xp_given=10),
-    components=[
-        Conversation(
-            "Ah, you've come to visit the library. I trust you'll find something of interest within these walls."
-            "Each book here is a vessel, holding not just information, but a piece of the eternal. Perhaps you'd like to study a particular subject?"
-            "Though the words seem repetitive, they each offer a different facet of truth upon each reading. Can you not feel it?"
-            "Should you require assistance, I know this place intimately. It is my charge, my passion, and my solitude."
-        )
-    ],
+    components=[Conversation(helpers.resource_path("data/conversations/edwin.yaml"))],
 )
 
 
