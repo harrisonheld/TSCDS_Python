@@ -19,6 +19,10 @@ class ConversationHandler(AskUserEventHandler):
         self.conversation = conversation
         self.conversation.reset()
 
+        self.engine.message_log.add_message(
+            f"{self.conversation.parent.name}: {self.conversation.get_current_npc_text()}", color.npc_dialogue
+        )
+
     def on_render(self, console: tcod.console.Console, delta_time: float) -> None:
         super().on_render(console, delta_time)
 
@@ -44,11 +48,16 @@ class ConversationHandler(AskUserEventHandler):
 
         responses = self.conversation.get_responses()
         if 0 <= ordinal < len(responses):
-            self.conversation.pick_response(responses[ordinal][0])
+            response_id, response_text = responses[ordinal]
+            self.engine.message_log.add_message(f"You: {response_text}", color.player_dialogue)
+            self.conversation.pick_response(response_id)
 
             if self.conversation.is_finished:
                 return MainGameEventHandler(self.engine)
             else:
+                self.engine.message_log.add_message(
+                    f"{self.conversation.parent.name}: {self.conversation.get_current_npc_text()}", color.npc_dialogue
+                )
                 return None
 
         return super().ev_keydown(event)

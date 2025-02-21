@@ -24,4 +24,4 @@ class ConverseAction(Action):
         self.next_handler = ConversationHandler(self.engine, conversation)
 
     def perform(self) -> None:
-        self.engine.message_log.add_message(f"You converse with the {self.target_actor.name}.", color.white)
+        return None

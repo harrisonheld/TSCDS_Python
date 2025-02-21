@@ -34,6 +34,9 @@ main_menu_title = cyan
 main_menu_subtitle = light_grey
 menu_text = white
 
+player_dialogue = lime
+npc_dialogue = green
+
 combat_good = green  # player hits
 combat_neutral = white  # player blocks, enemy misses or is blocked
 combat_bad = pink  # enemy hits the player, player misses or enemy blocks
